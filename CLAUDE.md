@@ -72,6 +72,19 @@ https://formspree.io/f/mpqgvpvo
 
 - Submit behavior should POST results to Formspree only after all examples are rated, and download a backup JSON only if submission fails.
 
+## MUSHRA page conventions
+
+- MUSHRA page logic lives in `src/mushra.js` and page markup in `mushra.html`.
+- Keep the method list aligned with the subjective page: WPE, GWPE, MINT-N, MINT-R, MINT-ℓp, MINT-Eℓp, and MINT-Reference. Do not add a separate generic `Reference` item.
+- Use a WebMUSHRA-like trial flow: one SNR condition per trial, with Previous/Next navigation.
+- Hide the MUSHRA submission panel until the user reaches the final review/submission step.
+- Use a 0–100 score scale.
+- Block Next until all examples in the current trial are rated.
+- Block Submit until all trials are fully rated.
+- Keep language selection available, and default the selector display to `Select Language` rather than forcing English.
+- The MUSHRA heading should use `Scoring guidance`, not `MUSHRA guidance`.
+- Submit to the same Formspree endpoint using payload type `nc2026-mushra-scores`.
+
 ## Style conventions
 
 - Keep the page simple and listener-friendly.

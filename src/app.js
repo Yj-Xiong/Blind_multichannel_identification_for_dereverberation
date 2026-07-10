@@ -141,6 +141,8 @@ function renderFilters() {
     wrapper.append(control);
     els.filters.append(wrapper);
   }
+  els.status.classList.add('filter-status');
+  els.filters.append(els.status);
 
   categorySelect.addEventListener('change', () => {
     state.filters.group = categorySelect.value;

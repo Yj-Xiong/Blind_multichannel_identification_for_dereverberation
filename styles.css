@@ -134,7 +134,8 @@ button:hover {
 }
 
 #examples .section-heading {
-  margin-bottom: 12px;
+  margin-bottom: 0;
+  min-height: 0;
 }
 
 #examples .section-heading h2 {
@@ -194,15 +195,18 @@ button:hover {
   text-align: right;
 }
 
-.status.error,
-.row-status.error {
-  color: #dc2626;
+.filter-status {
+  align-self: start;
+  margin: 0 0 6px;
+  padding: 0;
+  white-space: nowrap;
 }
 
 .filters {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr 1fr 1.4fr;
+  grid-template-columns: 1.1fr 0.9fr 1fr 1.4fr auto;
   gap: 10px;
+  align-items: end;
 }
 
 .filter-control span {
@@ -927,6 +931,132 @@ footer {
 
 .missing-audio {
   opacity: 0.35;
+}
+
+.mushra-scale {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.mushra-scale div {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #f8fafc;
+  padding: 14px;
+}
+
+.mushra-scale strong,
+.mushra-scale span {
+  display: block;
+}
+
+.mushra-scale span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.mushra-content {
+  display: grid;
+  gap: 24px;
+  margin-bottom: 44px;
+}
+
+.mushra-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: 18px;
+}
+
+.mushra-card {
+  display: grid;
+  gap: 11px;
+  border: 1px solid var(--line);
+  border-top: 4px solid #94a3b8;
+  border-radius: 18px;
+  background: #ffffff;
+  padding: 14px;
+}
+
+.mushra-card.rated {
+  border-top-color: #16a34a;
+}
+
+.mushra-card.needs-rating {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.14), var(--shadow);
+}
+
+.mushra-control {
+  display: grid;
+  gap: 4px;
+}
+
+.mushra-control input[type="range"] {
+  width: 100%;
+}
+
+.mushra-ticks {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.mushra-score-value {
+  justify-self: end;
+  min-width: 74px;
+  border-radius: 10px;
+  background: #f8fafc;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  padding: 7px 10px;
+  text-align: center;
+}
+
+.rubric-heading.mushra-heading {
+  grid-template-columns: auto 1fr minmax(190px, auto) auto;
+}
+
+.rubric-heading.mushra-heading #mushra-reset {
+  padding: 7px 10px;
+  font-size: inherit;
+}
+
+.mushra-progress,
+.mushra-rated-progress {
+  color: var(--blue-dark);
+  font: inherit;
+  font-weight: 750;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.mushra-progress {
+  transform: translateY(8px);
+}
+
+.mushra-nav-panel {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: end;
+  padding: 10px 16px;
+}
+
+.mushra-nav-center {
+  display: grid;
+  gap: 4px;
+  align-items: end;
+  justify-items: center;
+  align-self: end;
+  padding-bottom: 0;
+}
+
+.mushra-nav-panel .submit-status {
+  text-align: center;
 }
 
 @media (max-width: 1360px) {

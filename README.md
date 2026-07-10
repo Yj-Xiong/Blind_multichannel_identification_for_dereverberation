@@ -8,6 +8,7 @@ After GitHub Pages is enabled from the `gh-pages` branch, the pages are availabl
 
 - Main audio demo: `https://yj-xiong.github.io/Blind_multichannel_identification_for_dereverberation/`
 - Subjective listening evaluation: `https://yj-xiong.github.io/Blind_multichannel_identification_for_dereverberation/subjective.html`
+- Experimental MUSHRA-style evaluation: `https://yj-xiong.github.io/Blind_multichannel_identification_for_dereverberation/mushra.html`
 
 ## Local preview
 
@@ -22,6 +23,7 @@ Then open:
 ```text
 http://localhost:8000/index.html
 http://localhost:8000/subjective.html
+http://localhost:8000/mushra.html
 ```
 
 Avoid opening the HTML files directly with `file://`, because browser security rules may block loading `audio-manifest.json`.
@@ -80,6 +82,19 @@ https://formspree.io/f/mpqgvpvo
 ```
 
 The submitted payload includes listener ID, session note, rated count, total count, and full score JSON.
+
+## MUSHRA-style evaluation
+
+The experimental MUSHRA page (`mushra.html`) combines the project visual style with a WebMUSHRA-like trial workflow:
+
+- Each trial corresponds to one SNR condition.
+- Users move through trials with `Previous` and `Next`.
+- The submission section is hidden until the final trial is completed and `Review submission` is selected.
+- Methods are the same as the subjective page: WPE, GWPE, MINT-N, MINT-R, MINT-ℓp, MINT-Eℓp, and MINT-Reference.
+- Scores use a 0–100 scale.
+- The page supports English and Chinese, with the language selector defaulting to `Select Language`.
+- Submit is blocked until all MUSHRA ratings are complete.
+- Results are submitted to the same Formspree endpoint and use payload type `nc2026-mushra-scores`.
 
 ## Updating GitHub Pages
 
