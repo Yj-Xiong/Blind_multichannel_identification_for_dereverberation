@@ -33,8 +33,8 @@ const state = {
 
 const els = {
   content: document.querySelector('#subjective-content'),
-  snr: document.querySelector('#snr-filter'),
-  method: document.querySelector('#method-filter'),
+  snr: null,
+  method: null,
   reset: document.querySelector('#reset-scores'),
   listenerId: document.querySelector('#listener-id'),
   sessionNote: document.querySelector('#session-note'),
@@ -142,51 +142,79 @@ function renderScoreControl(entry) {
   const wrapper = document.createElement('div');
   wrapper.className = 'score-control';
 
-  const label = document.createElement('span');
-  label.textContent = 'Score';
-
   const options = document.createElement('div');
   options.className = 'score-options';
 
   const value = document.createElement('output');
+  value.className = 'score-value';
   value.textContent = state.scores[id] === undefined ? 'Not rated' : Number(state.scores[id]).toFixed(1);
+
+  function updateIntegerButtons(score) {
+    for (const button of options.querySelectorAll('.score-option')) {
+      button.setAttribute('aria-pressed', String(Number(button.dataset.score) === score));
+    }
+  }
+
+  function setScore(score) {
+    state.scores[id] = score;
+    saveState();
+    updateIntegerButtons(score);
+    value.textContent = score.toFixed(1);
+    const card = wrapper.closest('.subjective-card');
+    card?.classList.remove('unrated');
+    card?.classList.add('rated');
+  }
 
   for (const score of [1, 2, 3, 4, 5]) {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'score-option';
     button.textContent = score;
+    button.dataset.score = String(score);
     button.setAttribute('aria-pressed', String(state.scores[id] === score));
-    button.addEventListener('click', () => {
-      state.scores[id] = score;
-      saveState();
-      value.textContent = score.toFixed(1);
-      const status = wrapper.closest('.subjective-card')?.querySelector('.subjective-card-title span');
-      if (status) status.textContent = `Score ${score}`;
-      wrapper.closest('.subjective-card')?.classList.remove('unrated');
-      wrapper.closest('.subjective-card')?.classList.add('rated');
-      for (const sibling of options.querySelectorAll('.score-option')) {
-        sibling.setAttribute('aria-pressed', String(sibling === button));
-      }
-    });
+    button.addEventListener('click', () => setScore(score));
     options.append(button);
   }
 
-  wrapper.append(label, options, value);
+  const stepper = document.createElement('div');
+  stepper.className = 'score-stepper';
+
+  const up = document.createElement('button');
+  up.type = 'button';
+  up.className = 'score-step score-step-up';
+  up.textContent = '+0.5';
+  up.setAttribute('aria-label', 'Increase score by 0.5');
+  up.addEventListener('click', () => {
+    const current = state.scores[id] === undefined ? 3 : Number(state.scores[id]);
+    setScore(Math.min(5, current + 0.5));
+  });
+
+  const down = document.createElement('button');
+  down.type = 'button';
+  down.className = 'score-step score-step-down';
+  down.textContent = '−0.5';
+  down.setAttribute('aria-label', 'Decrease score by 0.5');
+  down.addEventListener('click', () => {
+    const current = state.scores[id] === undefined ? 3 : Number(state.scores[id]);
+    setScore(Math.max(1, current - 0.5));
+  });
+
+  stepper.append(up, down);
+  wrapper.append(options, value, stepper);
   return wrapper;
 }
 
 function renderCard(entry) {
   const item = findItem(entry, entry.method);
-  const details = document.createElement('details');
-  details.className = `subjective-card ${state.scores[entryId(entry)] === undefined ? 'unrated' : 'rated'}`;
+  const card = document.createElement('article');
+  card.className = `subjective-card ${state.scores[entryId(entry)] === undefined ? 'unrated' : 'rated'}`;
 
-  const summary = document.createElement('summary');
-  summary.className = 'subjective-card-title';
-  summary.innerHTML = `<h4>${entry.method.label}</h4><span>${state.scores[entryId(entry)] === undefined ? 'Not rated' : `Score ${state.scores[entryId(entry)]}`}</span>`;
+  const title = document.createElement('div');
+  title.className = 'subjective-card-title';
+  title.innerHTML = `<h4>${entry.method.label}</h4>`;
 
-  details.append(summary, makeAudio(item), renderScoreControl(entry));
-  return details;
+  card.append(title, makeAudio(item), renderScoreControl(entry));
+  return card;
 }
 
 function render() {
@@ -314,14 +342,6 @@ async function init() {
     saveState();
   });
   els.exportScores.addEventListener('click', submitScores);
-  els.snr.addEventListener('change', () => {
-    state.filters.snr = els.snr.value;
-    render();
-  });
-  els.method.addEventListener('input', () => {
-    state.filters.method = els.method.value.trim().toLowerCase();
-    render();
-  });
   els.reset.addEventListener('click', () => {
     state.scores = {};
     saveState();

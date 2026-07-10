@@ -11,13 +11,17 @@
       <p class="eyebrow">Subjective listening evaluation</p>
       <h1>Subjective Scoring for Dereverberation Examples</h1>
       <p class="lead">
-        All dereverberated examples begin unrated so that listeners can assess the true perceived quality. Click each method to expand it, listen to the audio, and select a score. After scoring, please complete the listener information at the bottom, and the results will be automatically sent to the organizers.
+        All dereverberated examples begin unrated so that listeners can assess the true perceived quality. Listen to the audio and select a score. After scoring, please complete the listener information at the bottom, and the results will be automatically sent to the organizers.
       </p>
     </header>
 
     <main>
       <section class="panel rubric-panel">
-        <h2>Scoring rubric</h2>
+        <div class="rubric-heading">
+          <h2>Scoring rubric</h2>
+          <p class="note">Recommended listening order: WPE/GWPE → BMCI-MINT methods → MINT-Reference. Use headphones and compare examples within the same SNR.</p>
+          <button id="reset-scores" type="button">Reset scores</button>
+        </div>
         <div class="rubric-grid">
           <div><strong>1 Bad</strong><span>Severe reverberation/noise; difficult to judge speech quality.</span></div>
           <div><strong>2 Poor</strong><span>Limited improvement; reverberation/noise remains strong or speech is distorted.</span></div>
@@ -25,27 +29,6 @@
           <div><strong>4 Good</strong><span>Clearly improved; mild residual reverberation/noise or slight coloration.</span></div>
           <div><strong>5 Excellent</strong><span>Clean, natural, little audible reverberation or noise.</span></div>
         </div>
-        <p class="note">
-          Recommended listening order: WPE/GWPE → BMCI-MINT methods → MINT-Reference. Use headphones and compare examples within the same SNR.
-        </p>
-      </section>
-
-      <section class="panel subjective-controls">
-        <label class="filter-control">
-          <span>SNR</span>
-          <select id="snr-filter">
-            <option value="all">All SNRs</option>
-            <option value="30">SNR 30 dB</option>
-            <option value="20">SNR 20 dB</option>
-            <option value="10">SNR 10 dB</option>
-            <option value="5">SNR 5 dB</option>
-          </select>
-        </label>
-        <label class="filter-control">
-          <span>Method</span>
-          <input id="method-filter" type="search" placeholder="Search WPE, GWPE, MINT-N...">
-        </label>
-        <button id="reset-scores" type="button">Reset scores</button>
       </section>
 
       <section id="subjective-content" class="subjective-content" aria-label="Subjective scoring examples"></section>
