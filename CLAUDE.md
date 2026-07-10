@@ -57,21 +57,27 @@ node scripts/generate-manifest.mjs
 - It should not show raw file paths or filenames in the audio cards.
 - It should not include unprocessed examples or noisy-input branches unless the user explicitly asks.
 - It currently evaluates only the spectral-subtraction branch with SNR 30/20/10/5 dB and default `lambda = 0.1` for 5 dB.
+- The page supports English and Chinese; keep all user-facing subjective-page text covered by the translation table in `src/subjective.js`.
 - All examples should begin unrated. Do not default missing scores to 3.
 - Missing/unrated scores should be exported/submitted as `null`.
+- The Submit button must block Formspree submission until all examples have been scored.
+- If scores are incomplete, show a localized error message and scroll to the first unrated example.
+- Keep the integer 1–5 score buttons visible, and keep the `+0.5` / `−0.5` half-point control to their right.
+- The current score should be displayed between the 1–5 buttons and the half-point control.
 - The active Formspree endpoint is:
 
 ```text
 https://formspree.io/f/mpqgvpvo
 ```
 
-- Submit behavior should POST results to Formspree and download a backup JSON only if submission fails.
+- Submit behavior should POST results to Formspree only after all examples are rated, and download a backup JSON only if submission fails.
 
 ## Style conventions
 
 - Keep the page simple and listener-friendly.
 - Avoid dense explanatory text in the subjective page.
-- Keep the scoring rubric sticky at the top of the subjective page.
+- Keep the scoring guidance panel sticky at the top of the subjective page.
+- Keep the SNR selector in the scoring guidance header unless the user asks to move/remove it.
 - Keep title sizing consistent with the current global `h1` rule.
 
 ## Validation

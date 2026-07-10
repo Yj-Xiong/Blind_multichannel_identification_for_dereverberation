@@ -60,12 +60,18 @@ The script scans all `.wav` files, extracts metadata from filenames and folders,
 
 The subjective page is designed for listener testing:
 
-- All examples begin unrated.
+- The page supports English and Chinese through the `Select Language` control.
+- All examples begin unrated, so unscored items are distinguishable from scored items.
 - Listeners score each audio example from 1 to 5.
 - Integer scores can be selected directly.
-- `+0.5` and `−0.5` controls allow half-point adjustment.
-- Results are submitted through Formspree.
-- If submission fails, the page downloads a backup JSON file.
+- A separate `+0.5` / `−0.5` control allows half-point adjustment.
+- The current score is displayed between the integer score buttons and the half-point controls.
+- The scoring guidance panel stays sticky at the top of the page.
+- The SNR selector is placed in the scoring guidance header.
+- Submit is blocked until every audio example has a score.
+- If any item is still unrated, the page shows an error and scrolls to the first unrated example.
+- Results are submitted through Formspree only after all examples are rated.
+- If Formspree submission fails, the page downloads a backup JSON file.
 
 Current Formspree endpoint:
 
@@ -73,7 +79,7 @@ Current Formspree endpoint:
 https://formspree.io/f/mpqgvpvo
 ```
 
-The submitted payload includes listener ID, session note, score count, and full score JSON.
+The submitted payload includes listener ID, session note, rated count, total count, and full score JSON.
 
 ## Updating GitHub Pages
 

@@ -581,8 +581,8 @@ footer {
 
 .rubric-heading {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 16px;
+  grid-template-columns: auto 1fr 130px 190px auto;
+  gap: 10px;
   align-items: center;
   margin-bottom: 16px;
 }
@@ -590,6 +590,20 @@ footer {
 .rubric-heading h2,
 .rubric-heading .note {
   margin: 0;
+}
+
+.snr-inline-control,
+.language-inline-control {
+  min-width: 0;
+}
+
+.snr-inline-control span {
+  margin-bottom: 3px;
+}
+
+.snr-inline-control select,
+.language-inline-control select {
+  padding: 7px 10px;
 }
 
 .rubric-heading .note {
@@ -656,11 +670,25 @@ footer {
   backdrop-filter: blur(12px);
 }
 
+.submission-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.submission-heading h2 {
+  margin: 0;
+}
+
 .submit-status {
-  margin: 12px 0 0;
+  min-height: 18px;
+  margin: 0;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 650;
+  text-align: right;
 }
 
 .submit-status.success {
@@ -766,6 +794,11 @@ footer {
 
 .subjective-card.unrated {
   border-top-color: #94a3b8;
+}
+
+.subjective-card.needs-rating {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.14), var(--shadow);
 }
 
 .subjective-card.excellent {
