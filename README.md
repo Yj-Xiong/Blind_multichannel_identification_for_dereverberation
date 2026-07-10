@@ -1,4 +1,4 @@
-# Blind Multichannel Identification for Dereverberation Audio Demo
+# BMCI for Dereverberation Demo Page
 
 This repository hosts the audio demo and subjective listening evaluation page for the paper **Investigating Blind Multichannel Identification Algorithms and Their Application for Speech Dereverberation Using MINT**.
 
