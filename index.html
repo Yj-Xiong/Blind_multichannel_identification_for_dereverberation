@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NC2026 Audio Examples</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="hero">
+      <p class="eyebrow">Investigating Blind Multichannel Identification Algorithms and Their Application for Speech Dereverberation Using MINT</p>
+      <h1>BMCI for MINT-based Speech Dereverberation</h1>
+      <p class="lead">
+        Blind multichannel identification (BMCI) provides an unsupervised approach for estimating room impulse responses (RIRs) in reverberant acoustic scenarios, but its effectiveness for speech dereverberation remains insufficiently understood. In particular, many conventional BMCI algorithms require a preset filter length, which is difficult to determine in real environments and may strongly affect subsequent inverse filtering. This paper presents a unified evaluation of representative BMCI algorithms with respect to acoustic channel estimation accuracy and their applicability to MINT-based speech dereverberation. We compare solution-based BMCI methods with NMCFLMS-class adaptive algorithms under simulated and measured acoustic conditions, and analyze their robustness to filter-length mismatch. The results show that solution-based methods achieve accurate estimates only when the assumed length matches the true impulse response length, but degrade severely under mismatch. In contrast, NMCFLMS-class algorithms provide more stable RIR estimates and useful priors for MINT inverse filtering. By integrating these estimates with MINT, the proposed BMCI-MINT pipeline achieves higher PESQ scores than weighted prediction error (WPE) and generalized WPE baselines, especially in low-SNR scenarios. These findings demonstrate the potential of adaptive BMCI algorithms for practical multichannel dereverberation.
+      </p>
+      <div class="hero-links">
+        <a href="./paper.pdf">Paper PDF</a>
+        <a href="#examples">Listen examples</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel instructions">
+        <h2>How to start</h2>
+        <ul>
+          <li>Use headphones for critical listening comparisons.</li>
+          <li>Filter by experiment, SNR, processing condition, or method keyword.</li>
+          <li>Click <strong>Waveform</strong> or <strong>Spectrogram</strong> on any audio row to compute the selected visualization.</li>
+        </ul>
+      </section>
+
+      <section class="summary" id="summary" aria-label="Audio summary"></section>
+
+      <section class="panel" id="examples">
+        <div class="section-heading">
+          <p id="status" class="status">Loading manifest...</p>
+        </div>
+        <div class="filters" id="filters"></div>
+      </section>
+
+      <div id="content" class="content"></div>
+    </main>
+
+    <footer>
+      <p>Generated from the local WAV files in this directory. Audio paths are preserved relative to the demo root.</p>
+    </footer>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>

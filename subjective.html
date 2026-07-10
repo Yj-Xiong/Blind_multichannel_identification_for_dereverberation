@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Subjective Dereverberation Scores</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="hero subjective-hero">
+      <p class="eyebrow">Subjective listening evaluation</p>
+      <h1>Subjective Scoring for Dereverberation Examples</h1>
+      <p class="lead">
+        All dereverberated examples start from the neutral middle score so listeners can judge the real perceived quality without seeing PESQ-derived hints. After scoring, fill in the listener information at the bottom and export the result file to send back to the organizers.
+      </p>
+    </header>
+
+    <main>
+      <section class="panel rubric-panel">
+        <h2>Scoring rubric</h2>
+        <div class="rubric-grid">
+          <div><strong>5 Excellent</strong><span>Clean, natural, little audible reverberation or noise.</span></div>
+          <div><strong>4 Good</strong><span>Clearly improved; mild residual reverberation/noise or slight coloration.</span></div>
+          <div><strong>3 Fair</strong><span>Useful dereverberation, but artifacts, residual noise, or coloration remain noticeable.</span></div>
+          <div><strong>2 Poor</strong><span>Limited improvement; reverberation/noise remains strong or speech is distorted.</span></div>
+          <div><strong>1 Bad</strong><span>Severe reverberation/noise/distortion; difficult to judge speech quality.</span></div>
+        </div>
+        <p class="note">
+          Recommended listening order: WPE/GWPE → BMCI-MINT methods → MINT-Reference. Use headphones and compare examples within the same SNR.
+        </p>
+      </section>
+
+      <section class="panel subjective-controls">
+        <label class="filter-control">
+          <span>SNR</span>
+          <select id="snr-filter">
+            <option value="all">All SNRs</option>
+            <option value="30">SNR 30 dB</option>
+            <option value="20">SNR 20 dB</option>
+            <option value="10">SNR 10 dB</option>
+            <option value="5">SNR 5 dB</option>
+          </select>
+        </label>
+        <label class="filter-control">
+          <span>Method</span>
+          <input id="method-filter" type="search" placeholder="Search WPE, GWPE, MINT-N...">
+        </label>
+        <button id="reset-scores" type="button">Reset to neutral scores</button>
+      </section>
+
+      <section id="subjective-content" class="subjective-content" aria-label="Subjective scoring examples"></section>
+
+      <section class="panel listener-panel">
+        <h2>Result submission</h2>
+        <div class="listener-grid">
+          <label class="filter-control">
+            <span>Listener ID / name</span>
+            <input id="listener-id" type="text" placeholder="e.g. L01">
+          </label>
+          <label class="filter-control">
+            <span>Session note</span>
+            <input id="session-note" type="text" placeholder="optional: headphone, room, date...">
+          </label>
+          <button id="export-scores" type="button">Export scores</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Manual scores are stored only in this browser via localStorage.</p>
+    </footer>
+
+    <script type="module" src="./src/subjective.js"></script>
+  </body>
+</html>
