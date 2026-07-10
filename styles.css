@@ -630,6 +630,21 @@ footer {
   backdrop-filter: blur(12px);
 }
 
+.submit-status {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.submit-status.success {
+  color: #16a34a;
+}
+
+.submit-status.error {
+  color: #dc2626;
+}
+
 .aggregate-summary {
   margin-top: 16px;
 }

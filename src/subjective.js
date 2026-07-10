@@ -15,6 +15,7 @@ const TABLE_ROWS = [
   { branch: 'specsub', snr: 5, lambda: '0.1' },
 ];
 
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mpqgvpvo';
 const NEUTRAL_SCORE = 3;
 const STORAGE_KEY = 'nc2026-subjective-listener-v2';
 
@@ -39,6 +40,7 @@ const els = {
   listenerId: document.querySelector('#listener-id'),
   sessionNote: document.querySelector('#session-note'),
   exportScores: document.querySelector('#export-scores'),
+  submitStatus: document.querySelector('#submit-status'),
 };
 
 function saveState() {
@@ -237,8 +239,7 @@ function buildExportData() {
   };
 }
 
-function exportScores() {
-  const data = buildExportData();
+function downloadScores(data) {
   const blob = new Blob([`${JSON.stringify(data, null, 2)}\n`], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -247,6 +248,41 @@ function exportScores() {
   a.download = `nc2026_subjective_${safeId}.json`;
   a.click();
   URL.revokeObjectURL(url);
+}
+
+async function submitScores() {
+  const data = buildExportData();
+  els.submitStatus.textContent = 'Submitting...';
+  els.submitStatus.classList.remove('error', 'success');
+  els.exportScores.disabled = true;
+
+  try {
+    const response = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        listenerId: data.listenerId,
+        sessionNote: data.sessionNote,
+        submittedAt: data.exportedAt,
+        scoreCount: data.scores.length,
+        scoresJson: JSON.stringify(data.scores),
+        payloadJson: JSON.stringify(data),
+      }),
+    });
+
+    if (!response.ok) throw new Error('Submission failed.');
+    els.submitStatus.textContent = 'Submitted successfully. Thank you!';
+    els.submitStatus.classList.add('success');
+  } catch (error) {
+    els.submitStatus.textContent = 'Submission failed. A backup JSON file has been downloaded; please send it to the organizers.';
+    els.submitStatus.classList.add('error');
+    downloadScores(data);
+  } finally {
+    els.exportScores.disabled = false;
+  }
 }
 
 async function init() {
@@ -265,7 +301,7 @@ async function init() {
     state.sessionNote = els.sessionNote.value.trim();
     saveState();
   });
-  els.exportScores.addEventListener('click', exportScores);
+  els.exportScores.addEventListener('click', submitScores);
   els.snr.addEventListener('change', () => {
     state.filters.snr = els.snr.value;
     render();
