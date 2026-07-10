@@ -734,6 +734,33 @@ footer {
   padding: 14px;
 }
 
+.subjective-card > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.subjective-card > summary::-webkit-details-marker {
+  display: none;
+}
+
+.subjective-card > summary::before {
+  content: '▸';
+  color: var(--blue);
+  transition: transform 0.16s ease;
+}
+
+.subjective-card[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.subjective-card.rated {
+  border-top-color: #16a34a;
+}
+
+.subjective-card.unrated {
+  border-top-color: #94a3b8;
+}
+
 .subjective-card.excellent {
   border-top-color: #16a34a;
 }
@@ -802,8 +829,21 @@ footer {
   font-weight: 700;
 }
 
-.score-control input {
-  width: 100%;
+.score-options {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.score-option {
+  border-radius: 10px;
+  padding: 7px 0;
+}
+
+.score-option[aria-pressed="true"] {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #ffffff;
 }
 
 .score-control output {

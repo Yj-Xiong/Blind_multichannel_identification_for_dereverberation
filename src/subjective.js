@@ -16,8 +16,7 @@ const TABLE_ROWS = [
 ];
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mpqgvpvo';
-const NEUTRAL_SCORE = 3;
-const STORAGE_KEY = 'nc2026-subjective-listener-v2';
+const STORAGE_KEY = 'nc2026-subjective-listener-v3';
 
 const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
 const state = {
@@ -143,42 +142,51 @@ function renderScoreControl(entry) {
   const wrapper = document.createElement('div');
   wrapper.className = 'score-control';
 
-  const label = document.createElement('label');
+  const label = document.createElement('span');
   label.textContent = 'Score';
-  label.htmlFor = `score-${id}`;
 
-  const input = document.createElement('input');
-  input.type = 'range';
-  input.min = '1';
-  input.max = '5';
-  input.step = '0.5';
-  input.id = `score-${id}`;
-  input.value = state.scores[id] ?? NEUTRAL_SCORE;
+  const options = document.createElement('div');
+  options.className = 'score-options';
 
   const value = document.createElement('output');
-  value.textContent = Number(input.value).toFixed(1);
+  value.textContent = state.scores[id] === undefined ? 'Not rated' : Number(state.scores[id]).toFixed(1);
 
-  input.addEventListener('input', () => {
-    value.textContent = Number(input.value).toFixed(1);
-    state.scores[id] = Number(input.value);
-    saveState();
-  });
+  for (const score of [1, 2, 3, 4, 5]) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'score-option';
+    button.textContent = score;
+    button.setAttribute('aria-pressed', String(state.scores[id] === score));
+    button.addEventListener('click', () => {
+      state.scores[id] = score;
+      saveState();
+      value.textContent = score.toFixed(1);
+      const status = wrapper.closest('.subjective-card')?.querySelector('.subjective-card-title span');
+      if (status) status.textContent = `Score ${score}`;
+      wrapper.closest('.subjective-card')?.classList.remove('unrated');
+      wrapper.closest('.subjective-card')?.classList.add('rated');
+      for (const sibling of options.querySelectorAll('.score-option')) {
+        sibling.setAttribute('aria-pressed', String(sibling === button));
+      }
+    });
+    options.append(button);
+  }
 
-  wrapper.append(label, input, value);
+  wrapper.append(label, options, value);
   return wrapper;
 }
 
 function renderCard(entry) {
   const item = findItem(entry, entry.method);
-  const card = document.createElement('article');
-  card.className = 'subjective-card neutral';
+  const details = document.createElement('details');
+  details.className = `subjective-card ${state.scores[entryId(entry)] === undefined ? 'unrated' : 'rated'}`;
 
-  const title = document.createElement('div');
-  title.className = 'subjective-card-title';
-  title.innerHTML = `<h4>${entry.method.label}</h4>`;
+  const summary = document.createElement('summary');
+  summary.className = 'subjective-card-title';
+  summary.innerHTML = `<h4>${entry.method.label}</h4><span>${state.scores[entryId(entry)] === undefined ? 'Not rated' : `Score ${state.scores[entryId(entry)]}`}</span>`;
 
-  card.append(title, makeAudio(item), renderScoreControl(entry));
-  return card;
+  details.append(summary, makeAudio(item), renderScoreControl(entry));
+  return details;
 }
 
 function render() {
@@ -225,16 +233,19 @@ function buildExportData() {
     branchLabel: branchLabel(entry.branch),
     snr: entry.snr,
     lambda: entry.lambda,
-    score: Number(state.scores[entryId(entry)] ?? NEUTRAL_SCORE),
+    score: state.scores[entryId(entry)] === undefined ? null : Number(state.scores[entryId(entry)]),
   }));
+  const ratedCount = scores.filter(item => item.score !== null).length;
 
   return {
     type: 'nc2026-subjective-scores',
-    version: 1,
+    version: 2,
     exportedAt: new Date().toISOString(),
     listenerId: state.listenerId || 'anonymous',
     sessionNote: state.sessionNote || '',
-    defaultScore: NEUTRAL_SCORE,
+    scoreScale: [1, 2, 3, 4, 5],
+    ratedCount,
+    totalCount: scores.length,
     scores,
   };
 }
@@ -267,7 +278,8 @@ async function submitScores() {
         listenerId: data.listenerId,
         sessionNote: data.sessionNote,
         submittedAt: data.exportedAt,
-        scoreCount: data.scores.length,
+        scoreCount: data.ratedCount,
+        totalCount: data.totalCount,
         scoresJson: JSON.stringify(data.scores),
         payloadJson: JSON.stringify(data),
       }),
