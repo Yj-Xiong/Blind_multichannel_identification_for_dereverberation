@@ -2,8 +2,6 @@ const REPEATS = Array.from({ length: 20 }, (_, index) => index + 1);
 
 const METHODS = [
   { key: 'noisy', label: 'Noisy', file: 'raw_noisy_mics.wav', baseline: true },
-  { key: 'wpe', label: 'WPE', file: 'raw_WPE.wav', baseline: true },
-  { key: 'gwpe', label: 'GWPE', file: 'raw_GWPE_K50_d2_i2.wav', baseline: true },
   { key: 'elp', label: 'MINT-Eℓp', file: 'raw_BCI_ELp_p=1.0.wav' },
   { key: 'lp', label: 'MINT-ℓp', file: 'raw_BCI_Lp_p=1.0.wav' },
   { key: 'nmcflms', label: 'MINT-NMCFLMS', file: 'raw_BCI_NMCFLMS.wav' },
@@ -12,8 +10,8 @@ const METHODS = [
 ];
 
 const REGULARIZATIONS = [
-  { key: 'reg01', label: 'MINT reg = 0.1', sample: 'Sample 12', sampleDir: 'sample12' },
-  { key: 'reg005', label: 'MINT reg = 0.05', sample: 'Sample 11', sampleDir: 'sample11' },
+  { key: 'reg005', label: 'λ = 0.05', sample: 'Sample 11', sampleDir: 'sample11' },
+  { key: 'reg01', label: 'λ = 0.1', sample: 'Sample 12', sampleDir: 'sample12' },
 ];
 
 const BASELINES = {
@@ -63,9 +61,9 @@ function makeAudio(src) {
 function renderBaselineCards(reg) {
   const baseline = BASELINES[reg.sampleDir];
   const cards = [
-    ['Clean raw', baseline.clean],
-    ['WPE baseline', baseline.wpe],
-    ['GWPE baseline', baseline.gwpe],
+    ['Clean', baseline.clean],
+    ['WPE', baseline.wpe],
+    ['GWPE', baseline.gwpe],
   ];
 
   return cards.map(([label, src]) => {
@@ -120,7 +118,7 @@ function render() {
 
     const baselineGroup = document.createElement('div');
     baselineGroup.className = 'repeat-subsection';
-    baselineGroup.innerHTML = '<h3>Fixed raw baselines</h3>';
+    baselineGroup.innerHTML = '<h3>Fixed examples</h3>';
     const baselineGrid = document.createElement('div');
     baselineGrid.className = 'repeat-grid baseline-grid';
     baselineGrid.append(...renderBaselineCards(reg));
