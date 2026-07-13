@@ -1059,6 +1059,67 @@ footer {
   text-align: center;
 }
 
+.repeat-hero .lead {
+  max-width: none;
+  text-align: justify;
+}
+
+.repeat-controls {
+  position: sticky;
+  top: 10px;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: minmax(180px, 0.35fr) minmax(180px, 0.35fr) 1fr;
+  gap: 12px;
+  align-items: end;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+}
+
+.repeat-controls .note {
+  margin: 0;
+  text-align: right;
+}
+
+.repeat-content {
+  display: grid;
+  gap: 24px;
+  margin-bottom: 44px;
+}
+
+.repeat-section-heading {
+  margin-bottom: 18px;
+}
+
+.repeat-section-heading h2,
+.repeat-subsection h3 {
+  margin: 0;
+}
+
+.repeat-subsection + .repeat-subsection {
+  margin-top: 22px;
+}
+
+.repeat-subsection h3 {
+  margin-bottom: 12px;
+  color: #334155;
+  font-size: 15px;
+}
+
+.repeat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.baseline-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.repeat-audio-row {
+  align-content: start;
+}
+
 @media (max-width: 1360px) {
   .page-nav {
     right: 14px;
@@ -1085,8 +1146,13 @@ footer {
 
   .subjective-controls,
   .listener-grid,
-  .aggregate-tools {
+  .aggregate-tools,
+  .repeat-controls {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .repeat-controls .note {
+    text-align: left;
   }
 
   .section-heading {
@@ -1136,7 +1202,8 @@ footer {
   .subjective-controls,
   .listener-grid,
   .aggregate-tools,
-  .subjective-grid {
+  .subjective-grid,
+  .repeat-controls {
     grid-template-columns: 1fr;
   }
 

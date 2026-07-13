@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>L2048 Repeat Listening</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="hero repeat-hero">
+      <p class="eyebrow">Dereverberation listening across repeat times</p>
+      <h1>Dereverberation Examples of Real Recordings</h1>
+    </header>
+
+    <main>
+      <section class="panel repeat-controls" id="repeat-examples">
+        <label class="filter-control">
+          <span>Repeat</span>
+          <select id="repeat-filter" aria-label="Repeat selector"></select>
+        </label>
+        <label class="filter-control">
+          <span>SNR</span>
+          <select id="snr-filter" aria-label="SNR selector">
+            <option value="snr5">SNR 5 dB</option>
+            <option value="snr10">SNR 10 dB</option>
+          </select>
+        </label>
+        <p class="note" id="repeat-status" aria-live="polite"></p>
+      </section>
+
+      <section id="repeat-content" class="repeat-content" aria-label="Repeat listening examples"></section>
+    </main>
+
+    <script type="module" src="./src/repeat-listening.js"></script>
+  </body>
+</html>
