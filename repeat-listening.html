@@ -19,10 +19,11 @@
           <select id="repeat-filter" aria-label="Repeat selector"></select>
         </label>
         <label class="filter-control">
-          <span>SNR</span>
-          <select id="snr-filter" aria-label="SNR selector">
+          <span>Condition</span>
+          <select id="snr-filter" aria-label="Condition selector">
             <option value="snr5">SNR 5 dB</option>
             <option value="snr10">SNR 10 dB</option>
+            <option value="clean">noise-free</option>
           </select>
         </label>
         <label class="filter-control">
@@ -30,6 +31,14 @@
           <select id="corpus-filter" aria-label="Corpus selector">
             <option value="thchs">THCHS</option>
             <option value="timit">TIMIT</option>
+          </select>
+        </label>
+        <label class="filter-control">
+          <span>Regularization</span>
+          <select id="lambda-filter" aria-label="Lambda selector">
+            <option value="reg005">λ = 0.05</option>
+            <option value="reg01">λ = 0.1</option>
+            <option value="noreg">λ = 0</option>
           </select>
         </label>
         <label class="filter-control">
