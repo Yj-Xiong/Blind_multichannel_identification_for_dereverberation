@@ -15,15 +15,10 @@
     <main>
       <section class="panel repeat-controls" id="repeat-examples">
         <label class="filter-control">
-          <span>Repeat</span>
-          <select id="repeat-filter" aria-label="Repeat selector"></select>
-        </label>
-        <label class="filter-control">
-          <span>Condition</span>
-          <select id="snr-filter" aria-label="Condition selector">
-            <option value="snr5">SNR 5 dB</option>
-            <option value="snr10">SNR 10 dB</option>
-            <option value="clean">noise-free</option>
+          <span>Input</span>
+          <select id="input-filter" aria-label="Input selector">
+            <option value="noisy">Noisy</option>
+            <option value="specsub">Spectral-Subtraction</option>
           </select>
         </label>
         <label class="filter-control">
@@ -31,6 +26,13 @@
           <select id="corpus-filter" aria-label="Corpus selector">
             <option value="thchs">THCHS</option>
             <option value="timit">TIMIT</option>
+          </select>
+        </label>
+        <label class="filter-control">
+          <span>Distance</span>
+          <select id="distance-filter" aria-label="Distance selector">
+            <option value="1m">1 m</option>
+            <option value="2m">2 m</option>
           </select>
         </label>
         <label class="filter-control">
@@ -42,11 +44,16 @@
           </select>
         </label>
         <label class="filter-control">
-          <span>Input</span>
-          <select id="input-filter" aria-label="Input selector">
-            <option value="noisy">Noisy</option>
-            <option value="specsub">Spectral-Subtraction</option>
+          <span>Condition</span>
+          <select id="snr-filter" aria-label="Condition selector">
+            <option value="snr5">SNR 5 dB</option>
+            <option value="snr10">SNR 10 dB</option>
+            <option value="clean">noise-free</option>
           </select>
+        </label>
+        <label class="filter-control">
+          <span>Repeat</span>
+          <select id="repeat-filter" aria-label="Repeat selector"></select>
         </label>
         <p class="note" id="repeat-status" aria-live="polite"></p>
       </section>

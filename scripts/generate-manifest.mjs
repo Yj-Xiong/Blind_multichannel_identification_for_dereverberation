@@ -9,7 +9,7 @@ const EXPECTED_GROUPS = {
   'sim1024_rho0.5': 58,
   wpe_gwpe_noisy: 28,
 };
-const IGNORED_DIRS = new Set(['.git', '.claude', 'node_modules']);
+const IGNORED_DIRS = new Set(['.git', '.claude', 'node_modules', 'webMUSHRA-master']);
 
 async function walk(dir) {
   const entries = await readdir(dir, { withFileTypes: true });

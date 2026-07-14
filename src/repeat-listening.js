@@ -26,7 +26,6 @@ const INPUTS = {
 };
 
 const METHODS = [
-  { key: 'input', label: input => input.label },
   { key: 'elp', label: () => 'MINT-Eℓp' },
   { key: 'lp', label: () => 'MINT-ℓp' },
   { key: 'nmcflms', label: () => 'MINT-NMCFLMS' },
@@ -43,7 +42,12 @@ const REGULARIZATIONS = {
 const CONDITIONS = {
   snr5: { label: 'SNR 5 dB', supportedCorpora: ['thchs', 'timit'], maxRepeat: 20 },
   snr10: { label: 'SNR 10 dB', supportedCorpora: ['thchs', 'timit'], maxRepeat: 20 },
-  clean: { label: 'noise-free', supportedCorpora: ['thchs'], maxRepeat: 10, cleanRoot: 'clean_reg0.05' },
+  clean: { label: 'noise-free', supportedCorpora: ['thchs'], maxRepeat: 20, cleanRoot: 'clean_reg0.1' },
+};
+
+const DISTANCES = {
+  '1m': { label: '1 m' },
+  '2m': { label: '2 m' },
 };
 
 const CORPORA = {
@@ -54,7 +58,26 @@ const CORPORA = {
       { sample: 'Sample 1', sampleId: 'sample_11', sampleDir: 'sample11', rawId: '11', regs: ['reg005'] },
       { sample: 'Sample 2', sampleId: 'sample_12', sampleDir: 'sample12', rawId: '12', regs: ['reg01'] },
     ],
-    baselines: (section, regKey, condition, inputKey, repeat) => {
+    baselines: (section, regKey, condition, inputKey, repeat, distance) => {
+      if (distance === '2m') {
+        if (CONDITIONS[condition].cleanRoot) {
+          return {
+            clean: `2m/fixed clean/${section.sampleId}/deg90/clean/raw_clean_mics.wav`,
+            wpe: `2m/fixed clean/${section.sampleId}/deg90/clean/raw_WPE.wav`,
+            gwpe: `2m/fixed clean/${section.sampleId}/deg90/clean/raw_GWPE_K50_d2_i2.wav`,
+          };
+        }
+
+        const repeatRoot = inputKey === 'specsub'
+          ? `2m/reg0p1/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}`
+          : `2m/no_ss_reg0p1/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}`;
+        return {
+          clean: `${repeatRoot}/${inputKey === 'specsub' ? 'raw_specsub_mics.wav' : 'raw_noisy_mics.wav'}`,
+          wpe: `${repeatRoot}/${inputKey === 'specsub' ? 'raw_SpecSub_WPE.wav' : 'raw_WPE.wav'}`,
+          gwpe: `${repeatRoot}/${inputKey === 'specsub' ? 'raw_SpecSub_GWPE_K50_d2_i2.wav' : 'raw_GWPE_K50_d2_i2.wav'}`,
+        };
+      }
+
       const rawId = section.sampleDir.replace('sample', '');
 
       if (CONDITIONS[condition].cleanRoot) {
@@ -74,20 +97,34 @@ const CORPORA = {
         };
       }
 
+      const noisyRoot = regKey === 'reg01'
+        ? `floor4_repeat_audio/reg01_sample${section.rawId}/${section.rawId === '11' ? 'deg90/' : ''}${condition}/${section.rawId === '11' ? 'repeats' : 'repeat'}_${repeat}`
+        : `floor4_repeat_audio/${regKey}/${condition}/repeat_${repeat}`;
+      const wpeRoot = `floor4_repeat_audio/wpe_gwpe/thchs/${section.sampleId}/deg90/${condition}`;
       return {
-        clean: `floor4_repeat_audio/${regKey}/${condition}/repeat_${repeat}/raw_noisy_mics.wav`,
-        wpe: `floor4_repeat_audio/${section.sampleDir}/raw${rawId}_WPE.wav`,
-        gwpe: `floor4_repeat_audio/${section.sampleDir}/raw${rawId}_GWPE_K50_d2_i2.wav`,
+        clean: `${noisyRoot}/raw_noisy_mics.wav`,
+        wpe: `${wpeRoot}/raw_WPE.wav`,
+        gwpe: `${wpeRoot}/raw_GWPE_K50_d2_i2.wav`,
       };
     },
-    audioPath: (section, regKey, condition, repeat, methodKey, inputKey) => {
+    audioPath: (section, regKey, condition, repeat, methodKey, inputKey, distance) => {
       const file = INPUTS[inputKey].files[methodKey];
+
+      if (distance === '2m') {
+        if (CONDITIONS[condition].cleanRoot) {
+          const cleanFile = file.replace('noisy', 'clean');
+          return `2m/fixed clean/${section.sampleId}/deg90/clean/${cleanFile}`;
+        }
+
+        const root = inputKey === 'specsub' ? '2m/reg0p1' : '2m/no_ss_reg0p1';
+        return `${root}/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}/${file}`;
+      }
 
       if (CONDITIONS[condition].cleanRoot) {
         const cleanRoots = {
           reg005: CONDITIONS[condition].cleanRoot,
           reg01: 'clean_reg0.1',
-          noreg: 'clean_noReg',
+          noreg: `floor4_real_recording_repeat_table_rho01_reg0_deg90_thchs_clean_1m_2m_L2048_repeats_1_20_rmsraw/${distance}`,
         };
         const cleanFile = file.replace('noisy', 'clean');
         return `${cleanRoots[regKey]}/L2048/repeat_${repeat}/thchs/${section.sampleId}/deg90/clean/repeats_${repeat}/${cleanFile}`;
@@ -95,6 +132,10 @@ const CORPORA = {
 
       if (inputKey === 'specsub') {
         return `floor4_repeat_audio_spectral-subtraction/${REGULARIZATIONS[regKey].thchsKey}/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}/${file}`;
+      }
+
+      if (regKey === 'reg01') {
+        return `floor4_repeat_audio/reg01_sample${section.rawId}/${section.rawId === '11' ? 'deg90/' : ''}${condition}/${section.rawId === '11' ? 'repeats' : 'repeat'}_${repeat}/${file}`;
       }
 
       return `floor4_repeat_audio/${regKey}/${condition}/repeat_${repeat}/${file}`;
@@ -134,6 +175,7 @@ const CORPORA = {
 
 const state = {
   repeat: 1,
+  distance: '1m',
   snr: 'snr5',
   corpus: 'thchs',
   lambda: 'reg005',
@@ -142,6 +184,7 @@ const state = {
 
 const els = {
   repeatFilter: document.querySelector('#repeat-filter'),
+  distanceFilter: document.querySelector('#distance-filter'),
   snrFilter: document.querySelector('#snr-filter'),
   corpusFilter: document.querySelector('#corpus-filter'),
   lambdaFilter: document.querySelector('#lambda-filter'),
@@ -159,6 +202,20 @@ function makeOption(value, label) {
 
 function selectedCorpus() {
   return CORPORA[state.corpus];
+}
+
+function updateCorpusAvailability() {
+  for (const option of els.corpusFilter.options) {
+    const isSupported = state.distance === '1m' || option.value === 'thchs';
+    option.hidden = !isSupported;
+    option.disabled = !isSupported;
+  }
+
+  if (state.distance === '2m' && state.corpus !== 'thchs') {
+    state.corpus = 'thchs';
+  }
+
+  els.corpusFilter.value = state.corpus;
 }
 
 function updateConditionAvailability() {
@@ -206,10 +263,10 @@ function updateInputAvailability() {
 
 function supportedLambdaKeys() {
   if (CONDITIONS[state.snr].cleanRoot) {
-    return ['reg005', 'reg01', 'noreg'];
+    return ['reg01', 'noreg'];
   }
 
-  return [...new Set(selectedCorpus().sections.flatMap(section => section.regs))];
+  return ['reg01'];
 }
 
 function updateLambdaAvailability() {
@@ -229,7 +286,7 @@ function updateLambdaAvailability() {
 }
 
 function audioPath(section, regKey, snr, repeat, methodKey) {
-  return selectedCorpus().audioPath(section, regKey, snr, repeat, methodKey, state.input);
+  return selectedCorpus().audioPath(section, regKey, snr, repeat, methodKey, state.input, state.distance);
 }
 
 function makeAudio(src) {
@@ -253,7 +310,7 @@ function baselineLabels() {
 }
 
 function renderBaselineCards(section, regKey) {
-  const baseline = selectedCorpus().baselines(section, regKey, state.snr, state.input, state.repeat);
+  const baseline = selectedCorpus().baselines(section, regKey, state.snr, state.input, state.repeat, state.distance);
   const [inputLabel, wpeLabel, gwpeLabel] = baselineLabels();
   const cards = [
     [inputLabel, baseline.clean],
@@ -310,6 +367,8 @@ function renderRegGroup(section, regKey) {
   baselineGrid.append(...renderBaselineCards(section, regKey));
   baselineGroup.append(baselineGrid);
 
+  group.append(baselineGroup);
+
   const methodGroup = document.createElement('div');
   methodGroup.className = 'repeat-subsection';
   methodGroup.innerHTML = `<h3>${REGULARIZATIONS[regKey].label} · Selected repeat outputs</h3>`;
@@ -317,8 +376,8 @@ function renderRegGroup(section, regKey) {
   methodGrid.className = 'repeat-grid';
   methodGrid.append(...METHODS.map(method => renderMethodCard(section, regKey, method)));
   methodGroup.append(methodGrid);
+  group.append(methodGroup);
 
-  group.append(baselineGroup, methodGroup);
   return group;
 }
 
@@ -327,6 +386,7 @@ function activeRegKeys(section) {
 }
 
 function render() {
+  updateCorpusAvailability();
   updateConditionAvailability();
   updateLambdaAvailability();
   updateInputAvailability();
@@ -351,7 +411,7 @@ function render() {
     els.content.append(section);
   }
 
-  els.status.textContent = `Showing ${corpus.label}, repeat ${state.repeat}, ${CONDITIONS[state.snr].label}, ${REGULARIZATIONS[state.lambda].label}, ${INPUTS[state.input].label} input.`;
+  els.status.textContent = `Showing ${DISTANCES[state.distance].label}, ${corpus.label}, repeat ${state.repeat}, ${CONDITIONS[state.snr].label}, ${REGULARIZATIONS[state.lambda].label}, ${INPUTS[state.input].label} input.`;
 }
 
 function init() {
@@ -360,6 +420,7 @@ function init() {
   }
 
   els.repeatFilter.value = String(state.repeat);
+  els.distanceFilter.value = state.distance;
   els.snrFilter.value = state.snr;
   els.corpusFilter.value = state.corpus;
   els.lambdaFilter.value = state.lambda;
@@ -370,6 +431,11 @@ function init() {
     if (state.repeat > CONDITIONS[state.snr].maxRepeat) {
       state.repeat = CONDITIONS[state.snr].maxRepeat;
     }
+    render();
+  });
+
+  els.distanceFilter.addEventListener('change', () => {
+    state.distance = els.distanceFilter.value;
     render();
   });
 

@@ -9,6 +9,7 @@ After GitHub Pages is enabled from the `gh-pages` branch, the pages are availabl
 - Main audio demo: `https://yj-xiong.github.io/Blind_multichannel_identification_for_dereverberation/`
 - Subjective listening evaluation: `https://yj-xiong.github.io/Blind_multichannel_identification_for_dereverberation/subjective.html`
 - Experimental MUSHRA-style evaluation: `https://yj-xiong.github.io/Blind_multichannel_identification_for_dereverberation/mushra.html`
+- Repeat-listening examples: `https://yj-xiong.github.io/Blind_multichannel_identification_for_dereverberation/repeat-listening.html`
 
 ## Local preview
 
@@ -24,6 +25,7 @@ Then open:
 http://localhost:8000/index.html
 http://localhost:8000/subjective.html
 http://localhost:8000/mushra.html
+http://localhost:8000/repeat-listening.html
 ```
 
 Avoid opening the HTML files directly with `file://`, because browser security rules may block loading `audio-manifest.json`.
@@ -40,6 +42,7 @@ Avoid opening the HTML files directly with `file://`, because browser security r
 ├── src/
 │   ├── app.js                  # Main demo UI
 │   ├── audio-visualizer.js     # Waveform/spectrogram rendering
+│   ├── repeat-listening.js     # Repeat-listening demo filters and audio cards
 │   └── subjective.js           # Listening-test scoring and Formspree submission
 ├── scripts/
 │   └── generate-manifest.mjs   # Regenerates audio-manifest.json
@@ -95,6 +98,10 @@ The experimental MUSHRA page (`mushra.html`) combines the project visual style w
 - The page supports English and Chinese, with the language selector defaulting to `Select Language`.
 - Submit is blocked until all MUSHRA ratings are complete.
 - Results are submitted to the same Formspree endpoint and use payload type `nc2026-mushra-scores`.
+
+## Repeat-listening examples
+
+The repeat-listening page (`repeat-listening.html`) provides repeat-by-repeat audio examples for checking dereverberation outputs across input type, corpus, distance, regularization, SNR/noise-free condition, and repeat index. The page includes fixed input/WPE/GWPE examples and selected BMCI-MINT outputs for the active filter combination.
 
 ## Updating GitHub Pages
 
