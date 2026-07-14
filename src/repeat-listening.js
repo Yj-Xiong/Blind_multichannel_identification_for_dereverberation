@@ -3,8 +3,6 @@ const REPEATS = Array.from({ length: 20 }, (_, index) => index + 1);
 const INPUTS = {
   noisy: {
     label: 'Noisy',
-    root: 'floor4_repeat_audio',
-    regKeys: { reg005: 'reg005', reg01: 'reg01' },
     files: {
       input: 'raw_noisy_mics.wav',
       elp: 'raw_BCI_ELp_p=1.0.wav',
@@ -16,8 +14,6 @@ const INPUTS = {
   },
   specsub: {
     label: 'Spectral-Subtraction',
-    root: 'floor4_repeat_audio_spectral-subtraction',
-    regKeys: { reg005: 'reg0p05', reg01: 'reg0p1' },
     files: {
       input: 'raw_specsub_mics.wav',
       elp: 'raw_SpecSub_BCI_ELp_p=1.0.wav',
@@ -38,33 +34,77 @@ const METHODS = [
   { key: 'oracle', label: () => 'MINT-Reference' },
 ];
 
-const REGULARIZATIONS = [
-  { key: 'reg005', label: 'λ = 0.05', sample: 'Sample 11', sampleId: 'sample_11', sampleDir: 'sample11' },
-  { key: 'reg01', label: 'λ = 0.1', sample: 'Sample 12', sampleId: 'sample_12', sampleDir: 'sample12' },
-];
+const REGULARIZATIONS = {
+  reg005: { label: 'λ = 0.05', thchsKey: 'reg0p05' },
+  reg01: { label: 'λ = 0.1', thchsKey: 'reg0p1' },
+};
 
-const BASELINES = {
-  sample11: {
-    clean: 'floor4_repeat_audio/sample11/raw_11.wav',
-    wpe: 'floor4_repeat_audio/sample11/raw11_WPE.wav',
-    gwpe: 'floor4_repeat_audio/sample11/raw11_GWPE_K50_d2_i2.wav',
+const CORPORA = {
+  thchs: {
+    label: 'THCHS',
+    supportedInputs: ['noisy', 'specsub'],
+    sections: [
+      { sample: 'Sample 1', sampleId: 'sample_11', sampleDir: 'sample11', regs: ['reg005'] },
+      { sample: 'Sample 2', sampleId: 'sample_12', sampleDir: 'sample12', regs: ['reg01'] },
+    ],
+    baselines: section => ({
+      clean: `floor4_repeat_audio/${section.sampleDir}/raw_${section.sampleDir.replace('sample', '')}.wav`,
+      wpe: `floor4_repeat_audio/${section.sampleDir}/raw${section.sampleDir.replace('sample', '')}_WPE.wav`,
+      gwpe: `floor4_repeat_audio/${section.sampleDir}/raw${section.sampleDir.replace('sample', '')}_GWPE_K50_d2_i2.wav`,
+    }),
+    audioPath: (section, regKey, snr, repeat, methodKey, inputKey) => {
+      const file = INPUTS[inputKey].files[methodKey];
+
+      if (inputKey === 'specsub') {
+        return `floor4_repeat_audio_spectral-subtraction/${REGULARIZATIONS[regKey].thchsKey}/thchs/${section.sampleId}/deg90/${snr}/repeats_${repeat}/${file}`;
+      }
+
+      return `floor4_repeat_audio/${regKey}/${snr}/repeat_${repeat}/${file}`;
+    },
   },
-  sample12: {
-    clean: 'floor4_repeat_audio/sample12/raw_12.wav',
-    wpe: 'floor4_repeat_audio/sample12/raw12_WPE.wav',
-    gwpe: 'floor4_repeat_audio/sample12/raw12_GWPE_K50_d2_i2.wav',
+  timit: {
+    label: 'TIMIT',
+    supportedInputs: ['noisy', 'specsub'],
+    sections: [
+      { sample: 'Sample 1', sampleDir: 'sample5', rawId: '5', regs: ['reg005', 'reg01'] },
+      { sample: 'Sample 2', sampleDir: 'sample7', rawId: '7', regs: ['reg005', 'reg01'] },
+    ],
+    baselines: (section, regKey, snr, inputKey) => {
+      const root = inputKey === 'specsub' ? 'floor4_repeat_TIMIT+SS' : 'floor4_repeat_TIMIT';
+
+      if (inputKey === 'specsub') {
+        return {
+          clean: `${root}/${section.sampleDir}/baselines/raw_${section.rawId}.wav`,
+          wpe: `${root}/${section.sampleDir}/${regKey}/${snr}/baselines/raw_SpecSub_WPE.wav`,
+          gwpe: `${root}/${section.sampleDir}/${regKey}/${snr}/baselines/raw_SpecSub_GWPE_K50_d2_i2.wav`,
+        };
+      }
+
+      return {
+        clean: `${root}/${section.sampleDir}/baselines/raw_${section.rawId}.wav`,
+        wpe: `${root}/${section.sampleDir}/baselines/raw${section.rawId}_WPE.wav`,
+        gwpe: `${root}/${section.sampleDir}/baselines/raw${section.rawId}_GWPE_K50_d2_i2.wav`,
+      };
+    },
+    audioPath: (section, regKey, snr, repeat, methodKey, inputKey) => {
+      const root = inputKey === 'specsub' ? 'floor4_repeat_TIMIT+SS' : 'floor4_repeat_TIMIT';
+      const file = INPUTS[inputKey].files[methodKey];
+      return `${root}/${section.sampleDir}/${regKey}/${snr}/repeat_${repeat}/${file}`;
+    },
   },
 };
 
 const state = {
   repeat: 1,
   snr: 'snr5',
+  corpus: 'thchs',
   input: 'noisy',
 };
 
 const els = {
   repeatFilter: document.querySelector('#repeat-filter'),
   snrFilter: document.querySelector('#snr-filter'),
+  corpusFilter: document.querySelector('#corpus-filter'),
   inputFilter: document.querySelector('#input-filter'),
   status: document.querySelector('#repeat-status'),
   content: document.querySelector('#repeat-content'),
@@ -77,17 +117,27 @@ function makeOption(value, label) {
   return option;
 }
 
-function audioPath(reg, snr, repeat, methodKey) {
-  const input = INPUTS[state.input];
-  const file = input.files[methodKey];
+function selectedCorpus() {
+  return CORPORA[state.corpus];
+}
 
-  if (state.input === 'specsub') {
-    const regKey = input.regKeys[reg.key];
-    return `${input.root}/${regKey}/thchs/${reg.sampleId}/deg90/${snr}/repeats_${repeat}/${file}`;
+function updateInputAvailability() {
+  const corpus = selectedCorpus();
+
+  for (const option of els.inputFilter.options) {
+    option.disabled = !corpus.supportedInputs.includes(option.value);
   }
 
-  const regKey = input.regKeys[reg.key];
-  return `${input.root}/${regKey}/${snr}/repeat_${repeat}/${file}`;
+  if (!corpus.supportedInputs.includes(state.input)) {
+    state.input = corpus.supportedInputs[0];
+  }
+
+  els.inputFilter.value = state.input;
+  els.inputFilter.disabled = corpus.supportedInputs.length === 1;
+}
+
+function audioPath(section, regKey, snr, repeat, methodKey) {
+  return selectedCorpus().audioPath(section, regKey, snr, repeat, methodKey, state.input);
 }
 
 function makeAudio(src) {
@@ -98,8 +148,8 @@ function makeAudio(src) {
   return audio;
 }
 
-function renderBaselineCards(reg) {
-  const baseline = BASELINES[reg.sampleDir];
+function renderBaselineCards(section, regKey) {
+  const baseline = selectedCorpus().baselines(section, regKey, state.snr, state.input);
   const cards = [
     ['Clean', baseline.clean],
     ['WPE', baseline.wpe],
@@ -113,7 +163,8 @@ function renderBaselineCards(reg) {
       <div class="audio-meta">
         <h5>${label}</h5>
         <div class="badges">
-          <span class="badge muted">${reg.sample}</span>
+          <span class="badge muted">${section.sample}</span>
+          <span class="badge muted">${REGULARIZATIONS[regKey].label}</span>
           <span class="badge muted">Fixed baseline</span>
         </div>
       </div>
@@ -123,7 +174,7 @@ function renderBaselineCards(reg) {
   });
 }
 
-function renderMethodCard(reg, method) {
+function renderMethodCard(section, regKey, method) {
   const input = INPUTS[state.input];
   const row = document.createElement('article');
   row.className = 'audio-row repeat-audio-row';
@@ -133,51 +184,63 @@ function renderMethodCard(reg, method) {
       <div class="badges">
         <span class="badge">Repeat ${state.repeat}</span>
         <span class="badge muted">${state.snr.replace('snr', 'SNR ')} dB</span>
+        <span class="badge muted">${REGULARIZATIONS[regKey].label}</span>
         <span class="badge muted">${input.label} input</span>
       </div>
     </div>
   `;
-  row.append(makeAudio(audioPath(reg, state.snr, state.repeat, method.key)));
+  row.append(makeAudio(audioPath(section, regKey, state.snr, state.repeat, method.key)));
   return row;
 }
 
+function renderRegGroup(section, regKey) {
+  const group = document.createElement('div');
+  group.className = 'repeat-subsection';
+
+  const baselineGroup = document.createElement('div');
+  baselineGroup.className = 'repeat-subsection';
+  baselineGroup.innerHTML = `<h3>${REGULARIZATIONS[regKey].label} · Fixed examples</h3>`;
+  const baselineGrid = document.createElement('div');
+  baselineGrid.className = 'repeat-grid baseline-grid';
+  baselineGrid.append(...renderBaselineCards(section, regKey));
+  baselineGroup.append(baselineGrid);
+
+  const methodGroup = document.createElement('div');
+  methodGroup.className = 'repeat-subsection';
+  methodGroup.innerHTML = `<h3>${REGULARIZATIONS[regKey].label} · Selected repeat outputs</h3>`;
+  const methodGrid = document.createElement('div');
+  methodGrid.className = 'repeat-grid';
+  methodGrid.append(...METHODS.map(method => renderMethodCard(section, regKey, method)));
+  methodGroup.append(methodGrid);
+
+  group.append(baselineGroup, methodGroup);
+  return group;
+}
+
 function render() {
+  updateInputAvailability();
   els.content.innerHTML = '';
 
-  for (const reg of REGULARIZATIONS) {
+  const corpus = selectedCorpus();
+
+  for (const sectionConfig of corpus.sections) {
     const section = document.createElement('section');
     section.className = 'panel repeat-section';
     section.innerHTML = `
       <div class="section-heading repeat-section-heading">
         <div>
-          <p class="eyebrow">${reg.sample}</p>
-          <h2>${reg.label}</h2>
+          <p class="eyebrow">${corpus.label}</p>
+          <h2>${sectionConfig.sample}</h2>
         </div>
         <span class="badge">Repeat ${state.repeat}</span>
       </div>
     `;
 
-    const baselineGroup = document.createElement('div');
-    baselineGroup.className = 'repeat-subsection';
-    baselineGroup.innerHTML = '<h3>Fixed examples</h3>';
-    const baselineGrid = document.createElement('div');
-    baselineGrid.className = 'repeat-grid baseline-grid';
-    baselineGrid.append(...renderBaselineCards(reg));
-    baselineGroup.append(baselineGrid);
-
-    const methodGroup = document.createElement('div');
-    methodGroup.className = 'repeat-subsection';
-    methodGroup.innerHTML = '<h3>Selected repeat outputs</h3>';
-    const methodGrid = document.createElement('div');
-    methodGrid.className = 'repeat-grid';
-    methodGrid.append(...METHODS.map(method => renderMethodCard(reg, method)));
-    methodGroup.append(methodGrid);
-
-    section.append(baselineGroup, methodGroup);
+    section.append(...sectionConfig.regs.map(regKey => renderRegGroup(sectionConfig, regKey)));
     els.content.append(section);
   }
 
-  els.status.textContent = `Showing repeat ${state.repeat}, ${state.snr.replace('snr', 'SNR ')} dB, ${INPUTS[state.input].label} input.`;
+  els.status.textContent = `Showing ${corpus.label}, repeat ${state.repeat}, ${state.snr.replace('snr', 'SNR ')} dB, ${INPUTS[state.input].label} input.`;
 }
 
 function init() {
@@ -187,6 +250,7 @@ function init() {
 
   els.repeatFilter.value = String(state.repeat);
   els.snrFilter.value = state.snr;
+  els.corpusFilter.value = state.corpus;
   els.inputFilter.value = state.input;
 
   els.repeatFilter.addEventListener('change', () => {
@@ -196,6 +260,11 @@ function init() {
 
   els.snrFilter.addEventListener('change', () => {
     state.snr = els.snrFilter.value;
+    render();
+  });
+
+  els.corpusFilter.addEventListener('change', () => {
+    state.corpus = els.corpusFilter.value;
     render();
   });
 
