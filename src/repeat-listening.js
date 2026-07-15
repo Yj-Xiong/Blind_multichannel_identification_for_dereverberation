@@ -112,8 +112,12 @@ const CORPORA = {
 
       if (distance === '2m') {
         if (CONDITIONS[condition].cleanRoot) {
+          const cleanRoots = {
+            reg01: 'clean_0.1/2m',
+            noreg: 'floor4_real_recording_repeat_table_rho01_reg0_deg90_thchs_clean_1m_2m_L2048_repeats_1_20_rmsraw/2m',
+          };
           const cleanFile = file.replace('noisy', 'clean');
-          return `2m/fixed clean/${section.sampleId}/deg90/clean/${cleanFile}`;
+          return `${cleanRoots[regKey]}/L2048/repeat_${repeat}/thchs/${section.sampleId}/deg90/clean/repeats_${repeat}/${cleanFile}`;
         }
 
         const root = inputKey === 'specsub' ? '2m/reg0p1' : '2m/no_ss_reg0p1';
