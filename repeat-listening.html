@@ -15,6 +15,14 @@
     <main>
       <section class="panel repeat-controls" id="repeat-examples">
         <label class="filter-control">
+          <span>Condition</span>
+          <select id="snr-filter" aria-label="Condition selector">
+            <option value="snr5">SNR 5 dB</option>
+            <option value="snr10">SNR 10 dB</option>
+            <option value="clean">noise-free</option>
+          </select>
+        </label>
+        <label class="filter-control">
           <span>Input</span>
           <select id="input-filter" aria-label="Input selector">
             <option value="noisy">Noisy</option>
@@ -41,14 +49,6 @@
             <option value="reg005">λ = 0.05</option>
             <option value="reg01">λ = 0.1</option>
             <option value="noreg">λ = 0</option>
-          </select>
-        </label>
-        <label class="filter-control">
-          <span>Condition</span>
-          <select id="snr-filter" aria-label="Condition selector">
-            <option value="snr5">SNR 5 dB</option>
-            <option value="snr10">SNR 10 dB</option>
-            <option value="clean">noise-free</option>
           </select>
         </label>
         <label class="filter-control">
