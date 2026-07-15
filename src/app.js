@@ -5,7 +5,7 @@ const CATEGORY_LABELS = {
   snr5: '5 dB Ablation',
 };
 
-const HIDDEN_GROUPS = new Set(['sim1024_rho0.5']);
+const MAIN_DEMO_GROUPS = new Set(['sim1024_rho0.1', 'wpe_gwpe_noisy']);
 const HIDDEN_PROCESSINGS = new Set(['specsub_mics']);
 
 const BRANCH_LABELS = {
@@ -67,7 +67,7 @@ function makeOption(value, label) {
 }
 
 function visibleItems() {
-  return state.manifest.items.filter(item => !HIDDEN_GROUPS.has(item.group) && !HIDDEN_PROCESSINGS.has(item.processing));
+  return state.manifest.items.filter(item => MAIN_DEMO_GROUPS.has(item.group) && !HIDDEN_PROCESSINGS.has(item.processing));
 }
 
 function experimentCategory(item) {
