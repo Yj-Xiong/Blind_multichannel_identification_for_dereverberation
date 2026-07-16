@@ -35,7 +35,15 @@ const METHODS = [
 
 const REGULARIZATIONS = {
   reg005: { label: 'λ = 0.05', thchsKey: 'reg0p05' },
-  reg01: { label: 'λ = 0.1', thchsKey: 'reg0p1' },
+  reg01: { label: 'λ = 0.1', thchsKey: 'reg0p1', twoMeterSpecsub: '2m/reg0p1', twoMeterNoisy: '2m/no_ss_reg0p1' },
+  reg02: {
+    label: 'λ = 0.2',
+    thchsKey: 'reg0p2',
+    repeatRoots: {
+      noisy: 'floor4_real_recording_repeat_table_L2048_rho01_1m_2m_samples11_12_noisy_snr5_10_no_ss_reg0p2_repeats_1_20_rmsraw',
+      specsub: 'floor4_real_recording_repeat_table_L2048_rho01_1m_2m_samples11_12_noisy_snr5_10_ss_frontend_reg0p2_repeats_1_20_rmsraw',
+    },
+  },
   noreg: { label: 'λ = 0' },
 };
 
@@ -59,6 +67,20 @@ const CORPORA = {
       { sample: 'Sample 2', sampleId: 'sample_12', sampleDir: 'sample12', rawId: '12', regs: ['reg01'] },
     ],
     baselines: (section, regKey, condition, inputKey, repeat, distance) => {
+      const reg = REGULARIZATIONS[regKey];
+      if (reg.repeatRoots && !CONDITIONS[condition].cleanRoot) {
+        const repeatRoot = `${reg.repeatRoots[inputKey]}/${distance}/${reg.thchsKey}/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}`;
+        return {
+          clean: `${repeatRoot}/${inputKey === 'specsub' ? 'raw_specsub_mics.wav' : 'raw_noisy_mics.wav'}`,
+          wpe: inputKey === 'specsub'
+            ? `${repeatRoot}/raw_SpecSub_WPE.wav`
+            : `floor4_repeat_audio/wpe_gwpe/thchs/${section.sampleId}/deg90/${condition}/raw_WPE.wav`,
+          gwpe: inputKey === 'specsub'
+            ? `${repeatRoot}/raw_SpecSub_GWPE_K50_d2_i2.wav`
+            : `floor4_repeat_audio/wpe_gwpe/thchs/${section.sampleId}/deg90/${condition}/raw_GWPE_K50_d2_i2.wav`,
+        };
+      }
+
       if (distance === '2m') {
         if (CONDITIONS[condition].cleanRoot) {
           return {
@@ -69,8 +91,8 @@ const CORPORA = {
         }
 
         const repeatRoot = inputKey === 'specsub'
-          ? `2m/reg0p1/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}`
-          : `2m/no_ss_reg0p1/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}`;
+          ? `${REGULARIZATIONS[regKey].twoMeterSpecsub}/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}`
+          : `${REGULARIZATIONS[regKey].twoMeterNoisy}/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}`;
         return {
           clean: `${repeatRoot}/${inputKey === 'specsub' ? 'raw_specsub_mics.wav' : 'raw_noisy_mics.wav'}`,
           wpe: `${repeatRoot}/${inputKey === 'specsub' ? 'raw_SpecSub_WPE.wav' : 'raw_WPE.wav'}`,
@@ -109,18 +131,25 @@ const CORPORA = {
     },
     audioPath: (section, regKey, condition, repeat, methodKey, inputKey, distance) => {
       const file = INPUTS[inputKey].files[methodKey];
+      const reg = REGULARIZATIONS[regKey];
+      if (reg.repeatRoots && !CONDITIONS[condition].cleanRoot) {
+        return `${reg.repeatRoots[inputKey]}/${distance}/${reg.thchsKey}/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}/${file}`;
+      }
 
       if (distance === '2m') {
         if (CONDITIONS[condition].cleanRoot) {
           const cleanRoots = {
             reg01: 'clean_0.1/2m',
+            reg02: 'floor4_real_recording_repeat_table_rho01_reg0p2_deg90_thchs_clean_1m_2m_L2048_repeats_1_20_rmsraw/2m',
             noreg: 'floor4_real_recording_repeat_table_rho01_reg0_deg90_thchs_clean_1m_2m_L2048_repeats_1_20_rmsraw/2m',
           };
           const cleanFile = file.replace('noisy', 'clean');
           return `${cleanRoots[regKey]}/L2048/repeat_${repeat}/thchs/${section.sampleId}/deg90/clean/repeats_${repeat}/${cleanFile}`;
         }
 
-        const root = inputKey === 'specsub' ? '2m/reg0p1' : '2m/no_ss_reg0p1';
+        const root = inputKey === 'specsub'
+          ? REGULARIZATIONS[regKey].twoMeterSpecsub
+          : REGULARIZATIONS[regKey].twoMeterNoisy;
         return `${root}/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}/${file}`;
       }
 
@@ -128,6 +157,7 @@ const CORPORA = {
         const cleanRoots = {
           reg005: CONDITIONS[condition].cleanRoot,
           reg01: 'clean_reg0.1',
+          reg02: `floor4_real_recording_repeat_table_rho01_reg0p2_deg90_thchs_clean_1m_2m_L2048_repeats_1_20_rmsraw/${distance}`,
           noreg: `floor4_real_recording_repeat_table_rho01_reg0_deg90_thchs_clean_1m_2m_L2048_repeats_1_20_rmsraw/${distance}`,
         };
         const cleanFile = file.replace('noisy', 'clean');
@@ -249,7 +279,9 @@ function updateConditionAvailability() {
 
 function updateInputAvailability() {
   const corpus = selectedCorpus();
-  const supportedInputs = CONDITIONS[state.snr].cleanRoot ? ['noisy'] : corpus.supportedInputs;
+  const supportedInputs = CONDITIONS[state.snr].cleanRoot
+    ? ['noisy']
+    : corpus.supportedInputs;
 
   for (const option of els.inputFilter.options) {
     const isSupported = supportedInputs.includes(option.value);
@@ -267,10 +299,10 @@ function updateInputAvailability() {
 
 function supportedLambdaKeys() {
   if (CONDITIONS[state.snr].cleanRoot) {
-    return ['reg01', 'noreg'];
+    return ['reg01', 'reg02', 'noreg'];
   }
 
-  return ['reg01'];
+  return state.corpus === 'thchs' ? ['reg01', 'reg02'] : ['reg01'];
 }
 
 function updateLambdaAvailability() {
