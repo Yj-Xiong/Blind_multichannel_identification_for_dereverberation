@@ -50,7 +50,7 @@ const REGULARIZATIONS = {
 const CONDITIONS = {
   snr5: { label: 'SNR 5 dB', supportedCorpora: ['thchs', 'timit'], maxRepeat: 20 },
   snr10: { label: 'SNR 10 dB', supportedCorpora: ['thchs', 'timit'], maxRepeat: 20 },
-  clean: { label: 'noise-free', supportedCorpora: ['thchs'], maxRepeat: 20, cleanRoot: 'clean_reg0.1' },
+  clean: { label: 'noise-free', supportedCorpora: ['thchs', 'timit'], maxRepeat: 20, cleanRoot: 'clean_reg0.1' },
 };
 
 const DISTANCES = {
@@ -63,11 +63,34 @@ const CORPORA = {
     label: 'THCHS',
     supportedInputs: ['noisy', 'specsub'],
     sections: [
-      { sample: 'Sample 1', sampleId: 'sample_11', sampleDir: 'sample11', rawId: '11', regs: ['reg005'] },
-      { sample: 'Sample 2', sampleId: 'sample_12', sampleDir: 'sample12', rawId: '12', regs: ['reg01'] },
+      { sample: 'Sample 1', sampleId: 'sample_11', sampleDir: 'sample11', rawId: '11' },
+      { sample: 'Sample 2', sampleId: 'sample_12', sampleDir: 'sample12', rawId: '12' },
+      { sample: 'Sample 9', sampleId: 'sample_9', sampleDir: 'sample9', rawId: '9', table: 'samples9_10' },
+      { sample: 'Sample 10', sampleId: 'sample_10', sampleDir: 'sample10', rawId: '10', table: 'samples9_10' },
     ],
     baselines: (section, regKey, condition, inputKey, repeat, distance) => {
       const reg = REGULARIZATIONS[regKey];
+      if (section.table === 'samples9_10') {
+        const repeatRoot = thchsSampleRoot(section, regKey, condition, inputKey, repeat, distance);
+        if (CONDITIONS[condition].cleanRoot) {
+          const baselineRoot = thchsBaselineRoot(section, regKey, condition, repeat, distance);
+          return {
+            clean: `${repeatRoot}/raw_clean_mics.wav`,
+            wpe: `${baselineRoot}/raw_WPE.wav`,
+            gwpe: `${baselineRoot}/raw_GWPE_K50_d2_i2.wav`,
+          };
+        }
+
+        const baselineRoot = inputKey === 'specsub'
+          ? repeatRoot
+          : thchsBaselineRoot(section, regKey, condition, repeat, distance);
+        return {
+          clean: `${repeatRoot}/${inputKey === 'specsub' ? 'raw_specsub_mics.wav' : 'raw_noisy_mics.wav'}`,
+          wpe: `${baselineRoot}/${inputKey === 'specsub' ? 'raw_SpecSub_WPE.wav' : 'raw_WPE.wav'}`,
+          gwpe: `${baselineRoot}/${inputKey === 'specsub' ? 'raw_SpecSub_GWPE_K50_d2_i2.wav' : 'raw_GWPE_K50_d2_i2.wav'}`,
+        };
+      }
+
       if (reg.repeatRoots && !CONDITIONS[condition].cleanRoot) {
         const repeatRoot = `${reg.repeatRoots[inputKey]}/${distance}/${reg.thchsKey}/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}`;
         return {
@@ -100,8 +123,6 @@ const CORPORA = {
         };
       }
 
-      const rawId = section.sampleDir.replace('sample', '');
-
       if (CONDITIONS[condition].cleanRoot) {
         return {
           clean: `floor4_s11_s12/raw_${section.rawId}.wav`,
@@ -132,6 +153,10 @@ const CORPORA = {
     audioPath: (section, regKey, condition, repeat, methodKey, inputKey, distance) => {
       const file = INPUTS[inputKey].files[methodKey];
       const reg = REGULARIZATIONS[regKey];
+      if (section.table === 'samples9_10') {
+        return `${thchsSampleRoot(section, regKey, condition, inputKey, repeat, distance)}/${file}`;
+      }
+
       if (reg.repeatRoots && !CONDITIONS[condition].cleanRoot) {
         return `${reg.repeatRoots[inputKey]}/${distance}/${reg.thchsKey}/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}/${file}`;
       }
@@ -179,33 +204,88 @@ const CORPORA = {
     label: 'TIMIT',
     supportedInputs: ['noisy', 'specsub'],
     sections: [
-      { sample: 'Sample 1', sampleDir: 'sample5', rawId: '5', regs: ['reg005', 'reg01'] },
-      { sample: 'Sample 2', sampleDir: 'sample7', rawId: '7', regs: ['reg005', 'reg01'] },
+      { sample: 'Sample 2', sampleId: 'sample_2', sampleDir: 'sample_2', rawId: '2' },
+      { sample: 'Sample 4', sampleId: 'sample_4', sampleDir: 'sample_4', rawId: '4' },
+      { sample: 'Sample 6', sampleId: 'sample_6', sampleDir: 'sample_6', rawId: '6' },
+      { sample: 'Sample 8', sampleId: 'sample_8', sampleDir: 'sample_8', rawId: '8' },
     ],
-    baselines: (section, regKey, snr, inputKey) => {
-      const root = inputKey === 'specsub' ? 'floor4_repeat_TIMIT+SS' : 'floor4_repeat_TIMIT';
-
-      if (inputKey === 'specsub') {
+    baselines: (section, regKey, condition, inputKey, repeat, distance) => {
+      const repeatRoot = timitSampleRoot(section, regKey, condition, inputKey, repeat, distance);
+      if (CONDITIONS[condition].cleanRoot) {
+        const baselineRoot = timitBaselineRoot(section, regKey, condition, repeat, distance);
         return {
-          clean: `${root}/${section.sampleDir}/baselines/raw_${section.rawId}.wav`,
-          wpe: `${root}/${section.sampleDir}/${regKey}/${snr}/baselines/raw_SpecSub_WPE.wav`,
-          gwpe: `${root}/${section.sampleDir}/${regKey}/${snr}/baselines/raw_SpecSub_GWPE_K50_d2_i2.wav`,
+          clean: `${repeatRoot}/raw_clean_mics.wav`,
+          wpe: `${baselineRoot}/raw_WPE.wav`,
+          gwpe: `${baselineRoot}/raw_GWPE_K50_d2_i2.wav`,
         };
       }
 
+      const baselineRoot = inputKey === 'specsub'
+        ? repeatRoot
+        : timitBaselineRoot(section, regKey, condition, repeat, distance);
       return {
-        clean: `${root}/${section.sampleDir}/baselines/raw_${section.rawId}.wav`,
-        wpe: `${root}/${section.sampleDir}/baselines/raw${section.rawId}_WPE.wav`,
-        gwpe: `${root}/${section.sampleDir}/baselines/raw${section.rawId}_GWPE_K50_d2_i2.wav`,
+        clean: `${repeatRoot}/${inputKey === 'specsub' ? 'raw_specsub_mics.wav' : 'raw_noisy_mics.wav'}`,
+        wpe: `${baselineRoot}/${inputKey === 'specsub' ? 'raw_SpecSub_WPE.wav' : 'raw_WPE.wav'}`,
+        gwpe: `${baselineRoot}/${inputKey === 'specsub' ? 'raw_SpecSub_GWPE_K50_d2_i2.wav' : 'raw_GWPE_K50_d2_i2.wav'}`,
       };
     },
-    audioPath: (section, regKey, snr, repeat, methodKey, inputKey) => {
-      const root = inputKey === 'specsub' ? 'floor4_repeat_TIMIT+SS' : 'floor4_repeat_TIMIT';
+    audioPath: (section, regKey, condition, repeat, methodKey, inputKey, distance) => {
       const file = INPUTS[inputKey].files[methodKey];
-      return `${root}/${section.sampleDir}/${regKey}/${snr}/repeat_${repeat}/${file}`;
+      return `${timitSampleRoot(section, regKey, condition, inputKey, repeat, distance)}/${file}`;
     },
   },
 };
+
+function regDirectory(regKey) {
+  return regKey === 'noreg' ? 'reg0p0' : REGULARIZATIONS[regKey].thchsKey;
+}
+
+function thchsSampleRoot(section, regKey, condition, inputKey, repeat, distance) {
+  if (CONDITIONS[condition].cleanRoot) {
+    const cleanRoots = {
+      reg01: 'floor4_real_recording_repeat_table_rho01_reg0p1_deg90_thchs_clean_1m_2m_L2048_samples9_10_repeats_1_20_rmsraw',
+      reg02: 'floor4_real_recording_repeat_table_rho01_reg0p2_deg90_thchs_clean_1m_2m_L2048_samples9_10_repeats_1_20_rmsraw',
+      noreg: 'floor4_real_recording_repeat_table_rho01_reg0_deg90_thchs_clean_1m_2m_L2048_samples9_10_repeats_1_20_rmsraw',
+    };
+    return `${cleanRoots[regKey]}/${distance}/L2048/repeat_${repeat}/thchs/${section.sampleId}/deg90/clean/repeats_${repeat}`;
+  }
+
+  const roots = {
+    reg01: {
+      noisy: 'floor4_real_recording_repeat_table_L2048_rho01_1m_2m_samples9_10_noisy_snr5_10_no_ss_reg0p1_repeats_1_20_rmsraw',
+      specsub: 'floor4_real_recording_repeat_table_L2048_rho01_1m_2m_samples9_10_noisy_snr5_10_ss_frontend_reg0p1_repeats_1_20_rmsraw',
+    },
+    reg02: {
+      noisy: 'floor4_real_recording_repeat_table_L2048_rho01_1m_2m_samples9_10_noisy_snr5_10_no_ss_reg0p2_repeats_1_20_rmsraw',
+      specsub: 'floor4_real_recording_repeat_table_L2048_rho01_1m_2m_samples9_10_noisy_snr5_10_ss_frontend_reg0p2_repeats_1_20_rmsraw',
+    },
+  };
+  return `${roots[regKey][inputKey]}/${distance}/${REGULARIZATIONS[regKey].thchsKey}/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}`;
+}
+
+function thchsBaselineRoot(section, regKey, condition, repeat, distance) {
+  if (CONDITIONS[condition].cleanRoot) {
+    return `floor4_missing_WPE_GWPE_TIMIT2468_sample9_10/THCHS_sample9_10/clean/${distance}/L2048/repeat_${repeat}/thchs/${section.sampleId}/deg90/clean/repeats_${repeat}`;
+  }
+
+  return `floor4_missing_WPE_GWPE_TIMIT2468_sample9_10/THCHS_sample9_10/noSS/${distance}/${REGULARIZATIONS[regKey].thchsKey}/thchs/${section.sampleId}/deg90/${condition}/repeats_${repeat}`;
+}
+
+function timitSampleRoot(section, regKey, condition, inputKey, repeat, distance) {
+  if (CONDITIONS[condition].cleanRoot) {
+    return `floor4_real_recording_repeat_table_L2048_rho01_timit_${distance}_clean_reg0_reg0p1_reg0p2_repeats_1_20_raw_only/${distance}/${regDirectory(regKey)}/timit/${section.sampleId}/deg90/clean/repeats_${repeat}`;
+  }
+
+  const inputPart = inputKey === 'specsub' ? 'ss_frontend' : 'no_ss';
+  return `floor4_real_recording_repeat_table_L2048_rho01_timit_${distance}_noisy_snr5_10_${inputPart}_reg0p1_reg0p2_repeats_1_20_raw_only/${distance}/${REGULARIZATIONS[regKey].thchsKey}/timit/${section.sampleId}/deg90/${condition}/repeats_${repeat}`;
+}
+
+function timitBaselineRoot(section, regKey, condition, repeat, distance) {
+  const conditionPart = CONDITIONS[condition].cleanRoot ? 'clean' : 'noSS';
+  const regPart = CONDITIONS[condition].cleanRoot ? regDirectory(regKey) : REGULARIZATIONS[regKey].thchsKey;
+  const conditionPath = CONDITIONS[condition].cleanRoot ? 'clean' : condition;
+  return `floor4_missing_WPE_GWPE_TIMIT2468_sample9_10/TIMIT2468/${conditionPart}/${distance}/${regPart}/timit/${section.sampleId}/deg90/${conditionPath}/repeats_${repeat}`;
+}
 
 const state = {
   repeat: 1,
@@ -240,13 +320,8 @@ function selectedCorpus() {
 
 function updateCorpusAvailability() {
   for (const option of els.corpusFilter.options) {
-    const isSupported = state.distance === '1m' || option.value === 'thchs';
-    option.hidden = !isSupported;
-    option.disabled = !isSupported;
-  }
-
-  if (state.distance === '2m' && state.corpus !== 'thchs') {
-    state.corpus = 'thchs';
+    option.hidden = false;
+    option.disabled = false;
   }
 
   els.corpusFilter.value = state.corpus;
@@ -302,7 +377,7 @@ function supportedLambdaKeys() {
     return ['reg01', 'reg02', 'noreg'];
   }
 
-  return state.corpus === 'thchs' ? ['reg01', 'reg02'] : ['reg01'];
+  return ['reg01', 'reg02'];
 }
 
 function updateLambdaAvailability() {
@@ -354,7 +429,7 @@ function renderBaselineCards(section, regKey) {
     [gwpeLabel, baseline.gwpe],
   ];
 
-  return cards.map(([label, src]) => {
+  return cards.filter(([, src]) => src).map(([label, src]) => {
     const row = document.createElement('article');
     row.className = 'audio-row repeat-audio-row';
     row.innerHTML = `
