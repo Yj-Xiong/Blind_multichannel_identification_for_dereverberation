@@ -63,10 +63,10 @@ const CORPORA = {
     label: 'THCHS',
     supportedInputs: ['noisy', 'specsub'],
     sections: [
-      { sample: 'Sample 1', sampleId: 'sample_11', sampleDir: 'sample11', rawId: '11' },
-      { sample: 'Sample 2', sampleId: 'sample_12', sampleDir: 'sample12', rawId: '12' },
-      { sample: 'Sample 9', sampleId: 'sample_9', sampleDir: 'sample9', rawId: '9', table: 'samples9_10' },
-      { sample: 'Sample 10', sampleId: 'sample_10', sampleDir: 'sample10', rawId: '10', table: 'samples9_10' },
+      { sample: 'Sample 1', sampleId: 'sample_9', sampleDir: 'sample9', rawId: '9', table: 'samples9_10' },
+      { sample: 'Sample 2', sampleId: 'sample_10', sampleDir: 'sample10', rawId: '10', table: 'samples9_10' },
+      { sample: 'Sample 3', sampleId: 'sample_11', sampleDir: 'sample11', rawId: '11' },
+      { sample: 'Sample 4', sampleId: 'sample_12', sampleDir: 'sample12', rawId: '12' },
     ],
     baselines: (section, regKey, condition, inputKey, repeat, distance) => {
       const reg = REGULARIZATIONS[regKey];
@@ -204,10 +204,10 @@ const CORPORA = {
     label: 'TIMIT',
     supportedInputs: ['noisy', 'specsub'],
     sections: [
-      { sample: 'Sample 2', sampleId: 'sample_2', sampleDir: 'sample_2', rawId: '2' },
-      { sample: 'Sample 4', sampleId: 'sample_4', sampleDir: 'sample_4', rawId: '4' },
-      { sample: 'Sample 6', sampleId: 'sample_6', sampleDir: 'sample_6', rawId: '6' },
-      { sample: 'Sample 8', sampleId: 'sample_8', sampleDir: 'sample_8', rawId: '8' },
+      { sample: 'Sample 1', sampleId: 'sample_2', sampleDir: 'sample_2', rawId: '2' },
+      { sample: 'Sample 2', sampleId: 'sample_4', sampleDir: 'sample_4', rawId: '4' },
+      { sample: 'Sample 3', sampleId: 'sample_6', sampleDir: 'sample_6', rawId: '6' },
+      { sample: 'Sample 4', sampleId: 'sample_8', sampleDir: 'sample_8', rawId: '8' },
     ],
     baselines: (section, regKey, condition, inputKey, repeat, distance) => {
       const repeatRoot = timitSampleRoot(section, regKey, condition, inputKey, repeat, distance);
