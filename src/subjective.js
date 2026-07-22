@@ -306,6 +306,10 @@ function renderScoreControl(entry) {
   return wrapper;
 }
 
+function anonymousMethodLabel(method) {
+  return `Sample ${METHODS.findIndex(item => item.key === method.key) + 1}`;
+}
+
 function renderCard(entry) {
   const item = findItem(entry, entry.method);
   const card = document.createElement('article');
@@ -314,7 +318,7 @@ function renderCard(entry) {
 
   const title = document.createElement('div');
   title.className = 'subjective-card-title';
-  title.innerHTML = `<h4>${entry.method.label}</h4>`;
+  title.innerHTML = `<h4>${anonymousMethodLabel(entry.method)}</h4>`;
 
   card.append(title, makeAudio(item), renderScoreControl(entry));
   return card;
@@ -359,7 +363,8 @@ function buildExportData() {
   const entries = rowEntries();
   const scores = entries.map(entry => ({
     id: entryId(entry),
-    method: entry.method.label,
+    method: anonymousMethodLabel(entry.method),
+    methodKey: entry.method.key,
     branch: entry.branch,
     branchLabel: branchLabel(entry.branch),
     snr: entry.snr,

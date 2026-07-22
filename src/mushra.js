@@ -192,6 +192,10 @@ function setScore(id, score, output, card) {
   updateProgress();
 }
 
+function anonymousMethodLabel(method) {
+  return `Sample ${METHODS.findIndex(item => item.key === method.key) + 1}`;
+}
+
 function renderMethod(trial, method) {
   const id = entryId(trial, method);
   const item = findItem(trial, method);
@@ -201,7 +205,7 @@ function renderMethod(trial, method) {
 
   const title = document.createElement('div');
   title.className = 'subjective-card-title';
-  title.innerHTML = `<h4>${method.label}</h4>`;
+  title.innerHTML = `<h4>${anonymousMethodLabel(method)}</h4>`;
 
   const output = document.createElement('output');
   output.className = 'mushra-score-value';
@@ -302,7 +306,8 @@ function goToTrial(index) {
 function buildPayload() {
   const scores = allEntries().map(({ trial, method, id }) => ({
     id,
-    method: method.label,
+    method: anonymousMethodLabel(method),
+    methodKey: method.key,
     snr: trial.snr,
     lambda: trial.lambda,
     score: state.scores[id] === undefined ? null : Number(state.scores[id]),
