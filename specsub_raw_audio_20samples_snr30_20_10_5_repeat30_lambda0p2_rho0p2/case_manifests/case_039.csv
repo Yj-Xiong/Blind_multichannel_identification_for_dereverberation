@@ -1,0 +1,2 @@
+Sample,Clean_Path,SNR_dB,MINT_Reg,BCI_Rho,BCI_Obs_Repeats,L,RIR_Path,Loaded_RIR_Taps,Noise_Power,Noisy_Observation_RMS,Case_Dir,Raw_Wav_Count,Runtime_sec,Case_Index
+mandarin__SSB10200412,wavs/mandarin/SSB10200412.wav,5.0,0.2,0.2,30,1024,rir/elp_rnmcflms_3ch_t60_0p5s_1024taps.wav,1024,0.0018721462207643147,0.09251629323355583,specsub_raw_audio_20samples_snr20_10_5_repeat30_lambda0p2_rho0p2/mandarin__SSB10200412/snr5,8,60.263763546943665,39
