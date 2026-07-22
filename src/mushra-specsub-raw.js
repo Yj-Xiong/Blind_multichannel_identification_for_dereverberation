@@ -21,7 +21,7 @@ const SAMPLES = [
   'mandarin__SSB10240347',
   'mandarin__SSB10240375',
 ];
-const SNRS = [30, 20, 10, 5];
+const SNRS = [20, 10, 5];
 const METHODS = [
   { key: 'noisy_observation', file: 'raw_noisy_observation.wav' },
   { key: 'wpe', file: 'raw_WPE_SS.wav' },
@@ -65,11 +65,13 @@ const TEXT = {
     sessionPlaceholder: 'optional: headphone, room, date...',
     submit: 'Submit',
     footer: 'MUSHRA scores are stored only in this browser until submitted.',
+    utterance: 'Utterance',
+    sampleLabel: 'Sample',
     scale: ['Bad', 'Poor', 'Fair', 'Good', 'Excellent'],
   },
   zh: {
     eyebrow: 'MUSHRA 听音评价',
-    title: '谱减输入音频样例 MUSHRA 评价',
+    title: 'MUSHRA 评价',
     guidanceTitle: '评分说明',
     guidanceNote: '分数越高表示感知质量越好，混响/噪声越不明显。',
     selectLanguage: '选择语言',
@@ -279,6 +281,10 @@ function updateProgress() {
   els.submission.hidden = true;
 }
 
+function utteranceLabel(trial) {
+  return `Utterance ${SAMPLES.indexOf(trial.sample) + 1}`;
+}
+
 function render() {
   const trial = TRIALS[state.trialIndex];
   const ratedTotal = allEntries().filter(entry => state.scores[entry.id] !== undefined).length;
@@ -292,7 +298,7 @@ function render() {
   section.innerHTML = `
     <div class="subjective-section-heading">
       <div>
-        <h2>SNR ${trial.snr} dB</h2>
+        <h2>${utteranceLabel(trial)} · SNR ${trial.snr} dB</h2>
       </div>
       <span class="mushra-rated-progress">${ratedTotal} / ${total} ${tr('rated')}</span>
     </div>
@@ -329,6 +335,7 @@ function buildPayload() {
     id,
     method: anonymousMethodLabel(methodOrder(trial).indexOf(method.key)),
     methodKey: method.key,
+    utterance: SAMPLES.indexOf(trial.sample) + 1,
     sample: trial.sample,
     snr: trial.snr,
     lambda: trial.lambda,
