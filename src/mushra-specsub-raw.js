@@ -53,6 +53,7 @@ const TEXT = {
     trial: 'Trial',
     rated: 'rated',
     unrated: 'Unrated',
+    scorePlaceholder: 'Enter the score',
     navIncomplete: 'Please complete all ratings in this trial before continuing.',
     submitIncomplete: 'Submission failed. Please complete all trial ratings before submitting.',
     submitting: 'Submitting...',
@@ -84,6 +85,7 @@ const TEXT = {
     trial: '轮次',
     rated: '已评分',
     unrated: '未评分',
+    scorePlaceholder: '输入分数',
     navIncomplete: '请完成当前轮次的所有评分后再继续。',
     submitIncomplete: '提交失败，请完成所有轮次评分后再提交。',
     submitting: '提交中...',
@@ -182,9 +184,14 @@ function makeAudio(src) {
   return audio;
 }
 
-function setScore(id, score, output, card) {
-  state.scores[id] = Number(score);
-  output.textContent = Number(score).toFixed(0);
+function setScore(id, score, output, card, slider, scoreInput) {
+  const numericScore = Number(score);
+  if (!Number.isFinite(numericScore)) return;
+  const normalizedScore = Math.max(0, Math.min(100, Math.round(numericScore)));
+  state.scores[id] = normalizedScore;
+  if (output) output.textContent = normalizedScore.toFixed(0);
+  if (slider) slider.value = normalizedScore;
+  if (scoreInput) scoreInput.value = normalizedScore;
   card.classList.remove('unrated');
   card.classList.add('rated');
   saveState();
@@ -232,17 +239,33 @@ function renderMethod(trial, method, displayIndex) {
   title.className = 'subjective-card-title';
   title.innerHTML = `<h4>${anonymousMethodLabel(displayIndex)}</h4>`;
 
-  const output = document.createElement('output');
-  output.className = 'mushra-score-value';
-  output.textContent = state.scores[id] === undefined ? tr('unrated') : Number(state.scores[id]).toFixed(0);
-
   const slider = document.createElement('input');
   slider.type = 'range';
   slider.min = '0';
   slider.max = '100';
   slider.step = '1';
   slider.value = state.scores[id] ?? 50;
-  slider.addEventListener('input', () => setScore(id, slider.value, output, card));
+
+  const scoreInput = document.createElement('input');
+  scoreInput.type = 'number';
+  scoreInput.className = 'mushra-score-input';
+  scoreInput.min = '0';
+  scoreInput.max = '100';
+  scoreInput.step = '1';
+  scoreInput.inputMode = 'numeric';
+  scoreInput.placeholder = tr('scorePlaceholder');
+  scoreInput.value = state.scores[id] ?? '';
+  scoreInput.setAttribute('aria-label', `${anonymousMethodLabel(displayIndex)} score`);
+
+  slider.addEventListener('input', () => setScore(id, slider.value, null, card, slider, scoreInput));
+  scoreInput.addEventListener('input', () => {
+    if (scoreInput.value === '') return;
+    setScore(id, scoreInput.value, null, card, slider, scoreInput);
+  });
+  scoreInput.addEventListener('change', () => {
+    if (scoreInput.value === '') return;
+    setScore(id, scoreInput.value, null, card, slider, scoreInput);
+  });
 
   const ticks = document.createElement('div');
   ticks.className = 'mushra-ticks';
@@ -252,7 +275,7 @@ function renderMethod(trial, method, displayIndex) {
   control.className = 'mushra-control';
   control.append(slider, ticks);
 
-  card.append(title, makeAudio(audioPath(trial, method)), control, output);
+  card.append(title, makeAudio(audioPath(trial, method)), control, scoreInput);
   return card;
 }
 

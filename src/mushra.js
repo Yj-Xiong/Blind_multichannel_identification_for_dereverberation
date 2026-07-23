@@ -35,6 +35,7 @@ const TEXT = {
     rated: 'rated',
     examples: 'examples',
     unrated: 'Unrated',
+    scorePlaceholder: 'Enter the score',
     navIncomplete: 'Please complete all ratings in this trial before continuing.',
     submitIncomplete: 'Submission failed. Please complete all trial ratings before submitting.',
     submitting: 'Submitting...',
@@ -65,6 +66,7 @@ const TEXT = {
     rated: '已评分',
     examples: '个样例',
     unrated: '未评分',
+    scorePlaceholder: '输入分数',
     navIncomplete: '请完成当前轮次的所有评分后再继续。',
     submitIncomplete: '提交失败，请完成所有轮次评分后再提交。',
     submitting: '提交中...',
@@ -85,6 +87,7 @@ const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
 const state = {
   manifest: null,
   scores: saved.scores || {},
+  methodOrders: saved.methodOrders || {},
   listenerId: saved.listenerId || '',
   sessionNote: saved.sessionNote || '',
   trialIndex: saved.trialIndex || 0,
@@ -142,6 +145,7 @@ function saveState() {
     sessionNote: state.sessionNote,
     trialIndex: state.trialIndex,
     language: state.language,
+    methodOrders: state.methodOrders,
     scores: state.scores,
   }));
 }
@@ -183,20 +187,52 @@ function makeAudio(item) {
   return audio;
 }
 
-function setScore(id, score, output, card) {
-  state.scores[id] = Number(score);
-  output.textContent = Number(score).toFixed(0);
+function setScore(id, score, output, card, slider, scoreInput) {
+  const numericScore = Number(score);
+  if (!Number.isFinite(numericScore)) return;
+  const normalizedScore = Math.max(0, Math.min(100, Math.round(numericScore)));
+  state.scores[id] = normalizedScore;
+  if (output) output.textContent = normalizedScore.toFixed(0);
+  if (slider) slider.value = normalizedScore;
+  if (scoreInput) scoreInput.value = normalizedScore;
   card.classList.remove('unrated');
   card.classList.add('rated');
   saveState();
   updateProgress();
 }
 
-function anonymousMethodLabel(method) {
-  return `Sample ${METHODS.findIndex(item => item.key === method.key) + 1}`;
+function shuffle(items) {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
 }
 
-function renderMethod(trial, method) {
+function methodOrderKey(trial) {
+  return `${trial.branch}-${trial.snr}-${trial.lambda}`.replace(/[^a-zA-Z0-9]+/g, '_');
+}
+
+function methodOrder(trial) {
+  const key = methodOrderKey(trial);
+  if (!Array.isArray(state.methodOrders[key]) || state.methodOrders[key].length !== METHODS.length) {
+    state.methodOrders[key] = shuffle(METHODS.map(method => method.key));
+    saveState();
+  }
+  return state.methodOrders[key];
+}
+
+function anonymousMethodLabel(displayIndex) {
+  return `Sample ${displayIndex + 1}`;
+}
+
+function orderedMethods(trial) {
+  const order = methodOrder(trial);
+  return [...METHODS].sort((a, b) => order.indexOf(a.key) - order.indexOf(b.key));
+}
+
+function renderMethod(trial, method, displayIndex) {
   const id = entryId(trial, method);
   const item = findItem(trial, method);
   const card = document.createElement('article');
@@ -205,11 +241,7 @@ function renderMethod(trial, method) {
 
   const title = document.createElement('div');
   title.className = 'subjective-card-title';
-  title.innerHTML = `<h4>${anonymousMethodLabel(method)}</h4>`;
-
-  const output = document.createElement('output');
-  output.className = 'mushra-score-value';
-  output.textContent = state.scores[id] === undefined ? tr('unrated') : Number(state.scores[id]).toFixed(0);
+  title.innerHTML = `<h4>${anonymousMethodLabel(displayIndex)}</h4>`;
 
   const slider = document.createElement('input');
   slider.type = 'range';
@@ -217,7 +249,27 @@ function renderMethod(trial, method) {
   slider.max = '100';
   slider.step = '1';
   slider.value = state.scores[id] ?? 50;
-  slider.addEventListener('input', () => setScore(id, slider.value, output, card));
+
+  const scoreInput = document.createElement('input');
+  scoreInput.type = 'number';
+  scoreInput.className = 'mushra-score-input';
+  scoreInput.min = '0';
+  scoreInput.max = '100';
+  scoreInput.step = '1';
+  scoreInput.inputMode = 'numeric';
+  scoreInput.placeholder = tr('scorePlaceholder');
+  scoreInput.value = state.scores[id] ?? '';
+  scoreInput.setAttribute('aria-label', `${anonymousMethodLabel(displayIndex)} score`);
+
+  slider.addEventListener('input', () => setScore(id, slider.value, null, card, slider, scoreInput));
+  scoreInput.addEventListener('input', () => {
+    if (scoreInput.value === '') return;
+    setScore(id, scoreInput.value, null, card, slider, scoreInput);
+  });
+  scoreInput.addEventListener('change', () => {
+    if (scoreInput.value === '') return;
+    setScore(id, scoreInput.value, null, card, slider, scoreInput);
+  });
 
   const ticks = document.createElement('div');
   ticks.className = 'mushra-ticks';
@@ -227,7 +279,7 @@ function renderMethod(trial, method) {
   control.className = 'mushra-control';
   control.append(slider, ticks);
 
-  card.append(title, makeAudio(item), control, output);
+  card.append(title, makeAudio(item), control, scoreInput);
   return card;
 }
 
@@ -281,7 +333,7 @@ function render() {
 
   const grid = document.createElement('div');
   grid.className = 'mushra-grid';
-  for (const method of METHODS) grid.append(renderMethod(trial, method));
+  for (const [index, method] of orderedMethods(trial).entries()) grid.append(renderMethod(trial, method, index));
   section.append(grid);
   els.content.append(section);
   updateProgress();
@@ -306,7 +358,7 @@ function goToTrial(index) {
 function buildPayload() {
   const scores = allEntries().map(({ trial, method, id }) => ({
     id,
-    method: anonymousMethodLabel(method),
+    method: anonymousMethodLabel(methodOrder(trial).indexOf(method.key)),
     methodKey: method.key,
     snr: trial.snr,
     lambda: trial.lambda,
@@ -411,7 +463,7 @@ async function init() {
       document.querySelector('#mushra-submission').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   });
-  els.reset.addEventListener('click', () => { state.scores = {}; saveState(); render(); });
+  els.reset.addEventListener('click', () => { state.scores = {}; state.methodOrders = {}; saveState(); render(); });
   els.submit.addEventListener('click', submit);
   render();
 }

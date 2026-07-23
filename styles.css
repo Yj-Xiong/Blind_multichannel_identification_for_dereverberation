@@ -997,6 +997,17 @@ footer {
   width: 100%;
 }
 
+.mushra-score-input {
+  justify-self: end;
+  width: 150px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 7px 10px;
+  color: var(--ink);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
 .mushra-ticks {
   display: flex;
   justify-content: space-between;
