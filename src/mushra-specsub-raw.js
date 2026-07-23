@@ -31,6 +31,7 @@ const METHODS = [
   { key: 'mint_lp', file: 'raw_BCI_Lp_p1p0_SS.wav' },
   { key: 'mint_elp', file: 'raw_BCI_ELp_p1p0_SS.wav' },
   { key: 'mint_ref', file: 'raw_Reference_MINT_SS.wav' },
+  { key: 'scaled_ref', reference: true },
 ];
 const TRIALS = SAMPLES.flatMap(sample => SNRS.map(snr => ({ sample, snr, lambda: '0.2', rho: '0.2', repeats: 30 })));
 
@@ -41,12 +42,23 @@ const TEXT = {
   en: {
     eyebrow: 'MUSHRA listening evaluation',
     title: 'MUSHRA Evaluation',
-    guidanceTitle: 'Scoring guidance',
+    introTitle: 'Introduction',
+    introSubtitle: '',
+    introContextTitle: 'Introduction',
+    introContext: 'This evaluation compares the listening quality of different speech dereverberation methods. The test set contains 20 speech recordings, with English and Mandarin utterances balanced across male and female speakers. To create the test signals, clean speech was first played through a simulated room response with a reverberation time of about 0.5 seconds, so the speech sounds like it was recorded in a room rather than in a dry studio. Background white noise was then added at several noise levels. In each trial, please compare the different processed versions of the same utterance and judge which ones sound less reverberant, clearer, and more natural.',
+    introCriteriaTitle: 'Scoring focus',
+    introCriteria: [
+      'Primary criterion: reverberation reduction. Stronger reverberation often makes speech sound farther away, more room-like or spacious, with a longer tail after each sound; this should generally lower the score. Weaker reverberation usually sounds closer, cleaner, and more direct.',
+      'Speech quality and clarity: prefer samples where the speech is natural, clear, and easy to understand. Penalize obvious muffling, metallic artifacts, broken speech, or distortion caused by over-processing.',
+      'Secondary cues: when samples are similar in reverberation, quality, and clarity, use residual noise or other minor artifacts only as secondary references.',
+    ],
+    introNote: 'Please use headphones in a quiet environment if possible, and keep the same scoring standard across all trials.',
+    guidanceTitle: 'Scoring criteria reference',
     guidanceNote: 'Higher scores indicate better perceived quality and less audible reverberation/noise.',
     selectLanguage: 'Select Language',
     english: 'English',
     chinese: 'Chinese',
-    reset: 'Reset scores',
+    reset: 'Reset scores in this trial',
     previous: 'Previous',
     next: 'Next',
     review: 'Review submission',
@@ -60,10 +72,20 @@ const TEXT = {
     submitSuccess: 'Submitted successfully. Thank you!',
     submitError: 'Submission failed. A backup JSON file has been downloaded; please send it to the organizers.',
     submissionTitle: 'MUSHRA result submission',
-    listenerId: 'Listener ID / name',
+    listenerId: 'ID / name',
     listenerPlaceholder: 'e.g. L01',
     sessionNote: 'Session note',
     sessionPlaceholder: 'optional: headphone, room, date...',
+    gender: 'Gender',
+    genderPlaceholder: 'Select gender',
+    genderFemale: 'Female',
+    genderMale: 'Male',
+    genderOther: 'Other / prefer not to say',
+    expertise: 'Listener background',
+    expertisePlaceholder: 'Select your background',
+    expertiseGeneral: 'General listener (no prior experience)',
+    expertiseIntermediate: 'Somewhat experienced (listening-test experience or audio knowledge)',
+    expertiseExpert: 'Highly experienced (extensive experience or job-related background)',
     submit: 'Submit',
     footer: 'MUSHRA scores are stored only in this browser until submitted.',
     utterance: 'Utterance',
@@ -73,17 +95,34 @@ const TEXT = {
   zh: {
     eyebrow: 'MUSHRA 听音评价',
     title: 'MUSHRA 评价',
-    guidanceTitle: '评分说明',
-    guidanceNote: '分数越高表示感知质量越好，混响/噪声越不明显。',
+    introTitle: '导言',
+    introSubtitle: '',
+    introContextTitle: '导言',
+    introContext: [
+      '本页面用于评价不同语音降混响处理结果的主观听感质量。',
+      '本次评测中，测试语料源自 TIMIT 数据集和 AISHELL-3 数据集，分别选取 10 条干净英文语音和 10 条干净普通话语音，并且男声和女声占比相同。',
+      '具有不同带噪条件的混响语音是通过卷积和添加不相干的白背景噪声仿真产生的。在每个轮次中，你将听到同一句混响语音经过不同方法处理后的多个版本。请在同一轮次内对这些样本进行比较，并根据整体听感质量为每个样本打分。混响越少、语音越清晰自然，分数应越高。',
+    ],
+    introCriteriaTitle: '评分重点',
+    introCriteria: [
+      '首要标准：混响降低效果。混响较强时，语音通常显得更远、更空旷，空间感或包围感更明显，字音后面可能带有拖尾；这类情况通常应降低评分。混响较弱时，语音通常更靠前、更干净、更直接。',
+      '语音质量与清晰度：优先选择语音自然、清晰、容易听懂的样本；如果出现发闷、金属感、破碎感或过度处理导致的明显失真，应相应降低评分。',
+      '次要参考：当样本在混响、质量和清晰度方面接近时，再把噪声残留或其他轻微伪影作为辅助判断依据。',
+    ],
+    introNote: '',
+    guidanceTitle: '评分标准参考',
+    guidanceNote: '建议使用耳机，在安静环境中完成评测；请保持同一套判断标准完成所有轮次。分数越高表示混响越少，语音质量和清晰度越好。',
     selectLanguage: '选择语言',
     english: '英文',
     chinese: '中文',
-    reset: '重置评分',
+    reset: '重置本轮评分',
     previous: '上一页',
     next: '下一页',
     review: '查看提交',
     trial: '轮次',
     rated: '已评分',
+    utterance: '语料',
+    sampleLabel: '样本',
     unrated: '未评分',
     scorePlaceholder: '输入分数',
     navIncomplete: '请完成当前轮次的所有评分后再继续。',
@@ -92,13 +131,29 @@ const TEXT = {
     submitSuccess: '提交成功，谢谢！',
     submitError: '提交失败。已下载备份 JSON 文件，请将其发送给组织者。',
     submissionTitle: 'MUSHRA 结果提交',
-    listenerId: '听众编号 / 姓名',
+    listenerId: 'ID / 姓名',
     listenerPlaceholder: '例如 L01',
     sessionNote: '测试备注',
     sessionPlaceholder: '可选：耳机、环境、日期等',
+    gender: '性别',
+    genderPlaceholder: '请选择性别',
+    genderFemale: '女',
+    genderMale: '男',
+    genderOther: '其他 / 不愿透露',
+    expertise: '听评经验',
+    expertisePlaceholder: '请选择听评经验',
+    expertiseGeneral: '无相关经验',
+    expertiseIntermediate: '有一定听评或音频知识',
+    expertiseExpert: '经验丰富或职业相关',
     submit: '提交',
     footer: 'MUSHRA 分数在提交前仅保存在当前浏览器中。',
-    scale: ['很差', '较差', '一般', '良好', '优秀'],
+    scale: [
+      '质量很差，混响或失真严重，语音较难听清',
+      '质量较差，仍有明显混响、拖尾或处理失真',
+      '质量一般，语音基本可懂，但混响或失真仍可察觉',
+      '质量良好，语音较清晰自然，仅有轻微混响或失真',
+      '质量优秀，语音清晰自然，混响和失真很少；噪声残留也较少',
+    ],
   },
 };
 
@@ -108,8 +163,10 @@ const state = {
   methodOrders: saved.methodOrders || {},
   listenerId: saved.listenerId || '',
   sessionNote: saved.sessionNote || '',
+  gender: saved.gender || '',
+  expertise: saved.expertise || '',
   trialIndex: saved.trialIndex || 0,
-  language: saved.language || '',
+  language: saved.language || 'zh',
 };
 
 const els = {
@@ -122,6 +179,8 @@ const els = {
   navStatus: document.querySelector('#mushra-nav-status'),
   listenerId: document.querySelector('#mushra-listener-id'),
   sessionNote: document.querySelector('#mushra-session-note'),
+  gender: document.querySelector('#mushra-gender'),
+  expertise: document.querySelector('#mushra-expertise'),
   submit: document.querySelector('#mushra-submit'),
   submitStatus: document.querySelector('#mushra-submit-status'),
   submission: document.querySelector('#mushra-submission'),
@@ -137,6 +196,13 @@ function applyLanguage() {
   document.documentElement.lang = activeLanguage === 'zh' ? 'zh-CN' : 'en';
   document.querySelector('#mushra-eyebrow').textContent = text.eyebrow;
   document.querySelector('#mushra-title').textContent = text.title;
+  document.querySelector('#mushra-intro-title').textContent = text.introTitle;
+  document.querySelector('#mushra-intro-subtitle').textContent = text.introSubtitle;
+  document.querySelector('#mushra-intro-context-title').textContent = text.introContextTitle;
+  document.querySelector('#mushra-intro-context').innerHTML = text.introContext.map(item => `<li>${item}</li>`).join('');
+  document.querySelector('#mushra-intro-criteria-title').textContent = text.introCriteriaTitle;
+  document.querySelector('#mushra-intro-criteria').innerHTML = text.introCriteria.map(item => `<li>${item}</li>`).join('');
+  document.querySelector('#mushra-intro-note').textContent = text.introNote;
   document.querySelector('#mushra-guidance-title').textContent = text.guidanceTitle;
   document.querySelector('#mushra-guidance-note').textContent = text.guidanceNote;
   els.language.options[0].textContent = text.selectLanguage;
@@ -147,8 +213,18 @@ function applyLanguage() {
   document.querySelector('#mushra-submission-title').textContent = text.submissionTitle;
   document.querySelector('#mushra-listener-id-label').textContent = text.listenerId;
   document.querySelector('#mushra-session-note-label').textContent = text.sessionNote;
+  document.querySelector('#mushra-gender-label').textContent = text.gender;
+  document.querySelector('#mushra-expertise-label').textContent = text.expertise;
   els.listenerId.placeholder = text.listenerPlaceholder;
   els.sessionNote.placeholder = text.sessionPlaceholder;
+  els.gender.options[0].textContent = text.genderPlaceholder;
+  els.gender.options[1].textContent = text.genderFemale;
+  els.gender.options[2].textContent = text.genderMale;
+  els.gender.options[3].textContent = text.genderOther;
+  els.expertise.options[0].textContent = text.expertisePlaceholder;
+  els.expertise.options[1].textContent = text.expertiseGeneral;
+  els.expertise.options[2].textContent = text.expertiseIntermediate;
+  els.expertise.options[3].textContent = text.expertiseExpert;
   els.submit.textContent = text.submit;
   document.querySelector('footer p').textContent = text.footer;
   for (let i = 0; i < text.scale.length; i += 1) {
@@ -161,6 +237,8 @@ function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({
     listenerId: state.listenerId,
     sessionNote: state.sessionNote,
+    gender: state.gender,
+    expertise: state.expertise,
     trialIndex: state.trialIndex,
     language: state.language,
     methodOrders: state.methodOrders,
@@ -173,6 +251,12 @@ function entryId(trial, method) {
 }
 
 function audioPath(trial, method) {
+  if (method.reference) {
+    const samplePath = trial.sample.startsWith('mandarin__')
+      ? `mandarin/${trial.sample.replace('mandarin__', '')}`
+      : trial.sample;
+    return `ref_wavs_scaled/snr${trial.snr}/${samplePath}.wav`;
+  }
   return `${ROOT}/${trial.sample}/snr${trial.snr}/${method.file}`;
 }
 
@@ -226,7 +310,7 @@ function orderedMethods(trial) {
 }
 
 function anonymousMethodLabel(displayIndex) {
-  return `Sample ${displayIndex + 1}`;
+  return `${tr('sampleLabel')} ${displayIndex + 1}`;
 }
 
 function renderMethod(trial, method, displayIndex) {
@@ -301,11 +385,10 @@ function updateProgress() {
   els.progress.textContent = `${tr('trial')} ${state.trialIndex + 1} / ${TRIALS.length}`;
   els.previous.disabled = state.trialIndex === 0;
   els.next.textContent = state.trialIndex === TRIALS.length - 1 ? tr('review') : tr('next');
-  els.submission.hidden = true;
 }
 
 function utteranceLabel(trial) {
-  return `Utterance ${SAMPLES.indexOf(trial.sample) + 1}`;
+  return `${tr('utterance')} ${SAMPLES.indexOf(trial.sample) + 1}`;
 }
 
 function render() {
@@ -373,6 +456,8 @@ function buildPayload() {
     exportedAt: new Date().toISOString(),
     listenerId: state.listenerId || 'anonymous',
     sessionNote: state.sessionNote || '',
+    gender: state.gender || '',
+    expertise: state.expertise || '',
     audioRoot: ROOT,
     scoreScale: [0, 100],
     ratedCount: scores.filter(item => item.score !== null).length,
@@ -381,15 +466,38 @@ function buildPayload() {
   };
 }
 
-function downloadPayload(data) {
-  const blob = new Blob([`${JSON.stringify(data, null, 2)}\n`], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+function payloadFilename(data) {
   const safeId = data.listenerId.replace(/[^a-zA-Z0-9_-]+/g, '_') || 'anonymous';
+  return `nc2026_specsub_raw_mushra_${safeId}.json`;
+}
+
+function payloadBlob(data) {
+  return new Blob([`${JSON.stringify(data, null, 2)}\n`], { type: 'application/json' });
+}
+
+function downloadPayload(data) {
+  const url = URL.createObjectURL(payloadBlob(data));
+  const a = document.createElement('a');
   a.href = url;
-  a.download = `nc2026_specsub_raw_mushra_${safeId}.json`;
+  a.download = payloadFilename(data);
   a.click();
   URL.revokeObjectURL(url);
+}
+
+function buildSubmissionFormData(data) {
+  const formData = new FormData();
+  formData.append('listenerId', data.listenerId);
+  formData.append('sessionNote', data.sessionNote);
+  formData.append('gender', data.gender);
+  formData.append('expertise', data.expertise);
+  formData.append('submittedAt', data.exportedAt);
+  formData.append('evaluationType', data.type);
+  formData.append('scoreCount', String(data.ratedCount));
+  formData.append('totalCount', String(data.totalCount));
+  formData.append('scoresJson', JSON.stringify(data.scores));
+  formData.append('payloadJson', JSON.stringify(data));
+  formData.append('scoresJsonFile', payloadBlob(data), payloadFilename(data));
+  return formData;
 }
 
 async function submit() {
@@ -412,17 +520,8 @@ async function submit() {
   try {
     const response = await fetch(FORMSPREE_ENDPOINT, {
       method: 'POST',
-      headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        listenerId: data.listenerId,
-        sessionNote: data.sessionNote,
-        submittedAt: data.exportedAt,
-        evaluationType: data.type,
-        scoreCount: data.ratedCount,
-        totalCount: data.totalCount,
-        scoresJson: JSON.stringify(data.scores),
-        payloadJson: JSON.stringify(data),
-      }),
+      headers: { Accept: 'application/json' },
+      body: buildSubmissionFormData(data),
     });
     if (!response.ok) throw new Error('Submission failed.');
     els.submitStatus.textContent = tr('submitSuccess');
@@ -439,6 +538,8 @@ async function submit() {
 function init() {
   els.listenerId.value = state.listenerId;
   els.sessionNote.value = state.sessionNote;
+  els.gender.value = state.gender;
+  els.expertise.value = state.expertise;
   els.language.value = state.language;
   applyLanguage();
   els.language.addEventListener('change', () => {
@@ -449,6 +550,8 @@ function init() {
   });
   els.listenerId.addEventListener('input', () => { state.listenerId = els.listenerId.value.trim(); saveState(); });
   els.sessionNote.addEventListener('input', () => { state.sessionNote = els.sessionNote.value.trim(); saveState(); });
+  els.gender.addEventListener('change', () => { state.gender = els.gender.value; saveState(); });
+  els.expertise.addEventListener('change', () => { state.expertise = els.expertise.value; saveState(); });
   els.previous.addEventListener('click', () => goToTrial(state.trialIndex - 1));
   els.next.addEventListener('click', () => {
     const missing = firstUnratedInTrial();
@@ -464,7 +567,13 @@ function init() {
       document.querySelector('#mushra-submission').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   });
-  els.reset.addEventListener('click', () => { state.scores = {}; state.methodOrders = {}; saveState(); render(); });
+  els.reset.addEventListener('click', () => {
+    const trial = TRIALS[state.trialIndex];
+    trialEntries(trial).forEach(entry => { delete state.scores[entry.id]; });
+    delete state.methodOrders[methodOrderKey(trial)];
+    saveState();
+    render();
+  });
   els.submit.addEventListener('click', submit);
   render();
 }

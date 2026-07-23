@@ -7,12 +7,38 @@
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
-    <header class="hero subjective-hero">
+    <header class="hero subjective-hero mushra-hero">
       <p class="eyebrow" id="mushra-eyebrow">MUSHRA listening evaluation</p>
       <h1 id="mushra-title">MUSHRA Evaluation</h1>
     </header>
 
     <main>
+      <section class="panel mushra-intro" id="mushra-intro">
+        <div class="mushra-intro-heading">
+          <h2 id="mushra-intro-title">导言</h2>
+          <p id="mushra-intro-subtitle"></p>
+        </div>
+        <div class="mushra-intro-grid">
+          <div>
+            <h3 id="mushra-intro-context-title">背景与目的</h3>
+            <ul id="mushra-intro-context">
+              <li>本页面用于评价不同语音降混响处理结果的主观听感质量。</li>
+              <li>本次评测中，测试语料源自 TIMIT 数据集和 AISHELL-3 数据集，分别选取 10 条干净英文语音和 10 条干净普通话语音，并且控制男声和女声占比相同，通过仿真产生了不同带噪条件的混响信号。</li>
+              <li>在每个轮次中，你将听到同一句混响语音经过不同方法处理后的多个版本。请在同一轮次内对这些样本进行比较，并根据整体听感质量为每个样本打分。混响越少、语音越清晰自然，分数应越高。</li>
+            </ul>
+          </div>
+          <div>
+            <h3 id="mushra-intro-criteria-title">评分时重点关注</h3>
+            <ul id="mushra-intro-criteria">
+              <li>混响是否明显减少，语音是否更靠前、更清楚。</li>
+              <li>语音质量是否自然，是否存在音乐噪声、残留噪声或突兀伪影。</li>
+              <li>清晰度和可懂度是否提高，同时避免过度处理导致的失真。</li>
+            </ul>
+          </div>
+        </div>
+        <p class="note" id="mushra-intro-note">建议使用耳机，在安静环境中完成评测；请保持同一套判断标准完成所有轮次。</p>
+      </section>
+
       <section class="panel rubric-panel mushra-guidance">
         <div class="rubric-heading mushra-heading">
           <h2 id="mushra-guidance-title">Scoring guidance</h2>
@@ -46,10 +72,11 @@
         <button id="mushra-next" type="button">Next</button>
       </section>
 
-      <section class="panel listener-panel" id="mushra-submission" hidden>
+      <section class="panel listener-panel" id="mushra-submission">
         <div class="submission-heading">
           <h2 id="mushra-submission-title">MUSHRA result submission</h2>
           <p id="mushra-submit-status" class="submit-status" aria-live="polite"></p>
+          <button id="mushra-submit" type="button">Submit</button>
         </div>
         <div class="listener-grid">
           <label class="filter-control">
@@ -57,10 +84,27 @@
             <input id="mushra-listener-id" type="text" placeholder="e.g. L01">
           </label>
           <label class="filter-control">
+            <span id="mushra-gender-label">Gender</span>
+            <select id="mushra-gender">
+              <option value="">Select gender</option>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+              <option value="other">Other / prefer not to say</option>
+            </select>
+          </label>
+          <label class="filter-control">
+            <span id="mushra-expertise-label">Listener background</span>
+            <select id="mushra-expertise">
+              <option value="">Select your background</option>
+              <option value="general">General listener</option>
+              <option value="intermediate">Somewhat experienced</option>
+              <option value="expert">Highly experienced</option>
+            </select>
+          </label>
+          <label class="filter-control">
             <span id="mushra-session-note-label">Session note</span>
             <input id="mushra-session-note" type="text" placeholder="optional: headphone, room, date...">
           </label>
-          <button id="mushra-submit" type="button">Submit</button>
         </div>
       </section>
     </main>
