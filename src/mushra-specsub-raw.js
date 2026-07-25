@@ -21,7 +21,7 @@ const SAMPLES = [
   'mandarin__SSB10240347',
   'mandarin__SSB10240375',
 ];
-const SNRS = [20, 10, 5];
+const SNRS = [20, 10];
 const METHODS = [
   { key: 'noisy_observation', file: 'raw_noisy_observation.wav' },
   { key: 'wpe', file: 'raw_WPE_SS.wav' },
@@ -90,6 +90,8 @@ const TEXT = {
     footer: 'MUSHRA scores are stored only in this browser until submitted.',
     utterance: 'Utterance',
     sampleLabel: 'Sample',
+    referenceTitle: 'Reference audio for this trial',
+    referenceNote: 'Listen to this trial reference audio first as an auditory anchor. The rating samples remain anonymized and may include a hidden copy of this reference.',
     scale: ['Bad', 'Poor', 'Fair', 'Good', 'Excellent'],
   },
   zh: {
@@ -147,6 +149,8 @@ const TEXT = {
     expertiseExpert: '经验丰富或职业相关',
     submit: '提交',
     footer: 'MUSHRA 分数在提交前仅保存在当前浏览器中。',
+    referenceTitle: '本轮参考音频',
+    referenceNote: '请先播放本轮参考音频作为听觉参照；下方待评分样本保持匿名，并可能包含该参考的隐藏副本。',
     scale: [
       '质量很差，混响或失真严重，语音较难听清',
       '质量较差，仍有明显混响、拖尾或处理失真',
@@ -313,6 +317,15 @@ function anonymousMethodLabel(displayIndex) {
   return `${tr('sampleLabel')} ${displayIndex + 1}`;
 }
 
+function renderReference(trial) {
+  const panel = document.createElement('div');
+  panel.className = 'mushra-reference-panel';
+  const text = document.createElement('div');
+  text.innerHTML = `<h3>${tr('referenceTitle')}</h3><p>${tr('referenceNote')}</p>`;
+  panel.append(text, makeAudio(audioPath(trial, METHODS.find(method => method.reference))));
+  return panel;
+}
+
 function renderMethod(trial, method, displayIndex) {
   const id = entryId(trial, method);
   const card = document.createElement('article');
@@ -410,6 +423,8 @@ function render() {
     </div>
   `;
 
+  section.append(renderReference(trial));
+
   const grid = document.createElement('div');
   grid.className = 'mushra-grid';
   for (const [index, method] of orderedMethods(trial).entries()) {
@@ -496,7 +511,6 @@ function buildSubmissionFormData(data) {
   formData.append('totalCount', String(data.totalCount));
   formData.append('scoresJson', JSON.stringify(data.scores));
   formData.append('payloadJson', JSON.stringify(data));
-  formData.append('scoresJsonFile', payloadBlob(data), payloadFilename(data));
   return formData;
 }
 
