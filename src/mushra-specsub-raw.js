@@ -33,7 +33,11 @@ const TEXT = {
     introTitle: 'Introduction',
     introSubtitle: '',
     introContextTitle: 'Introduction',
-    introContext: 'This evaluation compares the listening quality of different speech dereverberation methods. The test set contains 20 speech recordings, with English and Mandarin utterances balanced across male and female speakers. To create the test signals, clean speech was first played through a simulated room response with a reverberation time of about 0.5 seconds, so the speech sounds like it was recorded in a room rather than in a dry studio. Background white noise was then added at several noise levels. In each trial, please compare the different processed versions of the same utterance and judge which ones sound less reverberant, clearer, and more natural.',
+    introContext: [
+      'This evaluation compares the listening quality of different speech dereverberation methods.',
+      'The test set contains 4 clean English utterances and 4 clean Mandarin utterances from the TIMIT and AISHELL-3 datasets, with male and female speakers balanced.',
+      'The reverberant noisy speech signals were simulated by convolution and by adding incoherent white background noise. In each trial, please compare the different processed versions of the same utterance and judge which ones sound less reverberant, clearer, and more natural.',
+    ],
     introCriteriaTitle: 'Scoring focus',
     introCriteria: [
       'Primary criterion: reverberation reduction. Stronger reverberation often makes speech sound farther away, more room-like or spacious, with a longer tail after each sound; this should generally lower the score. Weaker reverberation usually sounds closer, cleaner, and more direct.',
