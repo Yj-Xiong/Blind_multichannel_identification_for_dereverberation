@@ -1,13 +1,13 @@
 const ROOT = 'specsub_raw_audio_20samples_snr30_20_10_5_repeat30_lambda0p2_rho0p2';
 const SAMPLES = [
-  'FEDW0_SX364',
   'FJEM0_SI634',
-  'MAHH0_SI1294',
-  'MGRT0_SI820',
-  'mandarin__SSB10200120',
+  'FRAM1_SI522',
+  'MJJG0_SI1003',
+  'MPAB0_SI1103',
   'mandarin__SSB10200196',
+  'mandarin__SSB10200425',
   'mandarin__SSB10240175',
-  'mandarin__SSB10240193',
+  'mandarin__SSB10240347',
 ];
 const SNRS = [20, 10, 5];
 const METHODS = [
