@@ -46,7 +46,7 @@ const TEXT = {
     ],
     introNote: 'Please use headphones in a quiet environment if possible, and keep the same scoring standard across all trials.',
     guidanceTitle: 'Scoring criteria reference',
-    guidanceNote: 'Higher scores indicate better perceived quality and less audible reverberation/noise.',
+    guidanceNote: 'Please assign a full score of 100 to at least one sample in each trial.',
     selectLanguage: 'Select Language',
     english: 'English',
     chinese: 'Chinese',
@@ -54,6 +54,7 @@ const TEXT = {
     previous: 'Previous',
     next: 'Next',
     review: 'Review submission',
+    startEvaluation: 'Start evaluation',
     trial: 'Trial',
     rated: 'rated',
     unrated: 'Unrated',
@@ -105,14 +106,15 @@ const TEXT = {
     ],
     introNote: '',
     guidanceTitle: '评分标准参考',
-    guidanceNote: '建议使用耳机，在安静环境中完成评测；请保持同一套判断标准完成所有轮次。分数越高表示混响越少，语音质量和清晰度越好。',
+    guidanceNote: '建议使用耳机，在安静环境中完成评测；请保持同一套判断标准完成所有轮次。每一轮打分时，请至少选择一个样本给出满分 100 分。',
     selectLanguage: '选择语言',
     english: '英文',
     chinese: '中文',
     reset: '重置本轮评分',
     previous: '上一页',
     next: '下一页',
-    review: '查看提交',
+    review: '跳转提交入口',
+    startEvaluation: '开始评测',
     trial: '轮次',
     rated: '已评分',
     utterance: '语料',
@@ -172,6 +174,7 @@ const els = {
   language: document.querySelector('#mushra-language'),
   previous: document.querySelector('#mushra-prev'),
   next: document.querySelector('#mushra-next'),
+  start: document.querySelector('#mushra-start'),
   navStatus: document.querySelector('#mushra-nav-status'),
   listenerId: document.querySelector('#mushra-listener-id'),
   sessionNote: document.querySelector('#mushra-session-note'),
@@ -206,6 +209,7 @@ function applyLanguage() {
   els.language.options[2].textContent = text.chinese;
   els.reset.textContent = text.reset;
   els.previous.textContent = text.previous;
+  els.start.textContent = text.startEvaluation;
   document.querySelector('#mushra-submission-title').textContent = text.submissionTitle;
   document.querySelector('#mushra-listener-id-label').textContent = text.listenerId;
   document.querySelector('#mushra-session-note-label').textContent = text.sessionNote;
@@ -559,6 +563,9 @@ function init() {
   els.gender.addEventListener('change', () => { state.gender = els.gender.value; saveState(); });
   els.expertise.addEventListener('change', () => { state.expertise = els.expertise.value; saveState(); });
   els.previous.addEventListener('click', () => goToTrial(state.trialIndex - 1));
+  els.start.addEventListener('click', () => {
+    document.querySelector('#mushra-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
   els.next.addEventListener('click', () => {
     const missing = firstUnratedInTrial();
     if (missing) {

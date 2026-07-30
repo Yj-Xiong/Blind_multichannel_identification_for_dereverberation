@@ -976,6 +976,22 @@ footer {
   line-height: 1.25;
 }
 
+.mushra-intro-criteria-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.mushra-intro-criteria-heading h3 {
+  margin: 0;
+}
+
+#mushra-start {
+  flex: 0 0 auto;
+}
+
 .mushra-intro-grid p,
 .mushra-intro-grid ul {
   margin: 0;
