@@ -1,13 +1,11 @@
 const ROOT = 'specsub_raw_audio_20samples_snr30_20_10_5_repeat30_lambda0p2_rho0p2';
 const SAMPLES = [
   'FJEM0_SI634',
-  'FRAM1_SI522',
   'MJJG0_SI1003',
   'MPAB0_SI1103',
   'mandarin__SSB10200196',
   'mandarin__SSB10200425',
   'mandarin__SSB10240175',
-  'mandarin__SSB10240347',
 ];
 const SNRS = [20, 10, 5];
 const METHODS = [
@@ -35,7 +33,7 @@ const TEXT = {
     introContextTitle: 'Introduction',
     introContext: [
       'This evaluation compares the listening quality of different speech dereverberation methods.',
-      'The test set contains 4 clean English utterances and 4 clean Mandarin utterances from the TIMIT and AISHELL-3 datasets, with male and female speakers balanced.',
+      'The test set contains 3 clean English utterances and 3 clean Mandarin utterances from the TIMIT and AISHELL-3 datasets.',
       'The reverberant noisy speech signals were simulated by convolution and by adding incoherent white background noise. In each trial, please compare the different processed versions of the same utterance and judge which ones sound less reverberant, clearer, and more natural.',
     ],
     introCriteriaTitle: 'Scoring focus',
@@ -95,7 +93,7 @@ const TEXT = {
     introContextTitle: '导言',
     introContext: [
       '本页面用于评价不同语音降混响处理结果的主观听感质量。',
-      '本次评测中，测试语料源自 TIMIT 数据集和 AISHELL-3 数据集，分别选取 4 条干净英文语音和 4 条干净普通话语音，并且男声和女声占比相同。',
+      '本次评测中，测试语料源自 TIMIT 数据集和 AISHELL-3 数据集，分别选取 3 条干净英文语音和 3 条干净普通话语音。',
       '具有不同带噪条件的混响语音是通过卷积和添加不相干的白背景噪声仿真产生的。在每个轮次中，你将听到同一句混响语音经过不同方法处理后的多个版本。请在同一轮次内对这些样本进行比较，并根据整体听感质量为每个样本打分。混响越少、语音越清晰自然，分数应越高。',
     ],
     introCriteriaTitle: '评分重点',
