@@ -161,7 +161,7 @@ const state = {
   sessionNote: saved.sessionNote || '',
   gender: saved.gender || '',
   expertise: saved.expertise || '',
-  trialIndex: saved.trialIndex || 0,
+  trialIndex: Math.max(0, Math.min(TRIALS.length - 1, saved.trialIndex || 0)),
   language: saved.language || 'zh',
 };
 
