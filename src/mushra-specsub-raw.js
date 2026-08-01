@@ -1,4 +1,4 @@
-const ROOT = 'specsub_raw_audio_20samples_snr30_20_10_5_repeat30_lambda0p2_rho0p2';
+const ROOT = 'specsub_raw_audio_20samples_snr30_20_10_5_repeat30_lambda0p2_rho0p1';
 const SAMPLES = [
   'FJEM0_SI634',
   'MJJG0_SI1003',
@@ -19,10 +19,10 @@ const METHODS = [
   { key: 'mint_ref', file: 'raw_Reference_MINT_SS.wav' },
   { key: 'scaled_ref', reference: true },
 ];
-const TRIALS = SAMPLES.flatMap(sample => SNRS.map(snr => ({ sample, snr, lambda: '0.2', rho: '0.2', repeats: 30 })));
+const TRIALS = SAMPLES.flatMap(sample => SNRS.map(snr => ({ sample, snr, lambda: '0.2', rho: '0.1', repeats: 30 })));
 
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mpqgvpvo';
-const STORAGE_KEY = 'nc2026-specsub-raw-mushra-listener-v1';
+const STORAGE_KEY = 'nc2026-specsub-raw-mushra-listener-rho0p1-v1';
 
 const TEXT = {
   en: {
