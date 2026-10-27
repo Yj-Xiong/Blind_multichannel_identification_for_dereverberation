@@ -18,8 +18,8 @@ type `ace56-air30-joint-v2`. The `candidateIds` array defines the order of
 each trial's numeric `scores` array; its numeric `order` array records the
 blinded presentation order. The record also includes sample IDs, listener
 metadata, dataset version, and submission time. A failed submission downloads
-the record as JSON, and a
-copy is also available after success. The former per-batch records have a
+the record as JSON; a copy is also available after success. The former
+per-batch records have a
 different study identifier and must not be combined without explicit review.
 
 `build_assets.py` generates the manifest and MP3 files from the ACE/AIR v1.0.1

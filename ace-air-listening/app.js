@@ -7,7 +7,7 @@ const ui = {
   listener: $('#listener-id'), experience: $('#experience'), device: $('#device'),
   setupError: $('#setup-error'), trialList: $('#trial-list'),
   trialPicker: $('#trial-picker'), aceProgress: $('#ace-progress'), airProgress: $('#air-progress'),
-  trialKicker: $('#trial-kicker'), trialTitle: $('#trial-title'), trialMeta: $('#trial-meta'),
+  trialKicker: $('#trial-kicker'), trialTitle: $('#trial-title'),
   progressLabel: $('#progress-label'),
   ratedCount: $('#rated-count'), reference: $('#reference-audio'), candidates: $('#candidate-list'),
   previous: $('#previous'), next: $('#next'), navProgress: $('#nav-progress'),
@@ -93,7 +93,7 @@ function renderRail() {
     button.className = `trial-jump${index === state.index ? ' active' : ''}${done[index] ? ' done' : ''}`;
     button.type = 'button';
     button.disabled = index > maxNavigable;
-    button.innerHTML = `<span class="trial-index">${String(index + 1).padStart(3, '0')}</span><span><strong>${trial.dataset}</strong><small>${trial.snr_db} dB SNR</small></span><span class="trial-check">${done[index] ? '✓' : ''}</span>`;
+    button.innerHTML = `<span class="trial-index">${String(index + 1).padStart(3, '0')}</span><span><strong>${trial.dataset}</strong></span><span class="trial-check">${done[index] ? '✓' : ''}</span>`;
     button.addEventListener('click', () => { state.index = index; save(); render(); });
     ui.trialList.append(button);
   }
@@ -162,7 +162,6 @@ function renderTrial() {
   const trial = getTrial();
   ui.trialKicker.textContent = `${trial.dataset} 测试集 · v1.0.1`;
   ui.trialTitle.textContent = `片段 ${state.index + 1}`;
-  ui.trialMeta.textContent = `${trial.snr_db} dB SNR · 16 kHz · 单轮比较`;
   ui.reference.src = trial.tracks.reference.file;
   ui.reference.load();
   ui.candidates.replaceChildren(...candidates(trial).map((key, index) => candidateCard(trial, key, index)));
@@ -260,7 +259,7 @@ async function init() {
     ui.trialPicker.replaceChildren(...trials.map((trial, index) => {
       const option = document.createElement('option');
       option.value = String(index);
-      option.textContent = `${String(index + 1).padStart(3, '0')} · ${trial.dataset} · ${trial.sample_id}`;
+      option.textContent = `${String(index + 1).padStart(3, '0')} · ${trial.dataset}`;
       return option;
     }));
     const saved = localStorage.getItem(STORAGE_KEY);

@@ -16,14 +16,14 @@
     <section id="setup" class="setup">
       <div class="section-heading"><p class="eyebrow">主观语音质量评估</p><h1>Dereverb 听评</h1></div>
       <p class="intro">比较同一句语音的不同处理结果。评分同时考虑混响、噪声、清晰度和处理伪影；100 分代表与参考语音接近。</p>
-      <div class="study-facts"><div><strong>56</strong><span>ACE 样本</span></div><div><strong>107</strong><span>AIR · 30 dB</span></div><div><strong>8</strong><span>待评模型</span></div><div><strong>1</strong><span>合并提交</span></div></div>
+      <div class="study-facts"><div><strong>56</strong><span>ACE 样本</span></div><div><strong>107</strong><span>AIR 样本</span></div><div><strong>8</strong><span>待评模型</span></div><div><strong>1</strong><span>合并提交</span></div></div>
       <div class="setup-form">
         <label><span>听评者编号</span><input id="listener-id" autocomplete="off" maxlength="40" placeholder="例如 L001" required></label>
         <label><span>听评经验</span><select id="experience"><option value="general">普通听众</option><option value="experienced">有语音处理经验</option><option value="expert">领域专家</option></select></label>
         <label><span>收听设备</span><select id="device"><option value="headphones">耳机</option><option value="speakers">扬声器</option><option value="other">其他</option></select></label>
         <button id="start" class="primary" type="button">开始听评</button>
       </div>
-      <p class="protocol-note">先评 ACE 全部 56 条，再自动进入 AIR 的 107 个 30 dB 场景，完成后统一提交。进度保存在本机浏览器。建议使用耳机并保持相同音量；每条片段含公开参考、隐藏参考和两个锚点。</p>
+      <p class="protocol-note">先评 ACE 全部 56 条，再自动进入 AIR 的 107 个场景，完成后统一提交。进度保存在本机浏览器。建议使用耳机并保持相同音量；每条片段含公开参考、隐藏参考和两个锚点。</p>
       <p id="setup-error" class="error" role="alert"></p>
     </section>
 
@@ -36,7 +36,7 @@
         <div class="rail-note"><strong>评分尺度</strong><div class="scale-line"><span>差</span><span>一般</span><span>好</span><span>优</span></div><div class="scale-gradient"></div><p>0–20 差 · 20–40 较差 · 40–60 一般 · 60–80 好 · 80–100 优秀</p></div>
       </aside>
       <div class="workarea">
-        <div class="trial-heading"><div><p id="trial-kicker" class="eyebrow"></p><h2 id="trial-title"></h2><p id="trial-meta" class="muted"></p></div><span id="rated-count" class="rated-count"></span></div>
+        <div class="trial-heading"><div><p id="trial-kicker" class="eyebrow"></p><h2 id="trial-title"></h2></div><span id="rated-count" class="rated-count"></span></div>
         <div class="reference-bar"><div><strong>参考语音</strong><span>以其质量作为本轮比较基准</span></div><audio id="reference-audio" controls preload="none"></audio></div>
         <div id="candidate-list" class="candidate-list"></div>
         <p id="trial-error" class="error" role="alert"></p>
