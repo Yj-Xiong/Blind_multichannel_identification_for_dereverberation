@@ -74,7 +74,7 @@ def main():
     }
     output = args.output
     output.mkdir(parents=True, exist_ok=True)
-    manifest = {"study": "ace56-air30-joint-v2", "dataset_version": "v1.0.1", "models": [
+    manifest = {"study": "ace56-air30-joint-v3", "dataset_version": "v1.0.1", "models": [
         {"id": model, "name": label} for model, label in MODELS
     ], "trials": []}
     for dataset, root in roots.items():

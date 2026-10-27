@@ -1,6 +1,6 @@
 const ENDPOINT = 'https://formspree.io/f/mpqgvpvo';
-const STORAGE_KEY = 'ace56-air30-joint-v2';
-const CANDIDATE_KEYS = ['hidden_reference', 'lowpass_anchor', 'unprocessed'];
+const STORAGE_KEY = 'ace56-air30-joint-v3';
+const CANDIDATE_KEYS = ['hidden_reference', 'unprocessed'];
 const $ = (selector) => document.querySelector(selector);
 const ui = {
   setup: $('#setup'), study: $('#study'), review: $('#review'),
@@ -58,7 +58,8 @@ function orderedTrials() {
 }
 
 function candidates(trial) {
-  return shuffle([...CANDIDATE_KEYS, ...manifest.models.map((model) => model.id)], hash(`${state.listenerId}:${trial.sample_id}`));
+  return shuffle([...CANDIDATE_KEYS, ...manifest.models.map((model) => model.id)],
+    hash(`${state.listenerId}:${trial.sample_id}`));
 }
 
 function save() {
@@ -70,8 +71,14 @@ function getTrial(index = state.index) {
   return trialById.get(state.trialIds[index]);
 }
 
+function validScore(value) {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= 10
+    && Math.abs(value * 10 - Math.round(value * 10)) < 1e-8;
+}
+
 function complete(trial) {
-  return candidateIds.every((key) => Number.isInteger(state.scores[trial.sample_id]?.[key]));
+  const scores = candidateIds.map((key) => state.scores[trial.sample_id]?.[key]);
+  return scores.every(validScore) && new Set(scores.map((score) => score.toFixed(1))).size === candidateIds.length;
 }
 
 function pauseOtherAudio(current) {
@@ -107,14 +114,16 @@ function renderRail() {
 function candidateCard(trial, key, index) {
   const score = state.scores[trial.sample_id]?.[key];
   const card = document.createElement('div');
-  card.className = `candidate${Number.isInteger(score) ? ' rated' : ''}`;
+  card.className = `candidate${validScore(score) ? ' rated' : ''}`;
+  card.dataset.key = key;
   const head = document.createElement('div');
   head.className = 'candidate-head';
   const title = document.createElement('strong');
-  title.textContent = `样本 ${String.fromCharCode(65 + index)}`;
+  const label = `样本 ${String.fromCharCode(65 + index)}`;
+  title.textContent = label;
   const value = document.createElement('span');
   value.className = 'score-value';
-  value.textContent = Number.isInteger(score) ? String(score) : '未评分';
+  value.textContent = validScore(score) ? score.toFixed(1) : '未评分';
   head.append(title, value);
   const player = document.createElement('audio');
   player.controls = true;
@@ -123,22 +132,23 @@ function candidateCard(trial, key, index) {
   const control = document.createElement('div');
   control.className = 'score-control';
   const slider = document.createElement('input');
-  slider.type = 'range'; slider.min = '0'; slider.max = '100'; slider.step = '1';
-  slider.value = Number.isInteger(score) ? String(score) : '50';
+  slider.type = 'range'; slider.min = '0'; slider.max = '10'; slider.step = '0.1';
+  slider.value = validScore(score) ? score.toFixed(1) : '5.0';
   slider.disabled = Boolean(state.submittedAt);
-  slider.setAttribute('aria-label', `样本 ${String.fromCharCode(65 + index)} 评分`);
+  slider.setAttribute('aria-label', `${label}评分`);
   const number = document.createElement('input');
-  number.type = 'number'; number.min = '0'; number.max = '100'; number.step = '1';
-  number.placeholder = '—'; number.value = Number.isInteger(score) ? String(score) : '';
+  number.type = 'number'; number.min = '0'; number.max = '10'; number.step = '0.1';
+  number.placeholder = '—'; number.value = validScore(score) ? score.toFixed(1) : '';
   number.disabled = Boolean(state.submittedAt);
-  number.setAttribute('aria-label', `样本 ${String.fromCharCode(65 + index)} 分数`);
+  number.setAttribute('aria-label', `${label}分数`);
   const update = (raw) => {
     if (raw === '') return;
-    const next = Number(raw);
-    if (!Number.isInteger(next) || next < 0 || next > 100) return;
+    const parsed = Number(raw);
+    if (!Number.isFinite(parsed) || parsed < 0 || parsed > 10) return;
+    const next = Math.round(parsed * 10) / 10;
     state.scores[trial.sample_id] ||= {};
     state.scores[trial.sample_id][key] = next;
-    slider.value = String(next); number.value = String(next); value.textContent = String(next);
+    slider.value = next.toFixed(1); number.value = next.toFixed(1); value.textContent = next.toFixed(1);
     card.classList.add('rated');
     save(); updateProgress();
   };
@@ -151,10 +161,22 @@ function candidateCard(trial, key, index) {
 
 function updateProgress() {
   const trial = getTrial();
-  const rated = candidates(trial).filter((key) => Number.isInteger(state.scores[trial.sample_id]?.[key])).length;
-  ui.ratedCount.textContent = `${rated} / ${candidates(trial).length} 已评分`;
-  ui.next.disabled = rated !== candidates(trial).length;
-  ui.trialError.textContent = '';
+  const scores = state.scores[trial.sample_id] || {};
+  const rated = candidateIds.filter((key) => validScore(scores[key])).length;
+  const byScore = new Map();
+  for (const key of candidateIds) {
+    if (!validScore(scores[key])) continue;
+    const value = scores[key].toFixed(1);
+    if (!byScore.has(value)) byScore.set(value, []);
+    byScore.get(value).push(key);
+  }
+  const duplicates = new Set([...byScore.values()].filter((keys) => keys.length > 1).flat());
+  ui.candidates.querySelectorAll('.candidate').forEach((card) => {
+    card.classList.toggle('conflict', duplicates.has(card.dataset.key));
+  });
+  ui.ratedCount.textContent = `${rated} / ${candidateIds.length} 已评分`;
+  ui.next.disabled = !complete(trial);
+  ui.trialError.textContent = duplicates.size ? '本轮有相同分数，请调整高亮的音频评分。' : '';
   renderRail();
 }
 
@@ -202,9 +224,9 @@ function render() {
 
 function resultPayload() {
   return {
-    schema: 'se.subjective.mushra_style.v2', study: manifest.study,
+    schema: 'se.subjective.mushra_style.v3', study: manifest.study,
     datasetVersion: manifest.dataset_version, sessionId: state.sessionId,
-    candidateIds,
+    candidateIds, scale: { min: 0, max: 10, step: 0.1, uniquePerTrial: true },
     listenerId: state.listenerId, experience: state.experience, device: state.device,
     submittedAt: new Date().toISOString(),
     results: state.trialIds.map((_, index) => {
@@ -226,7 +248,7 @@ function download(payload) {
 
 async function submit() {
   if (!state.trialIds.every((_, index) => complete(getTrial(index)))) {
-    ui.submitError.textContent = '请完成所有片段评分。'; return;
+    ui.submitError.textContent = '请完成所有片段评分，并确保每轮分数互不相同。'; return;
   }
   const payload = resultPayload();
   ui.submit.disabled = true;
@@ -234,7 +256,7 @@ async function submit() {
   try {
     const response = await fetch(ENDPOINT, { method: 'POST', headers: {
       'Content-Type': 'application/json', Accept: 'application/json',
-    }, body: JSON.stringify({ type: 'ace56-air30-joint-v2', study: payload.study,
+    }, body: JSON.stringify({ type: 'ace56-air30-joint-v3', study: payload.study,
       listenerId: payload.listenerId, sessionId: payload.sessionId,
       payloadJson: JSON.stringify(payload) }) });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -292,7 +314,7 @@ ui.trialPicker.addEventListener('change', () => {
 });
 ui.previous.addEventListener('click', () => { state.index -= 1; save(); render(); });
 ui.next.addEventListener('click', () => {
-  if (!complete(getTrial())) { ui.trialError.textContent = '请给本轮全部样本评分。'; return; }
+  if (!complete(getTrial())) { ui.trialError.textContent = '请给本轮全部音频评分，且分数互不相同。'; return; }
   state.index += 1; save(); render(); window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 $('#back-to-trials').addEventListener('click', () => { state.index = state.trialIds.length - 1; save(); render(); });

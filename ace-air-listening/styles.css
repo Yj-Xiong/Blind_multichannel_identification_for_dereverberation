@@ -29,6 +29,9 @@ h2 { font-size: 20px; }
 .study-facts > div:last-child { border: 0; }
 .study-facts strong { font-size: 23px; line-height: 1.2; }
 .study-facts span { margin-top: 4px; font-size: 12px; color: #627672; }
+.scoring-rules { padding: 18px 0; margin-bottom: 22px; border-block: 1px solid #d7e1de; }
+.scoring-rules h2 { margin: 0 0 10px; font-size: 16px; }
+.scoring-rules ol { margin: 0; padding-left: 22px; display: grid; gap: 7px; color: #425855; font-size: 13px; line-height: 1.65; }
 .setup-form { display: grid; grid-template-columns: 1.3fr 1fr 1fr auto; align-items: end; gap: 12px; }
 .setup-form label, .panel-heading label { display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 650; }
 .setup-form input, .setup-form select, .panel-heading select { width: 100%; height: 40px; padding: 0 11px; border-radius: 5px; border: 1px solid #bfcfcb; background: white; color: #17282a; }
@@ -66,16 +69,17 @@ h2 { font-size: 20px; }
 .reference-bar strong { display: block; font-size: 14px; }
 .reference-bar span { display: block; color: #56736d; font-size: 12px; margin-top: 3px; }
 audio { width: 100%; height: 34px; }
-.candidate-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.candidate-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
 .candidate { min-width: 0; padding: 13px 15px 14px; border: 1px solid #d1dcda; border-radius: 6px; background: #fff; }
 .candidate.rated { border-color: #a5ccc4; }
+.candidate.conflict { border-color: #ba5144; background: #fff8f6; }
 .candidate-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 11px; }
 .candidate-head strong { font-size: 14px; }
 .score-value { color: #6a7a77; font-size: 13px; font-weight: 700; }
 .candidate.rated .score-value { color: #087a70; font-size: 16px; }
-.score-control { display: grid; grid-template-columns: minmax(0, 1fr) 52px; align-items: center; gap: 12px; margin-top: 12px; }
+.score-control { display: grid; grid-template-columns: minmax(0, 1fr) 60px; align-items: center; gap: 12px; margin-top: 12px; }
 .score-control input[type="range"] { width: 100%; accent-color: #087a70; }
-.score-control input[type="number"] { width: 52px; height: 32px; padding: 0 4px; text-align: center; border: 1px solid #c6d5d1; border-radius: 4px; }
+.score-control input[type="number"] { width: 60px; height: 32px; padding: 0 4px; text-align: center; border: 1px solid #c6d5d1; border-radius: 4px; }
 .trial-nav { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding-top: 18px; border-top: 1px solid #d4dfdc; margin-top: 8px; }
 .trial-nav span { font-size: 13px; color: #617470; }
 .review { max-width: 800px; }
