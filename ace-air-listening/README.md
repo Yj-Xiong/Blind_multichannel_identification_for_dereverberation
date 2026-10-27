@@ -1,47 +1,32 @@
-# ACE / AIR v1.0.1 Listening Study
+# Dereverb Listening Study
 
-This directory is an independent GitHub Pages entry for complete ACE coverage
-and one 30 dB sample from each AIR scene. It uses a MUSHRA-style 0–100 scale, a
-visible dry reference, a hidden dry reference, a 3.5 kHz low-pass anchor, and
-an unprocessed anchor. The eight enhancement methods are blinded and
-randomized separately for each trial. This is a remote listening study, not a
-controlled ITU-R BS.1534 test.
+This GitHub Pages study evaluates all 56 ACE Chromebook samples and one 30 dB
+sample from each of 107 AIR RIR scenes. The listener completes ACE first, then
+AIR, and submits one combined record covering 163 samples. Progress is kept in
+the same browser under `ace56-air30-joint-v2`; the previous batch-study storage
+and submissions remain separate.
 
-## Coverage and batches
+Each trial uses a visible dry reference, a hidden dry reference, a 3.5 kHz
+low-pass anchor, an unprocessed input, and eight blinded model outputs. The
+candidate order is deterministic for the listener and sample. Ratings use a
+MUSHRA-style 0–100 scale. This remote study is not a controlled ITU-R BS.1534
+test. The navigation allows revisiting completed samples and the first
+incomplete sample; AIR remains inaccessible until all ACE samples are rated.
 
-- ACE Chromebook: 56 samples, 14 RIR scenes × 4 SNR levels.
-- AIR: 107 samples, one 30 dB sample from each of 107 RIR scenes.
-- Every sample appears in exactly one batch within its dataset. Batches have
-  eight samples, except the final AIR batch, which has three. There are seven
-  ACE and 14 AIR batches. Each ACE batch contains two samples at each SNR from
-  eight distinct scenes. Listeners can complete multiple batches in sequence.
-- The batch selector and direct links `?dataset=ACE&batch=1` or
-  `?dataset=AIR&batch=1` let the organizer assign work and cover all 163
-  samples. Each batch is submitted separately. A pseudonymous listener ID is
-  accepted, and completed batches are marked in the same browser.
-- Each trial uses the same dry speech and noisy input across all eight models.
-  Reference and input come from the dataset metadata; model output comes from
-  the corresponding `samples.jsonl` manifest.
+The 163-sample record is sent once to the existing Formspree endpoint with
+type `ace56-air30-joint-v2`. The `candidateIds` array defines the order of
+each trial's numeric `scores` array; its numeric `order` array records the
+blinded presentation order. The record also includes sample IDs, listener
+metadata, dataset version, and submission time. A failed submission downloads
+the record as JSON, and a
+copy is also available after success. The former per-batch records have a
+different study identifier and must not be combined without explicit review.
 
-## Build
-
-`build_assets.py` requires `soundfile` and ffmpeg. Pass the ACE/AIR data roots,
-the Open-Bench inference result root, and this directory as `--output`. Run it
-in the cluster CPU queue because it exports thousands of audio assets. The
-local submission record is `../../build_ace_air_subjective_assets.sh` in the
-AutoResearch workspace.
-
-The generator writes `manifest.json` and MP3 files in `audio/`. It fails on
-missing model output, non-16 kHz input/reference audio, or a changed dataset
-sample count. Every published MP3 has a SHA-256 value in the manifest.
-
-## Collection
-
-`index.html` submits complete batches to the existing Formspree endpoint with
-type `ace56-air30-se-v1`. The submitted record includes dataset, batch number,
-sample IDs, anonymized method order, all 0–100 ratings, and dataset version.
-Submission failure downloads a JSON backup; listeners can also download a copy
-after successful submission. The organizer should assign all 21 batches and
-verify receipt before analyzing model rankings or objective correlations.
+`build_assets.py` generates the manifest and MP3 files from the ACE/AIR v1.0.1
+dataset roots and the eight model inference manifests. Use the cluster CPU
+queue for this bulk export; the local submission script is
+`../../build_ace_air_subjective_assets.sh` in the AutoResearch workspace.
+Every published MP3 has a SHA-256 value in `manifest.json`. The header uses the
+center logo embedded in the Open-Bench presentation template.
 
 Reference: [ITU-R BS.1534](https://www.itu.int/rec/R-REC-BS.1534/en).
