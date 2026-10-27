@@ -21,9 +21,23 @@ The 163-sample record is sent once to the existing Formspree endpoint with
 type `ace56-air30-joint-v3`. The `candidateIds` array defines the order of
 each trial's numeric `scores` array; its numeric `order` array records the
 presentation order. The record includes the score scale, sample IDs, listener
-metadata, dataset version, and submission time. A failed submission downloads
+metadata, dataset version, audio version, and submission time. A failed submission downloads
 the record as JSON; a copy is also available after success. Older records
 must not be combined with this protocol without explicit review.
+
+AIR playback audio is gain matched within each trial. The source WAV first
+channel is measured before encoding; a gain-only adjustment targets −27 dBFS
+whole-file RMS with a −1.5 dBFS peak ceiling. The reference, hidden reference,
+unprocessed input, and eight model outputs use the same rule. A file that hits
+the peak ceiling may remain below the RMS target; the per-track audit is saved
+as `air_loudness_report.json`. The original ACE audio is unchanged.
+
+The new AIR files live under `audio/air-rms27-peak1p5-v1/`, so browser caches
+cannot substitute older MP3s. The manifest is fetched without cache. Existing
+scores for the 56 ACE trials remain in browser storage after refresh; scores
+from the older AIR audio are cleared and the previous state is copied under
+`ace56-air30-joint-v3:before-air-rms27-peak1p5-v1`. The browser does not clear
+the listener's ACE ratings, session ID, or candidate order.
 
 `build_assets.py` generates the manifest and MP3 files from the ACE/AIR v1.0.1
 dataset roots and the eight model inference manifests. Use the cluster CPU

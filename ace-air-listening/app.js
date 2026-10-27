@@ -1,3 +1,5 @@
+import { migrateAirAudio } from './audio_revision.mjs';
+
 const ENDPOINT = 'https://formspree.io/f/mpqgvpvo';
 const STORAGE_KEY = 'ace56-air30-joint-v3';
 const CANDIDATE_KEYS = ['hidden_reference', 'unprocessed'];
@@ -9,6 +11,7 @@ const ui = {
   trialPicker: $('#trial-picker'), aceProgress: $('#ace-progress'), airProgress: $('#air-progress'),
   trialKicker: $('#trial-kicker'), trialTitle: $('#trial-title'),
   progressLabel: $('#progress-label'),
+  audioUpdateNotice: $('#audio-update-notice'),
   ratedCount: $('#rated-count'), reference: $('#reference-audio'), candidates: $('#candidate-list'),
   previous: $('#previous'), next: $('#next'), navProgress: $('#nav-progress'),
   trialError: $('#trial-error'), reviewSummary: $('#review-summary'),
@@ -225,7 +228,8 @@ function render() {
 function resultPayload() {
   return {
     schema: 'se.subjective.mushra_style.v3', study: manifest.study,
-    datasetVersion: manifest.dataset_version, sessionId: state.sessionId,
+    datasetVersion: manifest.dataset_version,
+    audioVersion: manifest.audio_version, sessionId: state.sessionId,
     candidateIds, scale: { min: 0, max: 10, step: 0.1, uniquePerTrial: true },
     listenerId: state.listenerId, experience: state.experience, device: state.device,
     submittedAt: new Date().toISOString(),
@@ -272,7 +276,7 @@ async function submit() {
 
 async function init() {
   try {
-    const response = await fetch('manifest.json');
+    const response = await fetch('manifest.json', { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     manifest = await response.json();
     const trials = orderedTrials();
@@ -289,7 +293,17 @@ async function init() {
       const parsed = JSON.parse(saved);
       const expected = trials.map((trial) => trial.sample_id);
       if (parsed.study === manifest.study && parsed.trialIds?.length === expected.length
-        && parsed.trialIds.every((id, index) => id === expected[index])) state = parsed;
+        && parsed.trialIds.every((id, index) => id === expected[index])) {
+        state = parsed;
+        const airVersion = manifest.audio_version?.AIR || 'original-v1';
+        if ((state.airAudioVersion || 'original-v1') !== airVersion) {
+          localStorage.setItem(`${STORAGE_KEY}:before-${airVersion}`, saved);
+          const migration = migrateAirAudio(state, trials, airVersion);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          ui.audioUpdateNotice.textContent = `AIR 音频已更新。ACE 的 56 条评分保持不变；${migration.removed} 条旧 AIR 评分已清除，请用新音频重新评分。`;
+          ui.audioUpdateNotice.hidden = false;
+        }
+      }
     }
     render();
   } catch (error) {
@@ -303,7 +317,8 @@ $('#start').addEventListener('click', () => {
   if (!listenerId) { ui.setupError.textContent = '请输入听评者编号。'; ui.listener.focus(); return; }
   state = { study: manifest.study, sessionId: crypto.randomUUID(), listenerId,
     experience: ui.experience.value, device: ui.device.value, index: 0,
-    trialIds: orderedTrials().map((trial) => trial.sample_id), scores: {} };
+    trialIds: orderedTrials().map((trial) => trial.sample_id), scores: {},
+    airAudioVersion: manifest.audio_version?.AIR || 'original-v1' };
   save(); render();
 });
 ui.trialPicker.addEventListener('change', () => {
