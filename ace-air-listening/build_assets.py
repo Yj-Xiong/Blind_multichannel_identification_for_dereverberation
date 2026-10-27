@@ -39,14 +39,12 @@ def selected_metadata(root, dataset):
     return sorted(rows, key=lambda row: row["sample_id"])
 
 
-def encode(source, target, ffmpeg, lowpass=False):
+def encode(source, target, ffmpeg):
     target.parent.mkdir(parents=True, exist_ok=True)
     if target.is_file() and target.stat().st_size > 0:
         return
     command = [ffmpeg, "-hide_banner", "-loglevel", "error", "-nostdin", "-y", "-i", str(source)]
     filters = "pan=mono|c0=c0"
-    if lowpass:
-        filters += ",lowpass=f=3500"
     command += ["-af", filters, "-ar", "16000", "-codec:a", "libmp3lame", "-b:a", "64k", str(target)]
     subprocess.run(command, check=True)
 
@@ -86,20 +84,19 @@ def main():
                 raise ValueError(f"Expected 16 kHz: {sample_id}")
             base = output / "audio" / dataset.lower() / sample_id
             tracks = {
-                "reference": (ref_path, False),
-                "hidden_reference": (ref_path, False),
-                "unprocessed": (input_path, False),
-                "lowpass_anchor": (ref_path, True),
+                "reference": ref_path,
+                "hidden_reference": ref_path,
+                "unprocessed": input_path,
             }
             for model, _ in MODELS:
                 row = samples[(dataset, model)][sample_id]
                 if not Path(row["enhanced_audio"]).is_file():
                     raise FileNotFoundError(f"Missing output: {dataset} {sample_id} {model}")
-                tracks[model] = (Path(row["enhanced_audio"]), False)
+                tracks[model] = Path(row["enhanced_audio"])
             trial_tracks = {}
-            for key, (source, lowpass) in tracks.items():
+            for key, source in tracks.items():
                 target = base / f"{key}.mp3"
-                encode(source, target, args.ffmpeg, lowpass)
+                encode(source, target, args.ffmpeg)
                 trial_tracks[key] = {"file": target.relative_to(output).as_posix(), "sha256": sha256(target)}
             manifest["trials"].append({
                 "dataset": dataset,

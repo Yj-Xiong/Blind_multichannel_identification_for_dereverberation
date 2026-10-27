@@ -58,10 +58,6 @@
           "file": "audio/ace/ace_0001_snr10dB/unprocessed.mp3",
           "sha256": "d4c1a3de7ef9204f2f99f0796bfb851cc1fe9132b2c19b2dd8c2d19e298a8dfb"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0001_snr10dB/lowpass_anchor.mp3",
-          "sha256": "6aab726222f2b66aeb65c3f93ac5cacfc02f6909b6f6091933713c327422e5ee"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0001_snr10dB/cleanmel-offline-l-map.mp3",
           "sha256": "bcf4d55e6e2cc9c11795a44d756056d3cade6a6052cb4309b719b940aeceee75"
@@ -117,10 +113,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0001_snr20dB/unprocessed.mp3",
           "sha256": "507a1fd04c4e445f47083ad024fc3b63b6b473f3b3d8a7053104b0128291a2b2"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0001_snr20dB/lowpass_anchor.mp3",
-          "sha256": "6aab726222f2b66aeb65c3f93ac5cacfc02f6909b6f6091933713c327422e5ee"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0001_snr20dB/cleanmel-offline-l-map.mp3",
@@ -178,10 +170,6 @@
           "file": "audio/ace/ace_0001_snr30dB/unprocessed.mp3",
           "sha256": "5b64727d10d569f4af2b5fc06fe793f127f0fedfddfba2018012120a9c122f8a"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0001_snr30dB/lowpass_anchor.mp3",
-          "sha256": "6aab726222f2b66aeb65c3f93ac5cacfc02f6909b6f6091933713c327422e5ee"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0001_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "e4de3929b66ab0596d801b89a5791aa64d260a4cb205577c59c9cd6795641655"
@@ -237,10 +225,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0001_snr40dB/unprocessed.mp3",
           "sha256": "2e9433be927cb471001475fe7c2568ebd358c9438aa37b98f843894fa9d99501"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0001_snr40dB/lowpass_anchor.mp3",
-          "sha256": "6aab726222f2b66aeb65c3f93ac5cacfc02f6909b6f6091933713c327422e5ee"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0001_snr40dB/cleanmel-offline-l-map.mp3",
@@ -298,10 +282,6 @@
           "file": "audio/ace/ace_0002_snr10dB/unprocessed.mp3",
           "sha256": "86009d45227e3414a00e78e235f7ba0aadcbe6201c046fcf9772874b4b076645"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0002_snr10dB/lowpass_anchor.mp3",
-          "sha256": "4a6d68616c076dceac11c3ef9370e23d9e999a041565a86c924b7c545b9f01f9"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0002_snr10dB/cleanmel-offline-l-map.mp3",
           "sha256": "c6d110143cb61d5e20bfa1115f55321f1eaa124a06690ab08fa789108f900d4e"
@@ -357,10 +337,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0002_snr20dB/unprocessed.mp3",
           "sha256": "2227ff5557ed8b8fe24d8e0716215fa142395e0f5fbf88a29cea16534abc9504"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0002_snr20dB/lowpass_anchor.mp3",
-          "sha256": "4a6d68616c076dceac11c3ef9370e23d9e999a041565a86c924b7c545b9f01f9"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0002_snr20dB/cleanmel-offline-l-map.mp3",
@@ -418,10 +394,6 @@
           "file": "audio/ace/ace_0002_snr30dB/unprocessed.mp3",
           "sha256": "bf1f7b2e80120353fddbf7b0c41dc2c81318c34a8cdf933902130b43801c5e34"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0002_snr30dB/lowpass_anchor.mp3",
-          "sha256": "4a6d68616c076dceac11c3ef9370e23d9e999a041565a86c924b7c545b9f01f9"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0002_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "5c37d7f05e1e37c554467d0b88459a62a337d7484304d08025197e67aa5af764"
@@ -477,10 +449,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0002_snr40dB/unprocessed.mp3",
           "sha256": "ac1ce7d7b8c63c642d264617e0d3607b1a87de75d7d7931edb4ade470c25f545"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0002_snr40dB/lowpass_anchor.mp3",
-          "sha256": "4a6d68616c076dceac11c3ef9370e23d9e999a041565a86c924b7c545b9f01f9"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0002_snr40dB/cleanmel-offline-l-map.mp3",
@@ -538,10 +506,6 @@
           "file": "audio/ace/ace_0003_snr10dB/unprocessed.mp3",
           "sha256": "2067fc286b8cb2c8a22bb5dbe5c7d22b312aa308cbbb80129d3d103efba001a4"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0003_snr10dB/lowpass_anchor.mp3",
-          "sha256": "699abcfd9f7d3d01d845b0933a4342a0d13bf3828e54fd79c1dfa370c1ba9599"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0003_snr10dB/cleanmel-offline-l-map.mp3",
           "sha256": "8e94d77e689671a1452455d98ed32329d7d053a3bcd2f4d0fdf779f7cc52fc9a"
@@ -597,10 +561,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0003_snr20dB/unprocessed.mp3",
           "sha256": "464e7e8fabab16ad5a661245d9e1d20387dd45c9017afae8edeb2e8e21f21cf9"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0003_snr20dB/lowpass_anchor.mp3",
-          "sha256": "699abcfd9f7d3d01d845b0933a4342a0d13bf3828e54fd79c1dfa370c1ba9599"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0003_snr20dB/cleanmel-offline-l-map.mp3",
@@ -658,10 +618,6 @@
           "file": "audio/ace/ace_0003_snr30dB/unprocessed.mp3",
           "sha256": "2c6c11a9b54fc7281be660534cbc5baad3c836ad68c2128075b14db58a043415"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0003_snr30dB/lowpass_anchor.mp3",
-          "sha256": "699abcfd9f7d3d01d845b0933a4342a0d13bf3828e54fd79c1dfa370c1ba9599"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0003_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "dba4505a06905a048b01674483bdeee7994592d5109f24659cd29a6f852f4086"
@@ -717,10 +673,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0003_snr40dB/unprocessed.mp3",
           "sha256": "5b8ee9d5c5437df4a7d431b07ddffd78227c1d7f02ec5f39351e5d9084de86b0"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0003_snr40dB/lowpass_anchor.mp3",
-          "sha256": "699abcfd9f7d3d01d845b0933a4342a0d13bf3828e54fd79c1dfa370c1ba9599"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0003_snr40dB/cleanmel-offline-l-map.mp3",
@@ -778,10 +730,6 @@
           "file": "audio/ace/ace_0004_snr10dB/unprocessed.mp3",
           "sha256": "3c6bf111955d242ae7c0e3f662e03b056de95e11fd6346b019dd0518425e951b"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0004_snr10dB/lowpass_anchor.mp3",
-          "sha256": "6748759ba2c167933506b8362f7c23bbfd041d20ceaed49945808894ca36f86d"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0004_snr10dB/cleanmel-offline-l-map.mp3",
           "sha256": "aad1dcade1b676f9fff7de1822a331d4ab10bf609f243c866d3252dad0bbac3e"
@@ -837,10 +785,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0004_snr20dB/unprocessed.mp3",
           "sha256": "694c8e2b2f8de4954b0e25ca0a99846c980e363cc751395523f5c5a54d1e3ee5"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0004_snr20dB/lowpass_anchor.mp3",
-          "sha256": "6748759ba2c167933506b8362f7c23bbfd041d20ceaed49945808894ca36f86d"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0004_snr20dB/cleanmel-offline-l-map.mp3",
@@ -898,10 +842,6 @@
           "file": "audio/ace/ace_0004_snr30dB/unprocessed.mp3",
           "sha256": "0b76af8daa8b4d3aae2237c89f3800f3bf43889d756273ff30af9abec69c0ff9"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0004_snr30dB/lowpass_anchor.mp3",
-          "sha256": "6748759ba2c167933506b8362f7c23bbfd041d20ceaed49945808894ca36f86d"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0004_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "65e01c88a4607ca59e4002f56143acdc7fcfae9215be2fa66eb3b750ffe4d156"
@@ -957,10 +897,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0004_snr40dB/unprocessed.mp3",
           "sha256": "80103c3706c9feda44e56e8bee236339e64451b4d3751e558cd1242ae873e969"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0004_snr40dB/lowpass_anchor.mp3",
-          "sha256": "6748759ba2c167933506b8362f7c23bbfd041d20ceaed49945808894ca36f86d"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0004_snr40dB/cleanmel-offline-l-map.mp3",
@@ -1018,10 +954,6 @@
           "file": "audio/ace/ace_0005_snr10dB/unprocessed.mp3",
           "sha256": "ce3948d7e2ba4549386f8c33efa63f111be4e79d0ddf91cc7560436411554316"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0005_snr10dB/lowpass_anchor.mp3",
-          "sha256": "652ff50639ea0d15c7ed7728372b194139a72a20c9b1145e3cd1abfc103ea909"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0005_snr10dB/cleanmel-offline-l-map.mp3",
           "sha256": "4ae0aaf7f1a5ad74dd1ab42d6049668923bdcebb4aa7f2faa19e83258bb11039"
@@ -1077,10 +1009,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0005_snr20dB/unprocessed.mp3",
           "sha256": "cae81b6ad127a6b1b9d3931411c95b2f51a6663cf9a6d2f6a15faa5930a6d97a"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0005_snr20dB/lowpass_anchor.mp3",
-          "sha256": "652ff50639ea0d15c7ed7728372b194139a72a20c9b1145e3cd1abfc103ea909"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0005_snr20dB/cleanmel-offline-l-map.mp3",
@@ -1138,10 +1066,6 @@
           "file": "audio/ace/ace_0005_snr30dB/unprocessed.mp3",
           "sha256": "6f4a63d30722686a895858c203f7f27af5bd5eda73ee009eea1d11cd849da99a"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0005_snr30dB/lowpass_anchor.mp3",
-          "sha256": "652ff50639ea0d15c7ed7728372b194139a72a20c9b1145e3cd1abfc103ea909"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0005_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "f8f5ae2611b665e11b2ff375461216cf9e333f9d1ea18e5bad1a07baa4fad90b"
@@ -1197,10 +1121,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0005_snr40dB/unprocessed.mp3",
           "sha256": "a3c2512ceee1781eecacd7d8e63b476a3c44f67e94b546889f6fcf9c9ee1668a"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0005_snr40dB/lowpass_anchor.mp3",
-          "sha256": "652ff50639ea0d15c7ed7728372b194139a72a20c9b1145e3cd1abfc103ea909"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0005_snr40dB/cleanmel-offline-l-map.mp3",
@@ -1258,10 +1178,6 @@
           "file": "audio/ace/ace_0006_snr10dB/unprocessed.mp3",
           "sha256": "7630cae80cd40d8e5968a62fbcc17f3aa968cd008460539f57595a589295476d"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0006_snr10dB/lowpass_anchor.mp3",
-          "sha256": "dfc5963de3e4ea7fe21dd78e4f44854f026c82fc5eb892fa6ec45c75c5f19e1f"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0006_snr10dB/cleanmel-offline-l-map.mp3",
           "sha256": "a9fc85a7d5de5481eef65644bae3ab37e23be6e9ee8512b4a87946737dc35348"
@@ -1317,10 +1233,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0006_snr20dB/unprocessed.mp3",
           "sha256": "99a05813e25bd16d2e41794e201434870ae3901c9dac9dce8682ad867f09af1f"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0006_snr20dB/lowpass_anchor.mp3",
-          "sha256": "dfc5963de3e4ea7fe21dd78e4f44854f026c82fc5eb892fa6ec45c75c5f19e1f"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0006_snr20dB/cleanmel-offline-l-map.mp3",
@@ -1378,10 +1290,6 @@
           "file": "audio/ace/ace_0006_snr30dB/unprocessed.mp3",
           "sha256": "4a63433e2240798140612dc11165b646d6654ae1a1330b26014f7a8898ec6fad"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0006_snr30dB/lowpass_anchor.mp3",
-          "sha256": "dfc5963de3e4ea7fe21dd78e4f44854f026c82fc5eb892fa6ec45c75c5f19e1f"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0006_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "f84e5893d968f52debb2b55be260318b0c7168a33f200e71c6ba45780c1a7501"
@@ -1437,10 +1345,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0006_snr40dB/unprocessed.mp3",
           "sha256": "9f917e7ef6e30d2fab79bff3210d085296b559d98b0655fe30db682c11323f59"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0006_snr40dB/lowpass_anchor.mp3",
-          "sha256": "dfc5963de3e4ea7fe21dd78e4f44854f026c82fc5eb892fa6ec45c75c5f19e1f"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0006_snr40dB/cleanmel-offline-l-map.mp3",
@@ -1498,10 +1402,6 @@
           "file": "audio/ace/ace_0007_snr10dB/unprocessed.mp3",
           "sha256": "d8f95a3503b1d0a7945b6ca0191e1b4c7a5a270ba4885008438230b3870b9586"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0007_snr10dB/lowpass_anchor.mp3",
-          "sha256": "4533810f7ae9177bc6ac47dcfed38ada170a48058d61f4d03fae5f54dd2ff207"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0007_snr10dB/cleanmel-offline-l-map.mp3",
           "sha256": "23f8be216b9a8e3a77eeb16f8ee48aaca258f04c1abfbf494a519a7c9078d611"
@@ -1557,10 +1457,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0007_snr20dB/unprocessed.mp3",
           "sha256": "387660cac708b7e65e1b70794cfff66be1f828d53135a2b1bc7a07edc58c5579"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0007_snr20dB/lowpass_anchor.mp3",
-          "sha256": "4533810f7ae9177bc6ac47dcfed38ada170a48058d61f4d03fae5f54dd2ff207"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0007_snr20dB/cleanmel-offline-l-map.mp3",
@@ -1618,10 +1514,6 @@
           "file": "audio/ace/ace_0007_snr30dB/unprocessed.mp3",
           "sha256": "767bff8a446ab00cad7a8d8be74ab5571d5bd3f2b35571ba55dfff628e2dc514"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0007_snr30dB/lowpass_anchor.mp3",
-          "sha256": "4533810f7ae9177bc6ac47dcfed38ada170a48058d61f4d03fae5f54dd2ff207"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0007_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "b10ceb0947f9be10536615ec441fd35b820dd39eba1d6f20ee854e89e6fd2e26"
@@ -1677,10 +1569,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0007_snr40dB/unprocessed.mp3",
           "sha256": "4cf6dbd175472cda95aefb77a03dc3b08d75bde922f63b3b741098508112677a"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0007_snr40dB/lowpass_anchor.mp3",
-          "sha256": "4533810f7ae9177bc6ac47dcfed38ada170a48058d61f4d03fae5f54dd2ff207"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0007_snr40dB/cleanmel-offline-l-map.mp3",
@@ -1738,10 +1626,6 @@
           "file": "audio/ace/ace_0008_snr10dB/unprocessed.mp3",
           "sha256": "afd8846d359a983ee66f4bfc718690ee74128b3d867b81e8e398b8134aee6d8b"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0008_snr10dB/lowpass_anchor.mp3",
-          "sha256": "60c2bfed7fcd487d9e260e695011b3b4e356de8df605444b46d9eb7580848a17"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0008_snr10dB/cleanmel-offline-l-map.mp3",
           "sha256": "2dd1aaf5f923449f9caf34e34579366ce87a8db7803be3a1b436267fa55495a2"
@@ -1797,10 +1681,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0008_snr20dB/unprocessed.mp3",
           "sha256": "e84b853e6de30583342341f19f38f691908fc2d6622a9fb2b2b1cead0800b3d3"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0008_snr20dB/lowpass_anchor.mp3",
-          "sha256": "60c2bfed7fcd487d9e260e695011b3b4e356de8df605444b46d9eb7580848a17"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0008_snr20dB/cleanmel-offline-l-map.mp3",
@@ -1858,10 +1738,6 @@
           "file": "audio/ace/ace_0008_snr30dB/unprocessed.mp3",
           "sha256": "ee79d1f7acbf98a4c03d5f3a05aeb7d0402dd55dbb196e8764df441efc15f703"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0008_snr30dB/lowpass_anchor.mp3",
-          "sha256": "60c2bfed7fcd487d9e260e695011b3b4e356de8df605444b46d9eb7580848a17"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0008_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "26bec8a78a4cf492dda325dc715d3d5496079950b839cf10d8321e7ba9f710c8"
@@ -1917,10 +1793,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0008_snr40dB/unprocessed.mp3",
           "sha256": "3495e508e835275490ab085f73dfecbb84ad251e472ba2cc26975ba11285c113"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0008_snr40dB/lowpass_anchor.mp3",
-          "sha256": "60c2bfed7fcd487d9e260e695011b3b4e356de8df605444b46d9eb7580848a17"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0008_snr40dB/cleanmel-offline-l-map.mp3",
@@ -1978,10 +1850,6 @@
           "file": "audio/ace/ace_0009_snr10dB/unprocessed.mp3",
           "sha256": "121584505a59c61e7a5c7ab6c307d9fd8c8bc7dcd2b243bc50176d0ec8b5aa08"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0009_snr10dB/lowpass_anchor.mp3",
-          "sha256": "62d09604746e7ea927b0581dc59ed26cc33a62e05d68eedc86242d4fea2bbb33"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0009_snr10dB/cleanmel-offline-l-map.mp3",
           "sha256": "a526aa01ed72058ca8617f54f01f70e668764e4051b792dc04458e569d9bbd21"
@@ -2037,10 +1905,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0009_snr20dB/unprocessed.mp3",
           "sha256": "765a7b7478fc8d41ec359703ddf4b069ac0d5ac4c3e219383d757ec8e06c66a2"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0009_snr20dB/lowpass_anchor.mp3",
-          "sha256": "62d09604746e7ea927b0581dc59ed26cc33a62e05d68eedc86242d4fea2bbb33"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0009_snr20dB/cleanmel-offline-l-map.mp3",
@@ -2098,10 +1962,6 @@
           "file": "audio/ace/ace_0009_snr30dB/unprocessed.mp3",
           "sha256": "a22effe3b97e61ac6da15902ec5ab67fca7a42210743b31ec21c94a000e555f2"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0009_snr30dB/lowpass_anchor.mp3",
-          "sha256": "62d09604746e7ea927b0581dc59ed26cc33a62e05d68eedc86242d4fea2bbb33"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0009_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "9aefad9910231c6bac2b5a6af1873e99da0fd23c081daa33536d670ffe2670d9"
@@ -2157,10 +2017,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0009_snr40dB/unprocessed.mp3",
           "sha256": "a020e2b7b8ed5f8b7401e2720722ebdccca2799c9acbea7f2442b71ecd20f588"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0009_snr40dB/lowpass_anchor.mp3",
-          "sha256": "62d09604746e7ea927b0581dc59ed26cc33a62e05d68eedc86242d4fea2bbb33"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0009_snr40dB/cleanmel-offline-l-map.mp3",
@@ -2218,10 +2074,6 @@
           "file": "audio/ace/ace_0010_snr10dB/unprocessed.mp3",
           "sha256": "89a4b126b24e4ed12642df2756ad9031d53347ec357ada7343f747d620cc4c8a"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0010_snr10dB/lowpass_anchor.mp3",
-          "sha256": "ef0983793d22bd77c8aaba7e66210fc3dc5b45eba0cf651181657a393cd8117b"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0010_snr10dB/cleanmel-offline-l-map.mp3",
           "sha256": "f1d38ef4c2f0a1cc88758205fbcbf6d25ae24111b20f86b8a45446b94d4baad8"
@@ -2277,10 +2129,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0010_snr20dB/unprocessed.mp3",
           "sha256": "f781da85f7235885b0da4302a6835331f18164fa9efec311ef8ea294ff6c4230"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0010_snr20dB/lowpass_anchor.mp3",
-          "sha256": "ef0983793d22bd77c8aaba7e66210fc3dc5b45eba0cf651181657a393cd8117b"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0010_snr20dB/cleanmel-offline-l-map.mp3",
@@ -2338,10 +2186,6 @@
           "file": "audio/ace/ace_0010_snr30dB/unprocessed.mp3",
           "sha256": "a19d0d09a3f7f83fcff454913c39b6c0bd7240afea2a6bc2f9730affad355281"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0010_snr30dB/lowpass_anchor.mp3",
-          "sha256": "ef0983793d22bd77c8aaba7e66210fc3dc5b45eba0cf651181657a393cd8117b"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0010_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "7ceaaedb32e6a4210bbcd6ced3f009e73bc4c8bc99fa72b0d19d21e8f3256808"
@@ -2397,10 +2241,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0010_snr40dB/unprocessed.mp3",
           "sha256": "b7f107bad5f3e9959be7b70ba8f00643f1386a02263ff386429831d6e1ab9e7a"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0010_snr40dB/lowpass_anchor.mp3",
-          "sha256": "ef0983793d22bd77c8aaba7e66210fc3dc5b45eba0cf651181657a393cd8117b"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0010_snr40dB/cleanmel-offline-l-map.mp3",
@@ -2458,10 +2298,6 @@
           "file": "audio/ace/ace_0011_snr10dB/unprocessed.mp3",
           "sha256": "b466ff3eeab8d0126c121f42ad76c8f2fbc1b3be8d36f897a44a37f8d1aac1f0"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0011_snr10dB/lowpass_anchor.mp3",
-          "sha256": "884eeacc5a112954ab68a52654a6744c74cad767e94e546860cc054ef533c4ed"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0011_snr10dB/cleanmel-offline-l-map.mp3",
           "sha256": "173b64a8071d41aafeeb02ef0d71f84c454f2489290f4c33196f1984df4306d1"
@@ -2517,10 +2353,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0011_snr20dB/unprocessed.mp3",
           "sha256": "9f8e3c975239e3fa754b81ec23efff0a47a139bb41a4defc02e69dc0080bcfec"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0011_snr20dB/lowpass_anchor.mp3",
-          "sha256": "884eeacc5a112954ab68a52654a6744c74cad767e94e546860cc054ef533c4ed"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0011_snr20dB/cleanmel-offline-l-map.mp3",
@@ -2578,10 +2410,6 @@
           "file": "audio/ace/ace_0011_snr30dB/unprocessed.mp3",
           "sha256": "f63d48567ba515980f0f4025a4d5a40fc5c7d1ab29d82e3e2a8f82973190aede"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0011_snr30dB/lowpass_anchor.mp3",
-          "sha256": "884eeacc5a112954ab68a52654a6744c74cad767e94e546860cc054ef533c4ed"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0011_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "ba84824cbe12adcecfbd97ce7ee7b321dc64fe90509333af0b053f98d1ad2980"
@@ -2637,10 +2465,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0011_snr40dB/unprocessed.mp3",
           "sha256": "1392c9aa60dddbcbbde30864f38143fee9fafe18911195bb2b4efed1fb081ca5"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0011_snr40dB/lowpass_anchor.mp3",
-          "sha256": "884eeacc5a112954ab68a52654a6744c74cad767e94e546860cc054ef533c4ed"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0011_snr40dB/cleanmel-offline-l-map.mp3",
@@ -2698,10 +2522,6 @@
           "file": "audio/ace/ace_0012_snr10dB/unprocessed.mp3",
           "sha256": "579ac24668574008be1c636f1f74d82d22299a89f270d06c8dc4d8241af8f801"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0012_snr10dB/lowpass_anchor.mp3",
-          "sha256": "626af1e167daee9f4b30ed8165a4cd14e3d9973b0322dfde23712351cdb86d9d"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0012_snr10dB/cleanmel-offline-l-map.mp3",
           "sha256": "b8c2fa63117515d5608df9d2d0d6534f276fad55b8a79b33e218c473beb6fe5d"
@@ -2757,10 +2577,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0012_snr20dB/unprocessed.mp3",
           "sha256": "86c4abd0c56842dfb9531d15bbc20f3b8ecb23b3da191f92462870bb11e66aff"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0012_snr20dB/lowpass_anchor.mp3",
-          "sha256": "626af1e167daee9f4b30ed8165a4cd14e3d9973b0322dfde23712351cdb86d9d"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0012_snr20dB/cleanmel-offline-l-map.mp3",
@@ -2818,10 +2634,6 @@
           "file": "audio/ace/ace_0012_snr30dB/unprocessed.mp3",
           "sha256": "8721886d829ef13bd7781641aa5c750573976e3f9d4fa136b08d388f025e69eb"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0012_snr30dB/lowpass_anchor.mp3",
-          "sha256": "626af1e167daee9f4b30ed8165a4cd14e3d9973b0322dfde23712351cdb86d9d"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0012_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "cb531c92c172530c86fcb433e0ba99806c2bb2c77165a8eaa7c3decec899076a"
@@ -2877,10 +2689,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0012_snr40dB/unprocessed.mp3",
           "sha256": "e237193cc63392a84b833913922c6f33330204d236a7e845d8bc42cc16afb3e2"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0012_snr40dB/lowpass_anchor.mp3",
-          "sha256": "626af1e167daee9f4b30ed8165a4cd14e3d9973b0322dfde23712351cdb86d9d"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0012_snr40dB/cleanmel-offline-l-map.mp3",
@@ -2938,10 +2746,6 @@
           "file": "audio/ace/ace_0013_snr10dB/unprocessed.mp3",
           "sha256": "4608c2c3e99b74138ece3260468714e877fb788fa7d70c6ecbde7f79910caf9f"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0013_snr10dB/lowpass_anchor.mp3",
-          "sha256": "7fd52892f574008c4e219d36db926f451220d0fb6fd4b7b4e8e6686369582d2a"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0013_snr10dB/cleanmel-offline-l-map.mp3",
           "sha256": "3795b86a3403ce4a2030ad07da66b1f93b2d45499e2f3258c15e380b52171357"
@@ -2997,10 +2801,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0013_snr20dB/unprocessed.mp3",
           "sha256": "138af6ec3336f602964154ea48c7de52a012f58750bf633a13d3195ce3a0d00c"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0013_snr20dB/lowpass_anchor.mp3",
-          "sha256": "7fd52892f574008c4e219d36db926f451220d0fb6fd4b7b4e8e6686369582d2a"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0013_snr20dB/cleanmel-offline-l-map.mp3",
@@ -3058,10 +2858,6 @@
           "file": "audio/ace/ace_0013_snr30dB/unprocessed.mp3",
           "sha256": "1df3ecb0be2cc303cb22eccd7b2830b43655081b3a45390eed1699db1aa67077"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0013_snr30dB/lowpass_anchor.mp3",
-          "sha256": "7fd52892f574008c4e219d36db926f451220d0fb6fd4b7b4e8e6686369582d2a"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0013_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "a053a7cfbc7e7e8a88fdeffd5a62cec9b8ffd31d812435780d73757aca7f0a62"
@@ -3117,10 +2913,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0013_snr40dB/unprocessed.mp3",
           "sha256": "3f2af1f43d99bfedd6fda391ce82c51b6c6f224a305545a2a6d38c0095baecc3"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0013_snr40dB/lowpass_anchor.mp3",
-          "sha256": "7fd52892f574008c4e219d36db926f451220d0fb6fd4b7b4e8e6686369582d2a"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0013_snr40dB/cleanmel-offline-l-map.mp3",
@@ -3178,10 +2970,6 @@
           "file": "audio/ace/ace_0014_snr10dB/unprocessed.mp3",
           "sha256": "7270b38399f7b0d997a8959f885acc272f90fd734ede73b29097575166b83077"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0014_snr10dB/lowpass_anchor.mp3",
-          "sha256": "0a9e102f52e74147225b746ec55c7a4f4209152fbec91ace020ef9529e5a3236"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0014_snr10dB/cleanmel-offline-l-map.mp3",
           "sha256": "085697290ed546a284e5c99a7c926462c11d32af022391b83bdf2ad64e7b64d4"
@@ -3237,10 +3025,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0014_snr20dB/unprocessed.mp3",
           "sha256": "d72417733d2e9af95edc91d118ed310ccf666db1f08eb79228aa4f10c83d0fbc"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0014_snr20dB/lowpass_anchor.mp3",
-          "sha256": "0a9e102f52e74147225b746ec55c7a4f4209152fbec91ace020ef9529e5a3236"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0014_snr20dB/cleanmel-offline-l-map.mp3",
@@ -3298,10 +3082,6 @@
           "file": "audio/ace/ace_0014_snr30dB/unprocessed.mp3",
           "sha256": "d12dc8a90dc64da88736f5760f52c04d624512483b98cedfe9675d4957881238"
         },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0014_snr30dB/lowpass_anchor.mp3",
-          "sha256": "0a9e102f52e74147225b746ec55c7a4f4209152fbec91ace020ef9529e5a3236"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0014_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "57608d81a6828c1ef5d39cbe07a3ef8ddc17b7c8372dcb2d01a391b7059824f1"
@@ -3357,10 +3137,6 @@
         "unprocessed": {
           "file": "audio/ace/ace_0014_snr40dB/unprocessed.mp3",
           "sha256": "dd7a0531611eb17778124967c658e5875b27de1459b268c9cb507326435332ce"
-        },
-        "lowpass_anchor": {
-          "file": "audio/ace/ace_0014_snr40dB/lowpass_anchor.mp3",
-          "sha256": "0a9e102f52e74147225b746ec55c7a4f4209152fbec91ace020ef9529e5a3236"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/ace/ace_0014_snr40dB/cleanmel-offline-l-map.mp3",
@@ -3418,10 +3194,6 @@
           "file": "audio/air/air_0001_snr30dB/unprocessed.mp3",
           "sha256": "12aa5c54de38068d4a8d33ae694294906bca85e9e9590e631c3e5aa550deafe7"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0001_snr30dB/lowpass_anchor.mp3",
-          "sha256": "ee6339191a789fc20629c439b94d0bcad9528070587fe9c235ebca08618801c3"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0001_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "7a465b096cea317f74bc8b9fac0934a86b34cff466d9747af4dd41fbd37f398a"
@@ -3477,10 +3249,6 @@
         "unprocessed": {
           "file": "audio/air/air_0002_snr30dB/unprocessed.mp3",
           "sha256": "1bde9fe39676950d1feaf40426c2ef3e86d0e1ae87c561cc395afbf287471d59"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0002_snr30dB/lowpass_anchor.mp3",
-          "sha256": "89886fe3e369bca7bd0e8f783e7c05c0b011397564bdda3908ef65aa3eb576f5"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0002_snr30dB/cleanmel-offline-l-map.mp3",
@@ -3538,10 +3306,6 @@
           "file": "audio/air/air_0003_snr30dB/unprocessed.mp3",
           "sha256": "6862153ebb86b74e7f3c73fd5d88b41091efeac438a54876eb3653c8fbeecd8f"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0003_snr30dB/lowpass_anchor.mp3",
-          "sha256": "b24d9af8ed481379c8f857f3cf593fe78e86eef463101da0f183bb5ac1a4529d"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0003_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "86388612f83de09b26eec789af9de631ae37e6bee3fb3ab2377801e578fa3a69"
@@ -3597,10 +3361,6 @@
         "unprocessed": {
           "file": "audio/air/air_0004_snr30dB/unprocessed.mp3",
           "sha256": "b3f30c10951fd6920523431828678faea931d3dd965e2d4fe83575e133d8a9cb"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0004_snr30dB/lowpass_anchor.mp3",
-          "sha256": "ffff9188c57b9040ef5cac3012ddf6099f8e24586fae525a018428ed3e92b06b"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0004_snr30dB/cleanmel-offline-l-map.mp3",
@@ -3658,10 +3418,6 @@
           "file": "audio/air/air_0005_snr30dB/unprocessed.mp3",
           "sha256": "0e8b4b0489a65e1002e59acd25ea25893b7aadca1f0bb9d26b8cd093bf1befac"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0005_snr30dB/lowpass_anchor.mp3",
-          "sha256": "5ab7e132c13a9b5e2c79b3c754a3188f826dfb0f789bce7941c51de3df6d3c3f"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0005_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "0d206c9e7d286a3f32d786111e0cece99c48002be7b7212753f0b6feb7361ef6"
@@ -3717,10 +3473,6 @@
         "unprocessed": {
           "file": "audio/air/air_0006_snr30dB/unprocessed.mp3",
           "sha256": "dcabe40c8ffdcbdf59f5727ccbacd624b79a5ddb500863c385633611ab5ef4f9"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0006_snr30dB/lowpass_anchor.mp3",
-          "sha256": "e6adcf4de1245b043c4b7a8d5e541393d10bc757c958dcffdb44bdc3e1c1d24d"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0006_snr30dB/cleanmel-offline-l-map.mp3",
@@ -3778,10 +3530,6 @@
           "file": "audio/air/air_0007_snr30dB/unprocessed.mp3",
           "sha256": "8e855daf9e3ea247a766c4fbca0d4f2fbe592016b870e9b0b5ab7ff06862121a"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0007_snr30dB/lowpass_anchor.mp3",
-          "sha256": "557f242e9d5d4e8720cad96f41e2fb23fddecd621078a4930f9587514c75b2ed"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0007_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "a23a14a8d1da31644e0dc83a770366d0fdbddd97b82f59177f1114cb705541c5"
@@ -3837,10 +3585,6 @@
         "unprocessed": {
           "file": "audio/air/air_0008_snr30dB/unprocessed.mp3",
           "sha256": "994576330958a23ac1e19e0e8d19628f0edbaf761cf22b5d1e1e461707f25d4e"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0008_snr30dB/lowpass_anchor.mp3",
-          "sha256": "60c2bfed7fcd487d9e260e695011b3b4e356de8df605444b46d9eb7580848a17"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0008_snr30dB/cleanmel-offline-l-map.mp3",
@@ -3898,10 +3642,6 @@
           "file": "audio/air/air_0009_snr30dB/unprocessed.mp3",
           "sha256": "e3a5ba6407608a63691175438a88145d031e230459102345bdaed45615a74a57"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0009_snr30dB/lowpass_anchor.mp3",
-          "sha256": "1842bfd22451e76cf1f7179266cfd53e1035a4348046838fdec55e44199feacd"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0009_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "c3d6b33ac5b1b3846243e0ce114da67896ac7f69db809c51ee8f56063bda50d8"
@@ -3957,10 +3697,6 @@
         "unprocessed": {
           "file": "audio/air/air_0010_snr30dB/unprocessed.mp3",
           "sha256": "1ebe3cdc311f99cc7827a234a6570b6919c55e76c553993b14fb818174d94400"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0010_snr30dB/lowpass_anchor.mp3",
-          "sha256": "106b8516e50fde7b1f8a18b69398f9132c42f7fc9e2963c3df1ff02560a49641"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0010_snr30dB/cleanmel-offline-l-map.mp3",
@@ -4018,10 +3754,6 @@
           "file": "audio/air/air_0011_snr30dB/unprocessed.mp3",
           "sha256": "a4582338efcd4cc5e32b62c1fdc0ccbdec98936c0ab2fb3843b67a4269f8c65b"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0011_snr30dB/lowpass_anchor.mp3",
-          "sha256": "a12f1fabe35d3ea2c4b4b37de02a6d8c2e7a977bb762eff1742806f8429a0070"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0011_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "e8e43c74dcb4c562455803ea4ca5d682d7d52c3e23f99fe49cf2be90482c6ba4"
@@ -4077,10 +3809,6 @@
         "unprocessed": {
           "file": "audio/air/air_0012_snr30dB/unprocessed.mp3",
           "sha256": "8fe827fa8f55ebe6acff55b74569bbd57b4ea9c3cd06c60aee002412e83897eb"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0012_snr30dB/lowpass_anchor.mp3",
-          "sha256": "37e768c71c8e9590d1abfe7ee35e90a3ab3351ce88b89e9e0907043567141b79"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0012_snr30dB/cleanmel-offline-l-map.mp3",
@@ -4138,10 +3866,6 @@
           "file": "audio/air/air_0013_snr30dB/unprocessed.mp3",
           "sha256": "06f917c682ec15b601b3ed99645cd259241a42d5d3ffed108ae6ab963c039eb5"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0013_snr30dB/lowpass_anchor.mp3",
-          "sha256": "f0a057d60228d4e913caff96413e9feee3e03cbea12cb39988b6826392d4ec22"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0013_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "921b666c6b423fc6db54227388c0ebdc0e4a968e327658b73de973a12c09c839"
@@ -4197,10 +3921,6 @@
         "unprocessed": {
           "file": "audio/air/air_0014_snr30dB/unprocessed.mp3",
           "sha256": "9f5c585dd42607f7d09a5f36ccdf3741b8d8a47f4c6660c5dc7ed1d38b8813df"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0014_snr30dB/lowpass_anchor.mp3",
-          "sha256": "7c5299180e90d0f640e746a21c106479dc9d3b5ab966cf9760981953ec05379d"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0014_snr30dB/cleanmel-offline-l-map.mp3",
@@ -4258,10 +3978,6 @@
           "file": "audio/air/air_0015_snr30dB/unprocessed.mp3",
           "sha256": "46f8ebb6ba58eeea791ed7204f7ff78ad8506d5f5ee84444208887ec1683158c"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0015_snr30dB/lowpass_anchor.mp3",
-          "sha256": "630c4240c97466a63423242bbe4fa00ba4ad524a15f1f0ed42347283ee44dc94"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0015_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "86d65aaeca68859be9580d6aecd36544f27103e6d79309e7f849325ffdd1c23c"
@@ -4317,10 +4033,6 @@
         "unprocessed": {
           "file": "audio/air/air_0016_snr30dB/unprocessed.mp3",
           "sha256": "05900287fe6844108f76afb1ccb931c7c92fb15db95aabc68d98773d94eafa47"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0016_snr30dB/lowpass_anchor.mp3",
-          "sha256": "8156fd3a969ddbcf24d9814de7db8dd9a9e4887ddeef5e182963380383e78cb1"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0016_snr30dB/cleanmel-offline-l-map.mp3",
@@ -4378,10 +4090,6 @@
           "file": "audio/air/air_0017_snr30dB/unprocessed.mp3",
           "sha256": "3a4863b9894057522b1b270f6d8ea8dce932c04c186e4d3bbd3aadcb1e26693c"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0017_snr30dB/lowpass_anchor.mp3",
-          "sha256": "ffbdadfa8efe1f93db194942d2fe49868c736bdc951a8bb74ca3b467dfda2011"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0017_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "9c656de77f0110e3ace6b592aa3c175dc2a8e446ef766798acbb7cf80594d740"
@@ -4437,10 +4145,6 @@
         "unprocessed": {
           "file": "audio/air/air_0018_snr30dB/unprocessed.mp3",
           "sha256": "756ba57f609c86cae07344de90b300b4336dadbcc210ec74326171a9a266d55d"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0018_snr30dB/lowpass_anchor.mp3",
-          "sha256": "9d9687c6c668114a423154ddd7f1583771aab67a36cf42d2f3d0b4ac869526e4"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0018_snr30dB/cleanmel-offline-l-map.mp3",
@@ -4498,10 +4202,6 @@
           "file": "audio/air/air_0019_snr30dB/unprocessed.mp3",
           "sha256": "e268648ae9e78bee610663592d43e840e96c600bdee00ecd0471a71fd8427a93"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0019_snr30dB/lowpass_anchor.mp3",
-          "sha256": "1cbf384d86d40783aac3bf34a360c5ed8ac01998c6085fe24d7f22fd24b01636"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0019_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "4f588aefdb303e77ee6407ddd43ede45cc57d400d72be38ed25d8de1241d2b75"
@@ -4557,10 +4257,6 @@
         "unprocessed": {
           "file": "audio/air/air_0020_snr30dB/unprocessed.mp3",
           "sha256": "58719d9bbbfd7601cd8213564eeb8b7ce21e00b1a64af985b654c25055a93db2"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0020_snr30dB/lowpass_anchor.mp3",
-          "sha256": "620c1706a6ecd1bcddf8945ee9eb35140ca2931aa1d23d3355ac0dd6bc3c4bfc"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0020_snr30dB/cleanmel-offline-l-map.mp3",
@@ -4618,10 +4314,6 @@
           "file": "audio/air/air_0021_snr30dB/unprocessed.mp3",
           "sha256": "5b66c6088512c64065677c2e3136814d5a31306247dac7b86b1971c01e52b38f"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0021_snr30dB/lowpass_anchor.mp3",
-          "sha256": "9558228b30f572f16b5efca9cc9751bc40d367c9222aa77dcd049f7aaf1f7ee8"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0021_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "5c054fd39d67d0b0c9a82fa5430ba11be0916cdcc5378e069da0686ecc24eb2a"
@@ -4677,10 +4369,6 @@
         "unprocessed": {
           "file": "audio/air/air_0022_snr30dB/unprocessed.mp3",
           "sha256": "f2f1f774aecee1917c3adc73b1dc99fc9af8780a9642bed5b0c053075e9c24a0"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0022_snr30dB/lowpass_anchor.mp3",
-          "sha256": "f88d863dd0da9e04706d7009d53dec77cad2fc29dafd2301cab969c54713cc5d"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0022_snr30dB/cleanmel-offline-l-map.mp3",
@@ -4738,10 +4426,6 @@
           "file": "audio/air/air_0023_snr30dB/unprocessed.mp3",
           "sha256": "620914d026cea6eb9ecc32342e9c8d7ee041732f2119927434d62aa7b97e9785"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0023_snr30dB/lowpass_anchor.mp3",
-          "sha256": "6a28917f23ed6b7dd9d72f5a4084ca5537e3cae3d49fa8b3c0ba01233f7d3cd6"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0023_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "c9884482110989123b54e87d9e2fd2072d735a0581b42e4a56c0186280681d27"
@@ -4797,10 +4481,6 @@
         "unprocessed": {
           "file": "audio/air/air_0024_snr30dB/unprocessed.mp3",
           "sha256": "fa7397a5f7ad80cfcd5155096a9e58de788546e9b3bd15ef6f6a9e9ea05c502e"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0024_snr30dB/lowpass_anchor.mp3",
-          "sha256": "5382513373fc7290205572a536278cf41ccb71be23ad130787f8141f9a60cbb9"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0024_snr30dB/cleanmel-offline-l-map.mp3",
@@ -4858,10 +4538,6 @@
           "file": "audio/air/air_0025_snr30dB/unprocessed.mp3",
           "sha256": "b0bc122c7b9d86d3cb36e1b8276747ce138332df145dc606b2b9dcd7a9ffd3f2"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0025_snr30dB/lowpass_anchor.mp3",
-          "sha256": "2cfdd68e43fdacf04de89d6e67e7bcf4d22a296dc827fb180a9f7345210020a2"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0025_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "c27f421387d07fec10d27c94192a3bc1da6d0c017691d0af7a640cf6a4670a05"
@@ -4917,10 +4593,6 @@
         "unprocessed": {
           "file": "audio/air/air_0026_snr30dB/unprocessed.mp3",
           "sha256": "9f9ee45f01c91464d31eed2fd8900a110c6f735c5fd4a33bda668d9a47523688"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0026_snr30dB/lowpass_anchor.mp3",
-          "sha256": "6a639d850dc5764fcef403e7880caf7ff86d65ed36e88f78033a40a79024c045"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0026_snr30dB/cleanmel-offline-l-map.mp3",
@@ -4978,10 +4650,6 @@
           "file": "audio/air/air_0027_snr30dB/unprocessed.mp3",
           "sha256": "94f0e56e474720a4adcb61a3ec898d92c9bd9fd53990aa613519c71434269374"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0027_snr30dB/lowpass_anchor.mp3",
-          "sha256": "721c18abb52511060de4deffe9c6a74f517c8a2e1a5b848e66747aa4dab75840"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0027_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "2b86661e81ea042b6ccc41e79091833433e3940cb8e01abb6375a802550bdf39"
@@ -5037,10 +4705,6 @@
         "unprocessed": {
           "file": "audio/air/air_0028_snr30dB/unprocessed.mp3",
           "sha256": "57467826bc057ecc5754ceaf54ba29b8e8737e63e23e2397285ba7f22198f1d8"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0028_snr30dB/lowpass_anchor.mp3",
-          "sha256": "aaef4407047fdd3349e0e30d358f4b5bfa8e4fb25e1a23c86737ccb84b6adaf7"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0028_snr30dB/cleanmel-offline-l-map.mp3",
@@ -5098,10 +4762,6 @@
           "file": "audio/air/air_0029_snr30dB/unprocessed.mp3",
           "sha256": "ebb0f692ddfca6fbc4a5f98fd95de60d33703663c6e8e2225a007ebfeab7ac98"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0029_snr30dB/lowpass_anchor.mp3",
-          "sha256": "c9f69bf91a92cee85c21d78f51b4939cfdabaaec718215bf5235a53c285a4caa"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0029_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "70b282b4749ed305ee41e13c79cec15d601caeb21fd9b0b16b5a493484e580a2"
@@ -5157,10 +4817,6 @@
         "unprocessed": {
           "file": "audio/air/air_0030_snr30dB/unprocessed.mp3",
           "sha256": "a4d8aed4483b2ca948ad40c7f70d7510c15de2675ec25fb601cb92d22ae80860"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0030_snr30dB/lowpass_anchor.mp3",
-          "sha256": "ef211b3025dd366ea91b97f4344414e2dd7c629463e913bdc1606ff789d23dae"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0030_snr30dB/cleanmel-offline-l-map.mp3",
@@ -5218,10 +4874,6 @@
           "file": "audio/air/air_0031_snr30dB/unprocessed.mp3",
           "sha256": "52decc15d8524391876f973f685039aa5e047c2d784ba4bb29d401cce9844f86"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0031_snr30dB/lowpass_anchor.mp3",
-          "sha256": "ef3ce9f80fdb3e0781df9aee0ee25ee9482063fd6034439c93d9dea826c83788"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0031_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "4191e0cf6dff323c7af45213384be51c810667c924cfd80a062fc70f012abcf0"
@@ -5277,10 +4929,6 @@
         "unprocessed": {
           "file": "audio/air/air_0032_snr30dB/unprocessed.mp3",
           "sha256": "c9b27b7e0be7c8b1eb1b52070ef91d2d5608451de5556ac704d1686b037bc67e"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0032_snr30dB/lowpass_anchor.mp3",
-          "sha256": "eafa2d1ea18ea3670fe89ad3ab57efad0422b611bc07399fee0d0843353076a5"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0032_snr30dB/cleanmel-offline-l-map.mp3",
@@ -5338,10 +4986,6 @@
           "file": "audio/air/air_0033_snr30dB/unprocessed.mp3",
           "sha256": "eb1505afdea52760b754bf51ebfee54b0c0657a7fe629774f1f4c48409a46b96"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0033_snr30dB/lowpass_anchor.mp3",
-          "sha256": "6ef107d102b1020c1c3b7973ee85ff58c24a57f213d1be412e551901d56b0b20"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0033_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "4b09ac58e82ac326a5452d6b3f532ead7067490b77e6a0cbb67d095f189b07c4"
@@ -5397,10 +5041,6 @@
         "unprocessed": {
           "file": "audio/air/air_0034_snr30dB/unprocessed.mp3",
           "sha256": "fafbc0fbaff25212ea58e23237205738cc7a8868173784afc3544348a4fed57b"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0034_snr30dB/lowpass_anchor.mp3",
-          "sha256": "8abcbd685f31069112178e647b47bbd47f0d545d79d19444bd960b3e2f1fb39f"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0034_snr30dB/cleanmel-offline-l-map.mp3",
@@ -5458,10 +5098,6 @@
           "file": "audio/air/air_0035_snr30dB/unprocessed.mp3",
           "sha256": "5eeaa88a7263bd49939c9e49384cdf465cd28ec09b243322a84e76eecc097547"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0035_snr30dB/lowpass_anchor.mp3",
-          "sha256": "5de2f6aa35f37140cc31784c1e7011115302cb7d270d4f3c88facccbc231ae7e"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0035_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "301cd2dc0183cd518b02960baa3ce1e8802caf308835b485adfafc80e9a22968"
@@ -5517,10 +5153,6 @@
         "unprocessed": {
           "file": "audio/air/air_0036_snr30dB/unprocessed.mp3",
           "sha256": "9515080ee79aa8c57c7ebc93a668ca94ecfbe887d3be4ed1fdec4f1cc05a140a"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0036_snr30dB/lowpass_anchor.mp3",
-          "sha256": "3cf01fcd2df83088cfc319bdd3f3c9f7ef47bc3b85c340e1b9075b17dcdb7c01"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0036_snr30dB/cleanmel-offline-l-map.mp3",
@@ -5578,10 +5210,6 @@
           "file": "audio/air/air_0037_snr30dB/unprocessed.mp3",
           "sha256": "58587963bf893958ee512b06437ba49b3fcf67735ad772fa51923c843f515a5c"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0037_snr30dB/lowpass_anchor.mp3",
-          "sha256": "ad18a14587c0c4e07b0c5d13954be5c8d504778ae827ddb80dba3b53afabc522"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0037_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "34bae2c7c824d1db01304137cf270c9feb832208938f44e80e8b86dcb581b7b1"
@@ -5637,10 +5265,6 @@
         "unprocessed": {
           "file": "audio/air/air_0038_snr30dB/unprocessed.mp3",
           "sha256": "ea17d12d814890d54ca0ff3bdd5eb540e5d297015d4d9b3f34139c8d18448b60"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0038_snr30dB/lowpass_anchor.mp3",
-          "sha256": "740064c476e5bbbf8b71f2597dd807205c9946c20d583ea32aa7434e7f4f0d91"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0038_snr30dB/cleanmel-offline-l-map.mp3",
@@ -5698,10 +5322,6 @@
           "file": "audio/air/air_0039_snr30dB/unprocessed.mp3",
           "sha256": "02cb1568b80dbf2d84de60e2b2c63f95fde914c31668cfe1c6f54c94b65e429c"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0039_snr30dB/lowpass_anchor.mp3",
-          "sha256": "ef2df834065c0b3c4704b5cefe5105684bcd7efe8fb7662747ac16686c408aca"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0039_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "82952fd8db276a762a8adfe476814940c156880ec878d8ca3b5a8ba0770f7325"
@@ -5757,10 +5377,6 @@
         "unprocessed": {
           "file": "audio/air/air_0040_snr30dB/unprocessed.mp3",
           "sha256": "56772893178696463a3d0a01568ad8cdf0e63dba0228f7671050b473190a34fa"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0040_snr30dB/lowpass_anchor.mp3",
-          "sha256": "091aa68764adaa4e62748edaaf994d34c9ebf55659150735cc1ee2c04948a17d"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0040_snr30dB/cleanmel-offline-l-map.mp3",
@@ -5818,10 +5434,6 @@
           "file": "audio/air/air_0041_snr30dB/unprocessed.mp3",
           "sha256": "96e8e08922982be3c9006de97fdcf1876d7f244b121f527ce071ce22b1b8249f"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0041_snr30dB/lowpass_anchor.mp3",
-          "sha256": "a2f990f34fa5f987432121cce634c6cbe9fcb68baabe649dba326c841af2c70a"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0041_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "d7753ac0136c8e8233d92520bd5d9628150fbe36c690c3a23ebdb005843a6a14"
@@ -5877,10 +5489,6 @@
         "unprocessed": {
           "file": "audio/air/air_0042_snr30dB/unprocessed.mp3",
           "sha256": "52b6f2f6398f7b9f9acc72dd140997a303001fe379801a90c74ab753b4befab9"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0042_snr30dB/lowpass_anchor.mp3",
-          "sha256": "a74772318c4e4836b8d0f30b02e88aa636678d9b64a2bc80ec954fb3aa5e3323"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0042_snr30dB/cleanmel-offline-l-map.mp3",
@@ -5938,10 +5546,6 @@
           "file": "audio/air/air_0043_snr30dB/unprocessed.mp3",
           "sha256": "c4ddbfbf68b18be546aafa597ce2461ae5f37206d52357be31c369e33f2ab829"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0043_snr30dB/lowpass_anchor.mp3",
-          "sha256": "fb740a6afbcf1a8da844fdf0dab463b245258eaf2b15cd38f47692ed0de2d4cc"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0043_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "9eb74124a5fffc613acc30881d3ea1455d1ebb039c3cb94bb96cc0831708a096"
@@ -5997,10 +5601,6 @@
         "unprocessed": {
           "file": "audio/air/air_0044_snr30dB/unprocessed.mp3",
           "sha256": "b89dfe6ec07389f1fb63b7be72b47a288de800fbfc06ba2eb73933d059199082"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0044_snr30dB/lowpass_anchor.mp3",
-          "sha256": "faacee4597618e9373591a5fee65c2ddfa0e75816c551096905fc9f3be876182"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0044_snr30dB/cleanmel-offline-l-map.mp3",
@@ -6058,10 +5658,6 @@
           "file": "audio/air/air_0045_snr30dB/unprocessed.mp3",
           "sha256": "ad80d4ef3ff4995749f7588be8dc9686672e7cea0d2cb44364b6e36d3568e1d1"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0045_snr30dB/lowpass_anchor.mp3",
-          "sha256": "cfc8f9627b0149d4b133ec4a6ae939e274e077e4848d757449b6406951cabdf2"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0045_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "97a20f41c5407e3991c8c8a1d972190bb5d74c6d605315d16bddb4b4bd6f54ac"
@@ -6117,10 +5713,6 @@
         "unprocessed": {
           "file": "audio/air/air_0046_snr30dB/unprocessed.mp3",
           "sha256": "4e298d1bbe9922eed3033f0b9134fc4afdbafc76c78b708a8c9aed184c9b09c7"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0046_snr30dB/lowpass_anchor.mp3",
-          "sha256": "ec8d8d36fa770096c7571892045a46b29e1322f929bf33abba8661e69dd59dbd"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0046_snr30dB/cleanmel-offline-l-map.mp3",
@@ -6178,10 +5770,6 @@
           "file": "audio/air/air_0047_snr30dB/unprocessed.mp3",
           "sha256": "cca839ec16a1095f49d1aa2d22d2abf055044191bc8ee8c9cf8b827b4fd7df90"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0047_snr30dB/lowpass_anchor.mp3",
-          "sha256": "c83c8f46cc0c19f6e46b67b27469e77f831f3ce49ff2223c8b731a9cbe771fc4"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0047_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "78f9794e095d51e47b9927f6e7398fef1bcbefaded69d771105386fed8d70e01"
@@ -6237,10 +5825,6 @@
         "unprocessed": {
           "file": "audio/air/air_0048_snr30dB/unprocessed.mp3",
           "sha256": "973c3cdaf395c5512f18cba1ba003f6c5ec688ff323a9c54d0f6bd43b899de77"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0048_snr30dB/lowpass_anchor.mp3",
-          "sha256": "0141d901cd54f7c11b18fe70392fe4d0e231f8a5b28657a1fe2b5ec59287d873"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0048_snr30dB/cleanmel-offline-l-map.mp3",
@@ -6298,10 +5882,6 @@
           "file": "audio/air/air_0049_snr30dB/unprocessed.mp3",
           "sha256": "04f585234c6a6640f87a4ff40b5e0cd204241f7e76be39f89235e14f0df9dbcd"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0049_snr30dB/lowpass_anchor.mp3",
-          "sha256": "dbc410d5dbdd3eba4fb13da3994651d3e7ce6e3b91a1f485894c7764c90be8c9"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0049_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "7a59493cc534b720b3b812bbc8745303dc81d05da8c488c5b3b5d810ef04bfbe"
@@ -6357,10 +5937,6 @@
         "unprocessed": {
           "file": "audio/air/air_0050_snr30dB/unprocessed.mp3",
           "sha256": "1e2cee46862aa2c65787ac65316ce1ff16cb33c5972f56582eb39199877ad477"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0050_snr30dB/lowpass_anchor.mp3",
-          "sha256": "7e80954794c46ba34aac4e13a7bdd96c777718cadb4f08096552f6439b7d875d"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0050_snr30dB/cleanmel-offline-l-map.mp3",
@@ -6418,10 +5994,6 @@
           "file": "audio/air/air_0051_snr30dB/unprocessed.mp3",
           "sha256": "198686c8c6bfb421026336cee98ea841f0ef118494f40b40c53e5476c80bb91b"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0051_snr30dB/lowpass_anchor.mp3",
-          "sha256": "4b37e69e568d085cf6a0f069421f147943bf77ced3f91c37bd1d0e693a0e9ac1"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0051_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "78eb1e3811df39fd958944386a8249627cc230a2b1f037a3b06d1e19b202db33"
@@ -6477,10 +6049,6 @@
         "unprocessed": {
           "file": "audio/air/air_0052_snr30dB/unprocessed.mp3",
           "sha256": "74940077d2f808a3e24d73f23e33ac04e2e561c1f4720c6b72cf028337439a3c"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0052_snr30dB/lowpass_anchor.mp3",
-          "sha256": "091bf82edf01d9699e21f050999ac3cdab7b7eaef6f104d8e13364e5aeae85ec"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0052_snr30dB/cleanmel-offline-l-map.mp3",
@@ -6538,10 +6106,6 @@
           "file": "audio/air/air_0053_snr30dB/unprocessed.mp3",
           "sha256": "397b3f26fc2a15e7e59793ae89de441c215315afb65f0f53873040456b041140"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0053_snr30dB/lowpass_anchor.mp3",
-          "sha256": "8f9b5b3c9e8d085a8f9928ba8627b7327fb9e8392dd35f3d805936e3bc098d76"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0053_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "1b5dd8ea87f1ba44f7ec991d6db3a579fa4d2ab0adabfdd1ceb39b3cf06a2932"
@@ -6597,10 +6161,6 @@
         "unprocessed": {
           "file": "audio/air/air_0054_snr30dB/unprocessed.mp3",
           "sha256": "424cecad89572af4043f11bfca27fef1f1dabc611a4187485df01d0477b2f642"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0054_snr30dB/lowpass_anchor.mp3",
-          "sha256": "cb8ac7e745eb39404d40e596b502c1d2a681f513622deedc293f061a95be6c50"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0054_snr30dB/cleanmel-offline-l-map.mp3",
@@ -6658,10 +6218,6 @@
           "file": "audio/air/air_0055_snr30dB/unprocessed.mp3",
           "sha256": "b36210b309d07c43665363ea637ac17467d0b82705023ba787723c659dcf21f1"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0055_snr30dB/lowpass_anchor.mp3",
-          "sha256": "9615b397f64b5026ff8dae5cb29b0ae60ddcd89934131c3e73979370122a9b11"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0055_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "6adbfec24826a2080bb7fd7a95ff53764028ec6338f77362065a5060ca46458f"
@@ -6717,10 +6273,6 @@
         "unprocessed": {
           "file": "audio/air/air_0056_snr30dB/unprocessed.mp3",
           "sha256": "b9880db75844ba063ecb2b2bed2327f98c0ca7a3e364ea09d3ef85517b8eee3d"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0056_snr30dB/lowpass_anchor.mp3",
-          "sha256": "f28e8d8450866160997eda3a07de23a7924307305ac9da28f11a8acfc054c974"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0056_snr30dB/cleanmel-offline-l-map.mp3",
@@ -6778,10 +6330,6 @@
           "file": "audio/air/air_0057_snr30dB/unprocessed.mp3",
           "sha256": "db22355223068f9871470ad3e24fded0af9130dc9198d32689eb179b6138dbdb"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0057_snr30dB/lowpass_anchor.mp3",
-          "sha256": "51fe0856fdeed8a5d93c875b55403f116e5f9aa201d7a2500c0bcfa9efead01f"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0057_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "a366255163addb8f7d0f94dbe00fd8967eb1d76008912168f106c6f518df7844"
@@ -6837,10 +6385,6 @@
         "unprocessed": {
           "file": "audio/air/air_0058_snr30dB/unprocessed.mp3",
           "sha256": "32c6deadfde3e479cae0d2247cb27b367e3f617565f4d4333a8f06d66aac9a80"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0058_snr30dB/lowpass_anchor.mp3",
-          "sha256": "e46543698b2e57fa160edd8c167cf74ed7e14a7288f63f4a519414f6e8fbc703"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0058_snr30dB/cleanmel-offline-l-map.mp3",
@@ -6898,10 +6442,6 @@
           "file": "audio/air/air_0059_snr30dB/unprocessed.mp3",
           "sha256": "fc7bd79f6da04f1327b6a39906e2e358c370daba7ac440bd3c8536a0caf508d1"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0059_snr30dB/lowpass_anchor.mp3",
-          "sha256": "1cecaeb9f523eda14d1fa9e3cb386ec54ee7cb494c23fad797474771e37d200f"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0059_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "5a0b429dfd70208d1fe74f52a470aaad85769336c1f1d3987434466b9971d37e"
@@ -6957,10 +6497,6 @@
         "unprocessed": {
           "file": "audio/air/air_0060_snr30dB/unprocessed.mp3",
           "sha256": "2784a11b00a2c17ebbe84f4cdfc1c038fa2c3270d8b36139264d67f3d2ef6ec0"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0060_snr30dB/lowpass_anchor.mp3",
-          "sha256": "b112a85dde1d6fb9f0b0b0dda00c3a0635a5ff674387e830088a2faed94873c9"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0060_snr30dB/cleanmel-offline-l-map.mp3",
@@ -7018,10 +6554,6 @@
           "file": "audio/air/air_0061_snr30dB/unprocessed.mp3",
           "sha256": "00cb69633042bd34f78ba4513661ce38e82ac3c1d72ebcc7c88c520f5f4f0c7a"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0061_snr30dB/lowpass_anchor.mp3",
-          "sha256": "a8940d49d352cadb3facc11152b99545d864e545a27522ff766d5b4ab2c247fa"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0061_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "71356538a978e4d1a95c5462e3f054c760171e2c3fca50af4324c052d8e9f8fa"
@@ -7077,10 +6609,6 @@
         "unprocessed": {
           "file": "audio/air/air_0062_snr30dB/unprocessed.mp3",
           "sha256": "9917016b8287ee836edf1bfffc3fd95502e3f4606ad7531c30faa9dda243ee54"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0062_snr30dB/lowpass_anchor.mp3",
-          "sha256": "bfd1075341f098650ad186cffd7055212887509ed653b08bd7feef6a18ef3b59"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0062_snr30dB/cleanmel-offline-l-map.mp3",
@@ -7138,10 +6666,6 @@
           "file": "audio/air/air_0063_snr30dB/unprocessed.mp3",
           "sha256": "73f8aa5a4a28417f1e5ce5c3e592a07b46a60eed30ff71ab2a61ed976a035d19"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0063_snr30dB/lowpass_anchor.mp3",
-          "sha256": "23bad80008e948cd088e1c5bc84015afd34b1a523e94506e066ddf51f9494e65"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0063_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "355aa952b34d8fc8847c1b156221a1b73f43b0e30c01be228e4ce2554e596de1"
@@ -7197,10 +6721,6 @@
         "unprocessed": {
           "file": "audio/air/air_0064_snr30dB/unprocessed.mp3",
           "sha256": "c65259d5a537fdd2d50b97ebdaed0d4442465d449730f698fd6c201a7ba2ec1a"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0064_snr30dB/lowpass_anchor.mp3",
-          "sha256": "e93ba65a2a670b8a2b63b03d1dfaaa74b0111912893eb51b563dc26839b8cd66"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0064_snr30dB/cleanmel-offline-l-map.mp3",
@@ -7258,10 +6778,6 @@
           "file": "audio/air/air_0065_snr30dB/unprocessed.mp3",
           "sha256": "b9ba64b58885b67f44188ce707cadc97311043be35c0f89daed8566097d4beed"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0065_snr30dB/lowpass_anchor.mp3",
-          "sha256": "80a07e9084a6fea4c4c3d34fd874aac9c7f1f433792964235c9062caa139b610"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0065_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "ac75d43497d3d56b8cac5484f7c4af431a85b837c1c79282f0e9507b3526db43"
@@ -7317,10 +6833,6 @@
         "unprocessed": {
           "file": "audio/air/air_0066_snr30dB/unprocessed.mp3",
           "sha256": "6749624ae24bc710212884672757b326d0a7714ea646be01136250861b862baa"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0066_snr30dB/lowpass_anchor.mp3",
-          "sha256": "d6c7929cc87de0c0ff733364342dc73ad3017adf1d1114d7d9d93ff091807788"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0066_snr30dB/cleanmel-offline-l-map.mp3",
@@ -7378,10 +6890,6 @@
           "file": "audio/air/air_0067_snr30dB/unprocessed.mp3",
           "sha256": "53847fa966a1fac015e76bef6f73001265740f9e184121ec7ca847254f8ddf3b"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0067_snr30dB/lowpass_anchor.mp3",
-          "sha256": "8fae0cc0c720b0f880a132166f626eabd8c018ebbf7aeabe158faa0fddaabe9c"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0067_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "8b2de9ad1c7f23f58666451ae12b83f3de178b2e73b77ee8403fb443c2297f61"
@@ -7437,10 +6945,6 @@
         "unprocessed": {
           "file": "audio/air/air_0068_snr30dB/unprocessed.mp3",
           "sha256": "88df6eabb89e83711f537b2448e3ee666ab8d25ee2e27fc2f174a3c3ec2325ad"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0068_snr30dB/lowpass_anchor.mp3",
-          "sha256": "d379b86b76eced0c1bf86c2d25ab76b328ec6aac7dc2d359480b572afb67ee92"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0068_snr30dB/cleanmel-offline-l-map.mp3",
@@ -7498,10 +7002,6 @@
           "file": "audio/air/air_0069_snr30dB/unprocessed.mp3",
           "sha256": "1bb9e7ff3bba7cc14548b8b8536f30524f19e2dcdb2e92355e438284250b9259"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0069_snr30dB/lowpass_anchor.mp3",
-          "sha256": "bc9e8de4ebc308d664e3221aa37e3652dffe01881016c2d06f33c43f456c45bf"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0069_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "fb2c311451ffb4befe9bdadc8978b55750ade0c24cd0d3ff9d2c3929300adad6"
@@ -7557,10 +7057,6 @@
         "unprocessed": {
           "file": "audio/air/air_0070_snr30dB/unprocessed.mp3",
           "sha256": "f5635ee80050fd48c30e04097b18ce61750f391d7a9373a48871c8f14947c4fc"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0070_snr30dB/lowpass_anchor.mp3",
-          "sha256": "f53026606023aba0b85f35d05ffdd7f1982531ff4a5f39f09ef72ad6df518527"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0070_snr30dB/cleanmel-offline-l-map.mp3",
@@ -7618,10 +7114,6 @@
           "file": "audio/air/air_0071_snr30dB/unprocessed.mp3",
           "sha256": "92f13315363bb3605b7e2b2c03d8192e4fd21a8db140e6744e0c7061cadeb8ce"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0071_snr30dB/lowpass_anchor.mp3",
-          "sha256": "62d8af7341a8808b156b58ec639a7a23227376db08a1ad9ba89911df73f47131"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0071_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "c3816e962eb6ff9b174c600eea92f30010990c970d9ffc2cdfd01ab9e9092819"
@@ -7677,10 +7169,6 @@
         "unprocessed": {
           "file": "audio/air/air_0072_snr30dB/unprocessed.mp3",
           "sha256": "bdffd207ac02964e74a7a3fd2f5156f30a336107e82dec13d3988fcfded22d26"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0072_snr30dB/lowpass_anchor.mp3",
-          "sha256": "7b7fb26fb1c9fd96b28b9b631c6626a1ba0e81672f2d7e4a9893bb963d9f43bb"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0072_snr30dB/cleanmel-offline-l-map.mp3",
@@ -7738,10 +7226,6 @@
           "file": "audio/air/air_0073_snr30dB/unprocessed.mp3",
           "sha256": "11b29b7fcac5f804dba4c6e438deda89544a3d83d5ca292f9b1181822124a514"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0073_snr30dB/lowpass_anchor.mp3",
-          "sha256": "7dd9471b27b437f3c528fa862142eb8dc59f34689ce4de9146215a457ebaa851"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0073_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "e19e1abfda6fa05cbc184d9262bedf9919f46fb250ba3fefd79288e20ff47168"
@@ -7797,10 +7281,6 @@
         "unprocessed": {
           "file": "audio/air/air_0074_snr30dB/unprocessed.mp3",
           "sha256": "b6abdea310a78745da88f0ccc585afd3e836a2acc693e7d1c1aae84dc2dac8c8"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0074_snr30dB/lowpass_anchor.mp3",
-          "sha256": "8eae0f60725513190b362037a79f98b1fc0a3eff899be1664cafd2a38f9eb866"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0074_snr30dB/cleanmel-offline-l-map.mp3",
@@ -7858,10 +7338,6 @@
           "file": "audio/air/air_0075_snr30dB/unprocessed.mp3",
           "sha256": "2303a760fa61730c8e972ea3d6183dc73772320deb6bcbe390b776d6a5e447c6"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0075_snr30dB/lowpass_anchor.mp3",
-          "sha256": "f25a459549056f359ae1b9d1296b4e27354a9a219bcbac3bfd7df8287216d714"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0075_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "7f3a5fc58ebf7a3d37f91e21b048e9e1009fe904c0ea2f83158c2393be3ea24f"
@@ -7917,10 +7393,6 @@
         "unprocessed": {
           "file": "audio/air/air_0076_snr30dB/unprocessed.mp3",
           "sha256": "7cfc300ae7669897bd4c93f2f0067abc26a9a79b312b6a70b9770db3d1132fce"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0076_snr30dB/lowpass_anchor.mp3",
-          "sha256": "d16c6ee3d9b83953fc9cbefd4601c228f5563717d71b1842c88018f3d492bc26"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0076_snr30dB/cleanmel-offline-l-map.mp3",
@@ -7978,10 +7450,6 @@
           "file": "audio/air/air_0077_snr30dB/unprocessed.mp3",
           "sha256": "22144acefb7d49ff91a3dd7aca813c920068150951e74169b718141fe24f1a6a"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0077_snr30dB/lowpass_anchor.mp3",
-          "sha256": "9518ea00f8f7b2fa0cc0477cbd9d2424075311b375b2c09430de4f2c80ef1ae7"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0077_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "77c5b22b0b62e366af631d5d4bb2f2dc0a754e09bab388c1f966e0d9da2a6826"
@@ -8037,10 +7505,6 @@
         "unprocessed": {
           "file": "audio/air/air_0078_snr30dB/unprocessed.mp3",
           "sha256": "e9f910c86aaacce2e271f8a96feadac78fc4fc37cd7527cfa035da21e6b63bb4"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0078_snr30dB/lowpass_anchor.mp3",
-          "sha256": "e4509500e05210cc9fcbd0b28b978135b90c1f1e85a96613ed5a62a382cd11c0"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0078_snr30dB/cleanmel-offline-l-map.mp3",
@@ -8098,10 +7562,6 @@
           "file": "audio/air/air_0079_snr30dB/unprocessed.mp3",
           "sha256": "5a644fd0ebbe62899770106543369b2c343accf237374f117508d65cf819ef46"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0079_snr30dB/lowpass_anchor.mp3",
-          "sha256": "0c9b42772a84148b598d77498456860f5e3c78bc81e6edbf4c33afb74c5848ab"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0079_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "a4cc178617bd6527aee577c4b239e31641f96e54f706702a76f18a03229663ce"
@@ -8157,10 +7617,6 @@
         "unprocessed": {
           "file": "audio/air/air_0080_snr30dB/unprocessed.mp3",
           "sha256": "0bcf99624f82ca5592d69f4f87d9751252cb8bd49eb35ea200380d832f75c4e3"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0080_snr30dB/lowpass_anchor.mp3",
-          "sha256": "298510ad096c96c08c92fbf51760b5ac0c453a995c66cb093a3748a3f594cd3b"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0080_snr30dB/cleanmel-offline-l-map.mp3",
@@ -8218,10 +7674,6 @@
           "file": "audio/air/air_0081_snr30dB/unprocessed.mp3",
           "sha256": "98fcf0f276dcee2ec9bee5ce1619cce92511fc5848b694da68e9f312bc862bb7"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0081_snr30dB/lowpass_anchor.mp3",
-          "sha256": "8848bca7ce759ccd0ccc786ce90675b7fdeb454cf6c65d387ade30d480184c2d"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0081_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "987dc3662db5cd1b70ad44d6e43a8e4b817a0d926b3ff8cf52770f0050b1598b"
@@ -8277,10 +7729,6 @@
         "unprocessed": {
           "file": "audio/air/air_0082_snr30dB/unprocessed.mp3",
           "sha256": "90b0253466f54516ed9ed7c284407180a74c88f766051a37a9b425aab7090020"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0082_snr30dB/lowpass_anchor.mp3",
-          "sha256": "4f93f86823c48ee72aaa58cb6325286a41dc86705c5f9095f4f28ad636b6a4a8"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0082_snr30dB/cleanmel-offline-l-map.mp3",
@@ -8338,10 +7786,6 @@
           "file": "audio/air/air_0083_snr30dB/unprocessed.mp3",
           "sha256": "78df4e22cf7745e2759b931e2cddef9af117154d6d2c28680c537a4aa2b87474"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0083_snr30dB/lowpass_anchor.mp3",
-          "sha256": "f8839986472e2f2ee7b7ceb9e6f706e5821bef51207fc80cdd8ac0e2c9c1387e"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0083_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "cbb68f6549979a156e1d4d4d13d92660c2c2bf0bc1b8b5308b36cb52a77b9b36"
@@ -8397,10 +7841,6 @@
         "unprocessed": {
           "file": "audio/air/air_0084_snr30dB/unprocessed.mp3",
           "sha256": "7063408ced3edd96208dcba0ee45a6c3d469216e76e04e0a99d17a9132a4cd9e"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0084_snr30dB/lowpass_anchor.mp3",
-          "sha256": "8a5f68678d26b9e062ef2d63130fe80c34bd95f2c3eaf7bb94d82ca8aae4cf11"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0084_snr30dB/cleanmel-offline-l-map.mp3",
@@ -8458,10 +7898,6 @@
           "file": "audio/air/air_0085_snr30dB/unprocessed.mp3",
           "sha256": "9485fa837892d6f4111b72eeded1e635cafc6c7cea18fb6f468975d6ded13245"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0085_snr30dB/lowpass_anchor.mp3",
-          "sha256": "432400d5d59c31901f8e74b09be952db39f9f60429fa93ac81e79a7748bdeadb"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0085_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "48313364e19de9e50d448cfe535bbd22802aec93e13798db30c8f40d09da3bd4"
@@ -8517,10 +7953,6 @@
         "unprocessed": {
           "file": "audio/air/air_0086_snr30dB/unprocessed.mp3",
           "sha256": "b70fe555eb0110a04326d7044116cf16e768f090fd5d8959918e90375d264485"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0086_snr30dB/lowpass_anchor.mp3",
-          "sha256": "46eff68f9a71ce116c06cd1ce421afa5eb7f26342ce12945610d9632f01a7c50"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0086_snr30dB/cleanmel-offline-l-map.mp3",
@@ -8578,10 +8010,6 @@
           "file": "audio/air/air_0087_snr30dB/unprocessed.mp3",
           "sha256": "04cdc17d9ecf2f1ff2003d2ab3823e4a321ec9f6dd6d72c7d69e78c1c879fdcf"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0087_snr30dB/lowpass_anchor.mp3",
-          "sha256": "fde72139313d43ddc6b5acbea1a57c9fb931699b11361a15874ca0655e2a09f5"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0087_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "e75f56180e6ca507051cd4686844ed554cd1fa74724298623b48a2424c8ef3af"
@@ -8637,10 +8065,6 @@
         "unprocessed": {
           "file": "audio/air/air_0088_snr30dB/unprocessed.mp3",
           "sha256": "d946173bacec9de7fdb3dc32811bc75038ace6e71c2a950efad5bb8030dafb17"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0088_snr30dB/lowpass_anchor.mp3",
-          "sha256": "5d2745310a789bd190a35c823db93d1fc06f3e683f16cb617f6bd1be7ef06794"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0088_snr30dB/cleanmel-offline-l-map.mp3",
@@ -8698,10 +8122,6 @@
           "file": "audio/air/air_0089_snr30dB/unprocessed.mp3",
           "sha256": "9d6aee72b2c19ce5f9c319e3b829c23798504211335ca19c087032f56285cf62"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0089_snr30dB/lowpass_anchor.mp3",
-          "sha256": "b52d4fb5c37efbe0dc5515638070c8cfb95fdcf32b9095c2c683b7754938bddf"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0089_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "44761f1804caeab8a4cbf1984158adb0e97adbf58fd98d962e0c587ee0da2009"
@@ -8757,10 +8177,6 @@
         "unprocessed": {
           "file": "audio/air/air_0090_snr30dB/unprocessed.mp3",
           "sha256": "bc0bff72d331b1cbba78c1e436084c2d79a14c9c8917fbe51cbf5b43c26c8b16"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0090_snr30dB/lowpass_anchor.mp3",
-          "sha256": "32e79b79b3b0ac3ec659573b62163eb9e6f2464e32e54bf3c992086d0bbfd42b"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0090_snr30dB/cleanmel-offline-l-map.mp3",
@@ -8818,10 +8234,6 @@
           "file": "audio/air/air_0091_snr30dB/unprocessed.mp3",
           "sha256": "1c4f96b3137488cca41c568d118e7c0bffa4aac45dbe04ec526c485acfba13c1"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0091_snr30dB/lowpass_anchor.mp3",
-          "sha256": "89528bd6d117bd881ca2d43fb6dc51e372d025455a77080b7c6381442d1aba8e"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0091_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "91327c2eb240e8912049d72f7d3f7abafb1a7a7af5412e1f034fa9bf64969d0e"
@@ -8877,10 +8289,6 @@
         "unprocessed": {
           "file": "audio/air/air_0092_snr30dB/unprocessed.mp3",
           "sha256": "90c8b3e5c72cdc35d21a36c740f111901bf7a614bcd42d5025f6854cdafcb7af"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0092_snr30dB/lowpass_anchor.mp3",
-          "sha256": "ae0ec666f26d35350aa664d629aa523be438c4c03d4ae9412aae3cbfade673fa"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0092_snr30dB/cleanmel-offline-l-map.mp3",
@@ -8938,10 +8346,6 @@
           "file": "audio/air/air_0093_snr30dB/unprocessed.mp3",
           "sha256": "6c986677758fdc7655281cd368aadae9f30ae602bfc5a44018bfd9fad4c0d1a1"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0093_snr30dB/lowpass_anchor.mp3",
-          "sha256": "f6f7611fce931e00aae6f1504fc45c04e79fdeafcca77c190187a4c3ebebddb5"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0093_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "178f479c754d6915c9c6b6233d03ac8bc53ca01cfeaf97085d5a44e020b972fb"
@@ -8997,10 +8401,6 @@
         "unprocessed": {
           "file": "audio/air/air_0094_snr30dB/unprocessed.mp3",
           "sha256": "650cce92bba019088013e38a87c3e30e6bc93fb70a1ca16e2a336b38706955eb"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0094_snr30dB/lowpass_anchor.mp3",
-          "sha256": "b532e1bcab32fce463dcbbc6b66c266842f9abd5b575779d590ceecb400a43a9"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0094_snr30dB/cleanmel-offline-l-map.mp3",
@@ -9058,10 +8458,6 @@
           "file": "audio/air/air_0095_snr30dB/unprocessed.mp3",
           "sha256": "d4e797d410858cd3dc61a84dbee53a81bfc52b2b97bf58ab2b1f2272608abe17"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0095_snr30dB/lowpass_anchor.mp3",
-          "sha256": "ae9ea37e10d153c4a9e196c2ee6b0ca751365de1f59bc0b93220b714e8eb2931"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0095_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "30b9368639e592d7cd6bfe4baff91475ec70ac1c8e22cd326b2540e6a758a99c"
@@ -9117,10 +8513,6 @@
         "unprocessed": {
           "file": "audio/air/air_0096_snr30dB/unprocessed.mp3",
           "sha256": "67f5b04e907df9e6746091f24b67865e1caca9a113153cf3b7e42fa3045a29db"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0096_snr30dB/lowpass_anchor.mp3",
-          "sha256": "7f27b1967a34ef02c50852c59df871d3a2b128863b7de22a725f002c8cf2ad6e"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0096_snr30dB/cleanmel-offline-l-map.mp3",
@@ -9178,10 +8570,6 @@
           "file": "audio/air/air_0097_snr30dB/unprocessed.mp3",
           "sha256": "4f78d49f74272c6ccb153605d1a35bd07f369be98deab06656ed740bb9cdf135"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0097_snr30dB/lowpass_anchor.mp3",
-          "sha256": "2472c81e34e5c9d0f9bc748c943886abc4ba8d6e5dcf32e72dd099258d00c258"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0097_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "c99c68d12fe0109143da663ea98cf75f9139a9e0f322722557a4addeaa93bcc1"
@@ -9237,10 +8625,6 @@
         "unprocessed": {
           "file": "audio/air/air_0098_snr30dB/unprocessed.mp3",
           "sha256": "19ea40700fdc010d4ca0c61bbfc54a6e1f82d29088d238595475f505beedaeaf"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0098_snr30dB/lowpass_anchor.mp3",
-          "sha256": "efe3f018ad6c173237299acb7ad9411548125c45f93f6613ffc77766675ff30b"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0098_snr30dB/cleanmel-offline-l-map.mp3",
@@ -9298,10 +8682,6 @@
           "file": "audio/air/air_0099_snr30dB/unprocessed.mp3",
           "sha256": "55ba34403a25b9a5ed3470549517438cc3b30bf3edff1a2ca399bcf81b226ced"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0099_snr30dB/lowpass_anchor.mp3",
-          "sha256": "027ed0009d8537892c557ea76aaac2db233c00f613cd2f8252b4a062b9470eed"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0099_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "494d2dd600c83d57ea30a8cf09ec701f40c09109cad5956e88e1944357a22af6"
@@ -9357,10 +8737,6 @@
         "unprocessed": {
           "file": "audio/air/air_0100_snr30dB/unprocessed.mp3",
           "sha256": "3478266a6300a39458a82f2ef3f827dd5e9fe7637107f3d374a1a4fcd0a127e5"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0100_snr30dB/lowpass_anchor.mp3",
-          "sha256": "8bb778b6ed299b72617855307a47ca20bd04da17ed89d936285e322f5db3c829"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0100_snr30dB/cleanmel-offline-l-map.mp3",
@@ -9418,10 +8794,6 @@
           "file": "audio/air/air_0101_snr30dB/unprocessed.mp3",
           "sha256": "65052230e3bb325143ee598d16f58b9b391d0a778bf41bb4f0e56aed18c66252"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0101_snr30dB/lowpass_anchor.mp3",
-          "sha256": "6b813de30b1ddbb4759711141330fde087f8130aac3e62378b1c4488ad1e0828"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0101_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "c14baa86b0e08aa5eb691d85c2b07b4f54ca5bf1fb4b29f4ab4237d7d63feb33"
@@ -9477,10 +8849,6 @@
         "unprocessed": {
           "file": "audio/air/air_0102_snr30dB/unprocessed.mp3",
           "sha256": "c763f2ee96d079afdc221812ddc537918da00b5f0e896dccb4aa292c10cdf365"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0102_snr30dB/lowpass_anchor.mp3",
-          "sha256": "63760031b262a932c5214eea90adc6c10669aa6edf6739e42905138f3a6d86c5"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0102_snr30dB/cleanmel-offline-l-map.mp3",
@@ -9538,10 +8906,6 @@
           "file": "audio/air/air_0103_snr30dB/unprocessed.mp3",
           "sha256": "8f7cc6fbbcd0032259c7de3bd1f14b59c67515637cde46b18fca8e01f5d63106"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0103_snr30dB/lowpass_anchor.mp3",
-          "sha256": "b4cf83268463e4dd4c38571bb6d26ac118421f414c2187bd23300863f09b4f5a"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0103_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "f32128c51c6a21d82489759bbb0ca41041cad4bb8bef2892fac59888b76c419e"
@@ -9597,10 +8961,6 @@
         "unprocessed": {
           "file": "audio/air/air_0104_snr30dB/unprocessed.mp3",
           "sha256": "6d2c10363d8380880fca8feebc745bb21abda41aaa22e9bf7b127ed1e962c02b"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0104_snr30dB/lowpass_anchor.mp3",
-          "sha256": "64951d8ce76729a03dc956fb09c396de7772b638b4ce848afd76e5f902f16985"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0104_snr30dB/cleanmel-offline-l-map.mp3",
@@ -9658,10 +9018,6 @@
           "file": "audio/air/air_0105_snr30dB/unprocessed.mp3",
           "sha256": "584a6f7f0da5fa8f380007f38c0a9e10267d784a0e9d874e1f9fe780105a3f32"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0105_snr30dB/lowpass_anchor.mp3",
-          "sha256": "7d09bb31549f3fad1c8b3a0871fcec0febe21660a9553c31a27c9f20878105fe"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0105_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "2e46a0f1f7324be60ad7e6636e7014e5640d3853e857b7e1b27d6da5e7fa4a81"
@@ -9718,10 +9074,6 @@
           "file": "audio/air/air_0106_snr30dB/unprocessed.mp3",
           "sha256": "ae51c66d244b2014b31288899651c4bc854dc1736f022e8c0ba1fa2db40e72c1"
         },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0106_snr30dB/lowpass_anchor.mp3",
-          "sha256": "ac4a7bd1894c76d7d8108cfe9e2437805bcd2b517d0eed5259c3fb87c7e9191f"
-        },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0106_snr30dB/cleanmel-offline-l-map.mp3",
           "sha256": "58ec6d14082b431d87383c110e494bf1036dda204f959f2b1264ac73f0c46b89"
@@ -9777,10 +9129,6 @@
         "unprocessed": {
           "file": "audio/air/air_0107_snr30dB/unprocessed.mp3",
           "sha256": "8353bf1c3f271fa62bb35be77127c9a5341fa57774143b7f655fa64a555f55c0"
-        },
-        "lowpass_anchor": {
-          "file": "audio/air/air_0107_snr30dB/lowpass_anchor.mp3",
-          "sha256": "52b4cb09e0415ee7b7bd8ec855d165d3fdddb7027e6547dddd2e51a0d393a945"
         },
         "cleanmel-offline-l-map": {
           "file": "audio/air/air_0107_snr30dB/cleanmel-offline-l-map.mp3",
