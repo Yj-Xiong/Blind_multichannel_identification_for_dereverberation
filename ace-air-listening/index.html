@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ACE / AIR 语音增强听评</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">SE</span><span>ACE / AIR 听评</span><span class="version">v1.0.1</span></div>
+    <div class="top-actions"><span id="save-state" class="save-state">本地进度</span><button id="reset" class="quiet" type="button">重新开始</button></div>
+  </header>
+
+  <main class="page">
+    <section id="setup" class="setup">
+      <div class="section-heading"><p class="eyebrow">主观语音质量评估</p><h1>ACE 与 AIR 去混响听评</h1></div>
+      <p class="intro">比较同一句语音的不同处理结果。评分同时考虑混响、噪声、清晰度和处理伪影；100 分代表与参考语音接近。</p>
+      <div class="study-facts"><div><strong>163</strong><span>测试样本</span></div><div><strong>8</strong><span>待评模型</span></div><div><strong>≤8</strong><span>每批片段</span></div><div><strong>0–100</strong><span>质量评分</span></div></div>
+      <div class="setup-form">
+        <label><span>听评者编号</span><input id="listener-id" autocomplete="off" maxlength="40" placeholder="例如 L001" required></label>
+        <label><span>听评经验</span><select id="experience"><option value="general">普通听众</option><option value="experienced">有语音处理经验</option><option value="expert">领域专家</option></select></label>
+        <label><span>收听设备</span><select id="device"><option value="headphones">耳机</option><option value="speakers">扬声器</option><option value="other">其他</option></select></label>
+        <label><span>测试集</span><select id="dataset"><option value="ACE">ACE · 56 条</option><option value="AIR">AIR · 107 条 · 30 dB</option></select></label>
+        <label><span>批次</span><select id="batch"></select></label>
+        <button id="start" class="primary" type="button">开始听评</button>
+      </div>
+      <p id="coverage" class="coverage"></p>
+      <p class="protocol-note">ACE 全部 56 条、AIR 每场景一条 30 dB 样本共 107 条，分批提交。建议在安静环境中使用耳机，保持相同音量；每条片段含公开参考、隐藏参考和两个锚点。</p>
+      <p id="setup-error" class="error" role="alert"></p>
+    </section>
+
+    <div id="study" class="study" hidden>
+      <aside class="rail">
+        <div class="rail-head"><span class="eyebrow">听评进度</span><strong id="progress-label"></strong></div>
+        <div id="trial-list" class="trial-list"></div>
+        <div class="rail-note"><strong>评分尺度</strong><div class="scale-line"><span>差</span><span>一般</span><span>好</span><span>优</span></div><div class="scale-gradient"></div><p>0–20 差 · 20–40 较差 · 40–60 一般 · 60–80 好 · 80–100 优秀</p></div>
+      </aside>
+      <div class="workarea">
+        <div class="trial-heading"><div><p id="trial-kicker" class="eyebrow"></p><h2 id="trial-title"></h2><p id="trial-meta" class="muted"></p></div><span id="rated-count" class="rated-count"></span></div>
+        <div class="reference-bar"><div><strong>参考语音</strong><span>以其质量作为本轮比较基准</span></div><audio id="reference-audio" controls preload="none"></audio></div>
+        <div id="candidate-list" class="candidate-list"></div>
+        <p id="trial-error" class="error" role="alert"></p>
+        <nav class="trial-nav"><button id="previous" class="secondary" type="button">上一条</button><span id="nav-progress"></span><button id="next" class="primary" type="button">下一条</button></nav>
+      </div>
+    </div>
+
+    <section id="review" class="review" hidden>
+      <p class="eyebrow">听评完成</p><h1>提交评分</h1>
+      <p id="review-summary"></p>
+      <div id="review-checks" class="review-checks"></div>
+      <p class="protocol-note">提交后由组织者汇总匿名评分，用于比较模型排序和客观指标的一致性。</p>
+      <p id="submit-error" class="error" role="alert"></p>
+      <div class="review-actions"><button id="back-to-trials" class="secondary" type="button">返回检查</button><button id="submit" class="primary" type="button">提交结果</button><button id="download" class="secondary" type="button" hidden>下载记录</button><button id="next-batch" class="primary" type="button" hidden>继续下一批</button></div>
+    </section>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

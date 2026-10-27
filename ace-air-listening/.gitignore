@@ -1,0 +1,9 @@
+__pycache__/
+build.sh
+build.*.log
+analysis.html
+analysis.js
+objective_scores.json
+audio/air/*_snr10dB/
+audio/air/*_snr20dB/
+audio/air/*_snr40dB/
