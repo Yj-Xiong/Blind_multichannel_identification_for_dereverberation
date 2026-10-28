@@ -104,13 +104,14 @@ APP = r"""
       return;
     }
     ui.reference.parentElement.hidden = false; ui.candidates.hidden = false;
-    ui.back.hidden = false; ui.next.hidden = false; ui.submit.hidden = true; ui.submit.textContent = '提交本批并进入下一批';
+    ui.back.hidden = false; ui.next.hidden = false; ui.submit.hidden = true;
     ui.status.textContent = '';
     const trial = trials.get(state.ids[state.index]); ui.batch.textContent = '第 ' + state.round + ' 批';
     ui.sample.textContent = trial.dataset + '  第 ' + (state.index + 1) + ' / ' + state.ids.length + ' 条';
     ui.reference.src = trackUrl(trial.tracks.reference.file);
     ui.candidates.replaceChildren(...orderedCandidates(trial).map((key, i) => card(trial, key, i)));
-    ui.back.disabled = state.index === 0; ui.next.textContent = state.index === state.ids.length - 1 ? '完成本批' : '下一条';
+    ui.back.disabled = state.index === 0;
+    ui.next.textContent = state.index === state.ids.length - 1 ? '提交本批并进入下一批' : '下一条';
     renderProgress();
   }
   function download(payload) {
@@ -119,6 +120,8 @@ APP = r"""
     setTimeout(() => URL.revokeObjectURL(url), 10000);
   }
   async function submit() {
+    if (state.submitting) return;
+    state.submitting = true; ui.next.disabled = true; ui.submit.disabled = true;
     state.allScores ||= {};
     const cumulativeScores = {...state.allScores, ...state.scores};
     const cumulativeSampleIds = [...new Set([...state.used, ...state.ids])];
@@ -131,7 +134,8 @@ APP = r"""
       if (!response.ok) throw new Error('HTTP ' + response.status);
       state.used.push(...state.ids); state.submitted = true;
     } catch (error) { download(payload); state.used.push(...state.ids); state.submitted = true; }
-    if (!pickBatch()) state.completed = true;
+    if (!pickBatch()) { state.completed = true; state.index = state.ids.length; }
+    state.submitting = false;
     save(); render();
   }
   ui.start.addEventListener('click', () => {
@@ -143,7 +147,11 @@ APP = r"""
     if (!state.ids.length || state.submitted) { if (!pickBatch()) { ui.error.textContent = '所有样本都已完成。'; return; } }
     save(); render();
   });
-  ui.next.addEventListener('click', () => { if (complete(trials.get(state.ids[state.index]))) { state.index += 1; save(); render(); } });
+  ui.next.addEventListener('click', () => {
+    if (!complete(trials.get(state.ids[state.index]))) return;
+    if (state.index === state.ids.length - 1) { submit(); return; }
+    state.index += 1; save(); render();
+  });
   ui.back.addEventListener('click', () => { state.index -= 1; save(); render(); });
   ui.submit.addEventListener('click', submit);
   ui.reset.addEventListener('click', () => { if (state) localStorage.removeItem('p808-final:' + state.listener); state = null; render(); });
