@@ -7,7 +7,7 @@ The same audio and scoring protocol is available through three entry points:
 | `index.html` | All 56 ACE samples, then one 30 dB sample from each of 107 AIR scenes | `ace56-air30-joint-v3` | `ace56-air30-joint-v3` |
 | `ace.html` | All 56 ACE samples | `ace56-only-v1` | `ace56-only-v1` |
 | `air.html` | 107 AIR scenes at 30 dB | `air30-only-v1` | `air30-only-v1` |
-| `batch.html` | 163 normalized ACE/AIR samples, 10 samples per round | `dereverb-p808-batch-v1` | `dereverb-p808-batch-v1:<listener>` |
+| `batch.html` | 163 normalized ACE/AIR samples, 15 samples per round | `dereverb-p808-batch-v1` | `dereverb-p808-batch-v1:<listener>` |
 
 Each entry saves and submits independently. Opening the ACE or AIR entry does
 not change progress in the joint study; results are not copied between entries.
