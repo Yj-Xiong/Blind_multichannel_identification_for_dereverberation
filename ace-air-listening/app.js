@@ -20,7 +20,7 @@ const ui = {
   previous: $('#previous'), next: $('#next'), navProgress: $('#nav-progress'),
   trialError: $('#trial-error'), reviewSummary: $('#review-summary'),
   reviewChecks: $('#review-checks'), submitError: $('#submit-error'),
-  submit: $('#submit'), download: $('#download'), saveState: $('#save-state'),
+  submit: $('#submit'), download: $('#download'), exportCurrent: $('#export-current'), saveState: $('#save-state'),
 };
 let manifest;
 let state;
@@ -222,33 +222,38 @@ function render() {
   ui.setup.hidden = Boolean(state);
   ui.study.hidden = !state || state.index === state.trialIds.length;
   ui.review.hidden = !state || state.index !== state.trialIds.length;
+  if (ui.exportCurrent) ui.exportCurrent.disabled = !state;
   if (!state) return;
   if (state.index === state.trialIds.length) renderReview();
   else renderTrial();
 }
 
-function resultPayload() {
+function resultPayload({ forSubmission = false } = {}) {
+  const timestamp = new Date().toISOString();
+  const completeResults = state.trialIds.every((_, index) => complete(getTrial(index)));
   return {
     schema: 'se.subjective.mushra_style.v3', study: CONFIG.study,
     datasetVersion: manifest.dataset_version,
     audioVersion: manifest.audio_version, sessionId: state.sessionId,
     candidateIds, scale: { min: 0, max: 10, step: 0.1, uniquePerTrial: true },
     listenerId: state.listenerId, experience: state.experience, device: state.device,
-    submittedAt: new Date().toISOString(),
+    status: forSubmission ? 'submitted' : (completeResults ? 'complete' : 'in_progress'),
+    exportedAt: timestamp,
+    submittedAt: forSubmission ? timestamp : null,
     results: state.trialIds.map((_, index) => {
       const trial = getTrial(index);
       return { sample_id: trial.sample_id,
         order: candidates(trial).map((key) => candidateIds.indexOf(key)),
-        scores: candidateIds.map((key) => state.scores[trial.sample_id][key]) };
+        scores: candidateIds.map((key) => state.scores[trial.sample_id]?.[key] ?? null) };
     }),
   };
 }
 
-function download(payload) {
+function download(payload, suffix = '') {
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = url; link.download = `${CONFIG.downloadPrefix}-${state.sessionId}.json`; link.click();
+  link.href = url; link.download = `${CONFIG.downloadPrefix}${suffix}-${state.sessionId}.json`; link.click();
   setTimeout(() => URL.revokeObjectURL(url), 10000);
 }
 
@@ -256,7 +261,7 @@ async function submit() {
   if (!state.trialIds.every((_, index) => complete(getTrial(index)))) {
     ui.submitError.textContent = '请完成所有片段评分，并确保每轮分数互不相同。'; return;
   }
-  const payload = resultPayload();
+  const payload = resultPayload({ forSubmission: true });
   ui.submit.disabled = true;
   ui.submitError.textContent = '提交中…';
   try {
@@ -340,6 +345,7 @@ ui.next.addEventListener('click', () => {
 $('#back-to-trials').addEventListener('click', () => { state.index = state.trialIds.length - 1; save(); render(); });
 ui.submit.addEventListener('click', submit);
 ui.download.addEventListener('click', () => download(state.submittedPayload || resultPayload()));
+if (ui.exportCurrent) ui.exportCurrent.addEventListener('click', () => { if (state) download(resultPayload(), '-current'); });
 $('#reset').addEventListener('click', () => {
   if (!confirm('清除本机当前听评进度并重新开始？')) return;
   localStorage.removeItem(STORAGE_KEY); state = null; render();

@@ -39,14 +39,14 @@ def load_jsonl(path):
     return {row["sample_id"]: row for row in (json.loads(line) for line in path.read_text().splitlines())}
 
 
-def selected_metadata(root, dataset):
-    pattern = "*_snr*dB.json" if dataset == "ACE" else "*_snr30dB.json"
+def selected_metadata(root, dataset, air_snr=30):
+    pattern = "*_snr*dB.json" if dataset == "ACE" else f"*_snr{air_snr}dB.json"
     rows = [json.loads(path.read_text()) for path in sorted((root / "metadata").glob(pattern))]
     expected = 56 if dataset == "ACE" else 107
     if len(rows) != expected or len({row["sample_id"] for row in rows}) != expected:
         raise ValueError(f"{dataset}: expected {expected} distinct samples, found {len(rows)}")
-    if dataset == "AIR" and (len({row["rir_id"] for row in rows}) != 107 or any(row["snr_db"] != 30 for row in rows)):
-        raise ValueError("AIR requires one 30 dB sample from each of 107 scenes")
+    if dataset == "AIR" and (len({row["rir_id"] for row in rows}) != 107 or any(row["snr_db"] != air_snr for row in rows)):
+        raise ValueError(f"AIR requires one {air_snr} dB sample from each of 107 scenes")
     return sorted(rows, key=lambda row: row["sample_id"])
 
 
@@ -110,6 +110,8 @@ def main():
                         help="Publish level-matched ACE and AIR files in a new manifest.")
     parser.add_argument("--manifest-name", default="manifest.json",
                         help="Manifest filename to write under the output directory.")
+    parser.add_argument("--air-snr", type=int, choices=(10, 20, 30, 40), default=30,
+                        help="AIR SNR used for the independent listening export.")
     args = parser.parse_args()
     if args.air_only_level_match and args.all_level_match:
         parser.error("choose one level matching mode")
@@ -144,7 +146,7 @@ def main():
     for dataset, root in roots.items():
         if args.air_only_level_match and dataset != "AIR":
             continue
-        for meta in selected_metadata(root, dataset):
+        for meta in selected_metadata(root, dataset, args.air_snr):
             sample_id = meta["sample_id"]
             ref_path = Path(meta["clean_dry"])
             input_path = root / "openbench_upload" / "se_in" / f"{sample_id}.wav"
