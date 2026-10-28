@@ -6,9 +6,9 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent
-SOURCE = ROOT / "p808-final/batch_manifest.json"
+SOURCE = ROOT / "p808/batch_manifest.json"
 INDEX = ROOT / "p808-batch/batch_index.json"
-OUTPUT = ROOT / "p808-final/index.html"
+OUTPUT = ROOT / "p808/index.html"
 
 
 APP = r"""
@@ -19,6 +19,7 @@ APP = r"""
   const $ = (s) => document.querySelector(s);
   const ui = {
     setup: $('#setup'), study: $('#study'), listener: $('#listener'),
+    experience: $('#experience'), device: $('#device'),
     start: $('#start'), error: $('#error'), progress: $('#progress'),
     sample: $('#sample'), reference: $('#reference'), candidates: $('#candidates'),
     back: $('#back'), next: $('#next'), submit: $('#submit'), status: $('#status'),
@@ -103,7 +104,8 @@ APP = r"""
   }
   async function submit() {
     const payload = {schema: 'se.subjective.p808_short_batch.v2', study: data.study, round: state.round, listenerId: state.listener,
-      batchSize: state.ids.length, scores: state.scores, sampleIds: state.ids, submittedAt: new Date().toISOString()};
+      experience: state.experience, device: state.device, batchSize: state.ids.length,
+      scores: state.scores, sampleIds: state.ids, submittedAt: new Date().toISOString()};
     try {
       const response = await fetch('https://formspree.io/f/mpqgvpvo', {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify({type: 'dereverb-p808-short-v2', payloadJson: JSON.stringify(payload)})});
       if (!response.ok) throw new Error('HTTP ' + response.status);
@@ -113,7 +115,8 @@ APP = r"""
   }
   ui.start.addEventListener('click', () => {
     const id = ui.listener.value.trim(); if (!id) { ui.error.textContent = '请输入测试 ID。'; return; }
-    state = loadState(id) || {listener: id, round: 0, index: 0, ids: [], scores: {}, used: [], submitted: false};
+    state = loadState(id) || {listener: id, experience: ui.experience.value, device: ui.device.value,
+      round: 0, index: 0, ids: [], scores: {}, used: [], submitted: false};
     if (!state.ids.length || state.submitted) { if (!pickBatch()) { ui.error.textContent = '所有样本都已完成。'; return; } }
     save(); render();
   });
@@ -136,9 +139,9 @@ def main():
     html = """<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Dereverb 短批次听评</title><style>""" + style + """
-.short-main{max-width:1200px;margin:0 auto;padding:28px 20px 70px}.short-setup{max-width:820px;margin:5vh auto}
-.short-setup h1{font-size:32px}.short-setup p{line-height:1.7;color:#526662}.short-form{display:flex;gap:12px;align-items:end}
-.short-form label{display:grid;gap:6px;font-size:13px;font-weight:700}.short-form input{height:40px;padding:0 10px;border:1px solid #bfcfcb;border-radius:5px}
+.short-main{max-width:1200px;margin:0 auto;padding:28px 20px 70px}.short-setup{max-width:900px;margin:5vh auto}
+.short-setup h1{font-size:32px}.short-setup p{line-height:1.7;color:#526662}.short-form{display:grid;grid-template-columns:1.5fr 1fr 1fr auto;gap:12px;align-items:end}
+.short-form label{display:grid;gap:6px;font-size:13px;font-weight:700}.short-form input,.short-form select{height:40px;padding:0 10px;border:1px solid #bfcfcb;border-radius:5px;background:#fff}
 .short-form button{height:40px;padding:0 18px;border:0;border-radius:5px;background:#087a70;color:#fff;font-weight:700}
 .short-study{max-width:1200px;margin:0 auto}.short-head{display:flex;justify-content:space-between;border-bottom:1px solid #d4dfdc;padding-bottom:14px}
 .short-head h2{margin:0}.short-reference{display:grid;grid-template-columns:1fr 45%;gap:16px;padding:15px;margin:18px 0;border:1px solid #b9d8d1;background:#edf7f3;border-radius:5px}
@@ -148,10 +151,13 @@ def main():
 .short-nav button{padding:9px 15px;border:1px solid #cad7d4;border-radius:5px;background:#fff}.short-nav button:last-child{background:#087a70;color:#fff}.short-error{color:#b34332;min-height:22px}
 @media(max-width:700px){.short-form,.short-reference{display:grid;grid-template-columns:1fr}.short-cards{grid-template-columns:1fr}}
 </style></head><body>
-<header class="topbar"><div class="brand"><span>Dereverb 短批次听评</span><span class="version">v2</span></div><button id="reset" class="quiet">重新开始</button></header>
+<header class="topbar"><div class="brand"><span class="brand-mark"><img src="center-logo.png" alt="苏州大学听觉与语言智能中心"></span><span>Dereverb 短批次听评</span><span class="version">v2</span></div><button id="reset" class="quiet">重新开始</button></header>
 <main class="short-main"><section id="setup" class="short-setup"><p class="eyebrow">短批次主观评估</p><h1>每批 15 条，完成即可提交</h1>
 <p>同一测试 ID 可以回来继续下一批；已经完成的样本不会再次出现。每个样本的 10 个匿名版本必须使用不同分数，形成明确排序。</p>
-<div class="short-form"><label>测试 ID<input id="listener" placeholder="name 或 name_YYYYMMDD"></label><button id="start">开始听测</button></div><p id="error" class="short-error"></p></section>
+<nav class="study-entry-links" aria-label="选择听评入口"><a href="../ace-air-listening/index.html">ACE + AIR 联合听评</a><a href="../ace-air-listening/ace.html">仅 ACE</a><a href="../ace-air-listening/air.html">仅 AIR</a><a href="index.html" aria-current="page">短批次听评</a></nav>
+<div class="study-facts"><div><strong>15</strong><span>每批样本</span></div><div><strong>163</strong><span>可抽取样本</span></div><div><strong>10</strong><span>每个样本的匿名版本</span></div><div><strong>1</strong><span>每批独立提交</span></div></div>
+<section class="scoring-rules"><h2>评分规则</h2><ol><li>每批先听公开参考；每个样本包含 8 个模型结果、1 个隐藏参考和 1 个未处理输入。</li><li>按 0.0–10.0 分、每 0.1 分一个档位评分；混响、噪声和处理伪影越明显，分数应越低。</li><li>每个样本的 10 个匿名版本必须全部使用不同分数，形成明确排序；完成一批即可提交。</li></ol></section>
+<div class="short-form"><label>测试 ID<input id="listener" placeholder="name 或 name_YYYYMMDD"></label><label>听评经验<select id="experience"><option value="general">普通听众</option><option value="experienced">有语音处理经验</option><option value="expert">领域专家</option></select></label><label>收听设备<select id="device"><option value="headphones">耳机</option><option value="speakers">扬声器</option><option value="other">其他</option></select></label><button id="start">开始听测</button></div><p>完成一批即可提交；同一测试 ID 返回时会继续未完成批次或领取下一批。进度保存在本机浏览器，建议使用耳机并保持相同音量。</p><p id="error" class="short-error"></p></section>
 <section id="study" class="short-study" hidden><div class="short-head"><div><p id="batch" class="eyebrow"></p><h2 id="sample"></h2></div><strong id="progress"></strong></div>
 <div class="short-reference"><strong>公开参考（不计分）</strong><audio id="reference" controls preload="none"></audio></div><div id="candidates" class="short-cards"></div>
 <p id="status" class="short-error"></p><div class="short-nav"><button id="back">上一条</button><button id="next">下一条</button><button id="submit">提交本批</button></div></section></main>
