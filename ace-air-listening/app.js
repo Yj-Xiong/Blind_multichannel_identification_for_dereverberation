@@ -257,6 +257,17 @@ function download(payload, suffix = '') {
   setTimeout(() => URL.revokeObjectURL(url), 10000);
 }
 
+function formBody(type, payload) {
+  const body = new FormData();
+  body.append('type', type);
+  body.append('study', payload.study);
+  body.append('listenerId', payload.listenerId);
+  body.append('sessionId', payload.sessionId);
+  body.append('_subject', `Dereverb 听评 ${type} ${payload.listenerId}`);
+  body.append('payloadJson', JSON.stringify(payload));
+  return body;
+}
+
 async function submitProgress() {
   if (!state || ui.exportCurrent.disabled) return;
   const payload = resultPayload();
@@ -265,15 +276,13 @@ async function submitProgress() {
   ui.saveState.textContent = '正在提交当前进度';
   try {
     const response = await fetch(ENDPOINT, { method: 'POST', headers: {
-      'Content-Type': 'application/json', Accept: 'application/json',
-    }, body: JSON.stringify({ type: `${CONFIG.study}-progress`, study: payload.study,
-      listenerId: payload.listenerId, sessionId: payload.sessionId,
-      payloadJson: JSON.stringify(payload) }) });
+      Accept: 'application/json',
+    }, body: formBody(`${CONFIG.study}-progress`, payload) });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     ui.saveState.textContent = '当前进度已提交';
   } catch (error) {
     download(payload, '-progress');
-    ui.saveState.textContent = '提交失败，已下载进度备份';
+    ui.saveState.textContent = `提交失败（${error.message}），已下载进度备份`;
   } finally {
     ui.exportCurrent.disabled = false;
   }
@@ -288,10 +297,8 @@ async function submit() {
   ui.submitError.textContent = '提交中…';
   try {
     const response = await fetch(ENDPOINT, { method: 'POST', headers: {
-      'Content-Type': 'application/json', Accept: 'application/json',
-    }, body: JSON.stringify({ type: CONFIG.study, study: payload.study,
-      listenerId: payload.listenerId, sessionId: payload.sessionId,
-      payloadJson: JSON.stringify(payload) }) });
+      Accept: 'application/json',
+    }, body: formBody(CONFIG.study, payload) });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     state.submittedAt = payload.submittedAt;
     state.submittedPayload = payload;
