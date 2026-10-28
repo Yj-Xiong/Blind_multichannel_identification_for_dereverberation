@@ -187,7 +187,7 @@ tbody tr:last-child { border-bottom: 2px solid #1b3833; }
 <p>同一测试 ID 可以回来继续下一批；已经完成的样本不会再次出现。每个样本的 10 个评分项必须使用不同分数，形成明确排序。</p>
 <div class="study-facts"><div><strong>15</strong><span>每批样本</span></div><div><strong>163</strong><span>可抽取样本</span></div><div><strong>10</strong><span>每个样本的评分项</span></div><div><strong>1</strong><span>每批独立提交</span></div></div>
 <section class="scoring-rules"><h2>评分规则</h2><ol><li>每批先听公开参考；每个样本包含 8 个模型结果、1 个隐藏参考和 1 个未处理输入。</li><li>按 0.0–10.0 分、每 0.1 分一个档位评分；混响、噪声和处理伪影越明显，分数应越低。</li><li>每个样本的 10 个评分项必须全部使用不同分数，形成明确排序；完成一批即可提交。</li></ol></section>
-<div class="short-form"><label>测试 ID<input id="listener" placeholder="name 或 name_YYYYMMDD"></label><label>听评经验<select id="experience"><option value="general">普通听众</option><option value="experienced">有语音处理经验</option><option value="expert">领域专家</option></select></label><label>收听设备<select id="device"><option value="headphones">耳机</option><option value="speakers">扬声器</option><option value="other">其他</option></select></label><button id="start">开始听测</button></div><p>完成一批即可提交；同一测试 ID 返回时会继续未完成批次或领取下一批。进度保存在本机浏览器，建议使用耳机并保持相同音量。</p><p id="error" class="short-error"></p></section>
+<div class="short-form"><label>测试 ID<input id="listener" placeholder="name 或 name_YYYYMMDD"></label><label>听评经验<select id="experience"><option value="general">普通听众</option><option value="experienced">有语音处理经验</option><option value="expert">领域专家</option></select></label><label>收听设备<select id="device"><option value="headphones">耳机</option><option value="speakers">扬声器</option><option value="other">其他</option></select></label><button id="start">开始听测</button></div><p>完成一批即可提交；同一测试 ID 返回时会继续未完成批次或领取下一批。每次提交会保留该测试 ID 的累计结果。进度保存在本机浏览器，建议使用耳机并保持相同音量。</p><p id="error" class="short-error"></p></section>
 <section id="study" class="short-study" hidden><div class="short-head"><div><p id="batch" class="eyebrow"></p><h2 id="sample"></h2></div><strong id="progress"></strong></div>
 <div class="short-reference"><strong>公开参考（不计分）</strong><audio id="reference" controls preload="none"></audio></div><div id="candidates" class="short-cards"></div>
 <p id="status" class="short-error"></p><div class="short-nav"><button id="back">上一条</button><button id="next">下一条</button><button id="submit" hidden>提交本批</button><button id="next-batch" hidden>开始下一批</button></div></section></main>
@@ -229,7 +229,7 @@ tbody tr:last-child { border-bottom: 2px solid #1b3833; }
   function pickBatch() {
     const ids = (data.batches[state.round] || []).filter((id) => !state.used.includes(id));
     if (!ids.length) return false;
-    state.round += 1; state.ids = ids.slice(0, size); state.index = 0; state.scores = {}; state.submitted = false; return true;
+    state.round += 1; state.ids = ids.slice(0, size); state.index = 0; state.scores = {}; state.allScores ||= {}; state.submitted = false; return true;
   }
   function orderedCandidates(trial) { return shuffle(keys, hash(state.listener + ':' + trial.sample_id)); }
   function complete(trial) {
@@ -251,6 +251,7 @@ tbody tr:last-child { border-bottom: 2px solid #1b3833; }
     const update = (raw) => {
       if (raw === '') return; const n = Math.round(Number(raw) * 10) / 10;
       if (!valid(n)) return; state.scores[trial.sample_id] ||= {}; state.scores[trial.sample_id][key] = n;
+      state.allScores ||= {}; state.allScores[trial.sample_id] ||= {}; state.allScores[trial.sample_id][key] = n;
       range.value = n; number.value = n; value.textContent = n.toFixed(1); card.classList.add('rated'); save(); renderProgress();
     };
     range.addEventListener('input', () => update(range.value)); number.addEventListener('change', () => update(number.value));
@@ -296,11 +297,15 @@ tbody tr:last-child { border-bottom: 2px solid #1b3833; }
     setTimeout(() => URL.revokeObjectURL(url), 10000);
   }
   async function submit() {
-    const payload = {schema: 'se.subjective.p808_short_batch.v2', study: data.study, round: state.round, listenerId: state.listener,
-      experience: state.experience, device: state.device, batchSize: state.ids.length,
-      scores: state.scores, sampleIds: state.ids, submittedAt: new Date().toISOString()};
+    state.allScores ||= {};
+    const cumulativeScores = {...state.allScores, ...state.scores};
+    const cumulativeSampleIds = [...new Set([...state.used, ...state.ids])];
+    const payload = {schema: 'se.subjective.p808_short_batch.v3', study: data.study, round: state.round, listenerId: state.listener,
+      experience: state.experience, device: state.device, batchSize: state.ids.length, totalSize: cumulativeSampleIds.length,
+      sampleIds: cumulativeSampleIds, scores: cumulativeScores, batchSampleIds: state.ids, batchScores: state.scores,
+      submittedAt: new Date().toISOString()};
     try {
-      const response = await fetch('https://formspree.io/f/mpqgvpvo', {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify({type: 'dereverb-p808-short-v2', payloadJson: JSON.stringify(payload)})});
+      const response = await fetch('https://formspree.io/f/mpqgvpvo', {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify({type: 'dereverb-p808-short-v3', payloadJson: JSON.stringify(payload)})});
       if (!response.ok) throw new Error('HTTP ' + response.status);
       state.used.push(...state.ids); state.submitted = true; save(); ui.status.textContent = '本批已提交，可以开始下一批。';
     } catch (error) { download(payload); state.used.push(...state.ids); state.submitted = true; save(); ui.status.textContent = '网络提交失败，已下载本批记录；可以继续下一批。'; }
@@ -309,7 +314,8 @@ tbody tr:last-child { border-bottom: 2px solid #1b3833; }
   ui.start.addEventListener('click', () => {
     const id = ui.listener.value.trim(); if (!id) { ui.error.textContent = '请输入测试 ID。'; return; }
     state = loadState(id) || {listener: id, experience: ui.experience.value, device: ui.device.value,
-      round: 0, index: 0, ids: [], scores: {}, used: [], submitted: false};
+      round: 0, index: 0, ids: [], scores: {}, allScores: {}, used: [], submitted: false};
+    state.allScores = {...(state.allScores || {}), ...(state.scores || {})};
     if (!state.ids.length || state.submitted) { if (!pickBatch()) { ui.error.textContent = '所有样本都已完成。'; return; } }
     save(); render();
   });
