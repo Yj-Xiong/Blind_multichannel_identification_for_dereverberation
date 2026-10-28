@@ -1,6 +1,6 @@
 const ENDPOINT = 'https://formspree.io/f/mpqgvpvo';
-const BASE_URL = new URL('./', document.baseURI);
-const MANIFEST_URL = new URL(document.body.dataset.manifest || 'batch_index.json', BASE_URL).href;
+const BASE_URL = new URL(document.body.dataset.assetsRoot || './', document.baseURI);
+const MANIFEST_URL = new URL(document.body.dataset.manifest || 'batch_index.json', document.baseURI).href;
 const STORAGE_PREFIX = 'dereverb-p808-batch-v2:';
 const BATCH_SIZE = 15;
 const CANDIDATE_KEYS = ['hidden_reference', 'unprocessed'];
