@@ -1,6 +1,6 @@
 const ENDPOINT = 'https://formspree.io/f/mpqgvpvo';
 const MANIFEST_URL = document.body.dataset.manifest || 'batch_manifest.json';
-const STORAGE_PREFIX = 'dereverb-p808-batch-v1:';
+const STORAGE_PREFIX = 'dereverb-p808-batch-v2:';
 const BATCH_SIZE = 15;
 const CANDIDATE_KEYS = ['hidden_reference', 'unprocessed'];
 const $ = (selector) => document.querySelector(selector);
@@ -22,6 +22,7 @@ let state;
 let trialById;
 let candidateIds;
 let allTrials;
+const batchCache = new Map();
 ui.start.disabled = true;
 ui.start.textContent = '加载清单…';
 
@@ -71,13 +72,25 @@ function candidates(trial) {
     hash(state.listenerId + ':' + trial.sample_id));
 }
 
+async function loadBatch(round) {
+  if (batchCache.has(round)) return batchCache.get(round);
+  const name = 'batches/batch-' + String(round).padStart(3, '0') + '.json';
+  const response = await fetch(name, {cache: 'no-store'});
+  if (!response.ok) throw new Error('批次清单 HTTP ' + response.status);
+  const payload = await response.json();
+  if (payload.study !== manifest.study || !Array.isArray(payload.trials)) throw new Error('批次清单无效');
+  payload.trials.forEach((trial) => trialById.set(trial.sample_id, trial));
+  batchCache.set(round, payload);
+  return payload;
+}
+
 function pickNextBatch() {
   const used = new Set(state.usedSampleIds);
-  const order = shuffle(allTrials, hash(state.listenerId + ':sample-order'));
-  const selected = order.filter((trial) => !used.has(trial.sample_id)).slice(0, BATCH_SIZE);
+  const ids = manifest.batches[state.round] || [];
+  const selected = ids.filter((sampleId) => !used.has(sampleId));
   if (!selected.length) return false;
   state.round += 1;
-  state.trialIds = selected.map((trial) => trial.sample_id);
+  state.trialIds = selected.slice(0, BATCH_SIZE);
   state.index = 0;
   state.scores = {};
   state.submittedAt = null;
@@ -85,18 +98,22 @@ function pickNextBatch() {
   return true;
 }
 
-function startOrResume(listenerId) {
+async function startOrResume(listenerId) {
   let saved = null;
   try { saved = JSON.parse(localStorage.getItem(stateKey(listenerId))); } catch {}
-  if (saved && saved.study === manifest.study && saved.audioVersion === manifest.audio_version) {
+  if (saved && saved.study === manifest.study && saved.audioVersion === manifest.audio_version
+    && saved.trialIds?.every((sampleId) => manifest.trials.some((trial) => trial.sample_id === sampleId))) {
     state = saved;
+    if (state.trialIds.length && !state.submittedAt) await loadBatch(state.round);
     return true;
   }
   state = { study: manifest.study, audioVersion: manifest.audio_version,
     listenerId, sessionId: newSessionId(), experience: ui.experience.value,
     device: ui.device.value, round: 0, index: 0, trialIds: [], scores: {},
     usedSampleIds: [], submittedBatches: [], submittedAt: null, currentPayload: null };
-  return pickNextBatch();
+  if (!pickNextBatch()) return false;
+  await loadBatch(state.round);
+  return true;
 }
 
 function renderRail() {
@@ -190,7 +207,7 @@ function renderReview() {
 }
 
 function renderDone() {
-  const remaining = allTrials.length - state.usedSampleIds.length;
+  const remaining = manifest.sample_count - state.usedSampleIds.length;
   ui.doneSummary.textContent = remaining ? '第 ' + state.round + ' 批已提交，还剩 ' + remaining + ' 条未抽取样本。' : '所有可抽取样本都已完成。';
   ui.nextBatch.disabled = !remaining;
 }
@@ -239,7 +256,8 @@ async function init() {
   try {
     const response = await fetch(MANIFEST_URL, {cache: 'no-store'}); if (!response.ok) throw new Error('HTTP ' + response.status);
     manifest = await response.json(); allTrials = manifest.trials;
-    if (manifest.study !== 'dereverb-p808-batch-v1' || allTrials.length !== 163) throw new Error('P.808 分批清单不完整');
+    if (manifest.study !== 'dereverb-p808-batch-v1' || manifest.sample_count !== 163
+      || !Array.isArray(manifest.batches)) throw new Error('P.808 分批索引不完整');
     trialById = new Map(allTrials.map((trial) => [trial.sample_id, trial]));
     candidateIds = CANDIDATE_KEYS.concat(manifest.models.map((model) => model.id));
     ui.start.disabled = false;
@@ -247,12 +265,19 @@ async function init() {
   } catch (error) { ui.setupError.textContent = '音频清单加载失败：' + error.message; ui.start.disabled = true; }
 }
 
-ui.start.addEventListener('click', () => {
+ui.start.addEventListener('click', async () => {
   if (!manifest) { ui.setupError.textContent = '音频清单仍在加载，请稍候。'; return; }
   const listenerId = ui.listener.value.trim();
   if (!listenerId) { ui.setupError.textContent = '请输入听评者编号。'; ui.listener.focus(); return; }
-  if (!startOrResume(listenerId)) { ui.setupError.textContent = '所有样本都已完成。'; return; }
-  save(); render();
+  ui.start.disabled = true; ui.start.textContent = '加载当前批次…';
+  try {
+    if (!await startOrResume(listenerId)) { ui.setupError.textContent = '所有样本都已完成。'; return; }
+    save(); render();
+  } catch (error) {
+    state = null; ui.setupError.textContent = '当前批次加载失败：' + error.message;
+  } finally {
+    ui.start.disabled = false; ui.start.textContent = '开始或继续';
+  }
 });
 ui.trialPicker.addEventListener('change', () => { state.index = Number(ui.trialPicker.value); save(); render(); });
 ui.previous.addEventListener('click', () => { state.index -= 1; save(); render(); });
@@ -260,7 +285,14 @@ ui.next.addEventListener('click', () => { if (complete(getTrial())) { state.inde
 ui.backToTrials.addEventListener('click', () => { state.index = state.trialIds.length - 1; save(); render(); });
 ui.submit.addEventListener('click', submit);
 ui.download.addEventListener('click', () => download(state.currentPayload || payload()));
-ui.nextBatch.addEventListener('click', () => { delete state.submittedAt; if (!pickNextBatch()) return; save(); render(); });
+ui.nextBatch.addEventListener('click', async () => {
+  delete state.submittedAt;
+  if (!pickNextBatch()) return;
+  ui.nextBatch.disabled = true; ui.doneSummary.textContent = '正在加载下一批…';
+  try { await loadBatch(state.round); save(); render(); }
+  catch (error) { ui.doneError.textContent = '下一批加载失败：' + error.message; }
+  finally { ui.nextBatch.disabled = false; }
+});
 ui.downloadLast.addEventListener('click', () => download(state.currentPayload));
 ui.reset.addEventListener('click', () => { if (!confirm('清除这个听评 ID 的本机进度并重新开始？')) return; localStorage.removeItem(stateKey(state?.listenerId || ui.listener.value.trim())); state = null; render(); });
 document.addEventListener('play', (event) => { if (event.target instanceof HTMLAudioElement) document.querySelectorAll('audio').forEach((player) => { if (player !== event.target) player.pause(); }); }, true);
