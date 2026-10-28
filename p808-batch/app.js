@@ -1,5 +1,5 @@
 const ENDPOINT = 'https://formspree.io/f/mpqgvpvo';
-const MANIFEST_URL = document.body.dataset.manifest || 'batch_manifest.json';
+const MANIFEST_URL = new URL(document.body.dataset.manifest || 'batch_index.json', import.meta.url).href;
 const STORAGE_PREFIX = 'dereverb-p808-batch-v2:';
 const BATCH_SIZE = 15;
 const CANDIDATE_KEYS = ['hidden_reference', 'unprocessed'];
@@ -72,10 +72,25 @@ function candidates(trial) {
     hash(state.listenerId + ':' + trial.sample_id));
 }
 
+function assetUrl(path) {
+  return new URL(path, import.meta.url).href;
+}
+
+async function fetchWithTimeout(url) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 20000);
+  try {
+    const response = await fetch(url, {cache: 'no-store', signal: controller.signal});
+    return response;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 async function loadBatch(round) {
   if (batchCache.has(round)) return batchCache.get(round);
   const name = 'batches/batch-' + String(round).padStart(3, '0') + '.json';
-  const response = await fetch(name, {cache: 'no-store'});
+  const response = await fetchWithTimeout(new URL(name, import.meta.url).href);
   if (!response.ok) throw new Error('批次清单 HTTP ' + response.status);
   const payload = await response.json();
   if (payload.study !== manifest.study || !Array.isArray(payload.trials)) throw new Error('批次清单无效');
@@ -147,7 +162,7 @@ function scoreCard(trial, key, index) {
   const value = document.createElement('span'); value.className = 'score-value';
   value.textContent = validScore(existing) ? existing.toFixed(1) : '未评分';
   head.append(title, value);
-  const player = document.createElement('audio'); player.controls = true; player.preload = 'none'; player.src = trial.tracks[key].file;
+  const player = document.createElement('audio'); player.controls = true; player.preload = 'none'; player.src = assetUrl(trial.tracks[key].file);
   const control = document.createElement('div'); control.className = 'score-control';
   const slider = document.createElement('input'); slider.type = 'range';
   slider.min = '0'; slider.max = '10'; slider.step = '0.1'; slider.value = validScore(existing) ? existing.toFixed(1) : '5.0';
@@ -191,7 +206,7 @@ function renderTrial() {
   const trial = getTrial();
   ui.trialKicker.textContent = trial.dataset + ' 测试集 · v1.0.1';
   ui.trialTitle.textContent = '第 ' + (state.index + 1) + ' / ' + state.trialIds.length + ' 条';
-  ui.reference.src = trial.tracks.reference.file; ui.reference.load();
+  ui.reference.src = assetUrl(trial.tracks.reference.file); ui.reference.load();
   ui.candidates.replaceChildren(...candidates(trial).map((key, index) => scoreCard(trial, key, index)));
   ui.previous.disabled = state.index === 0;
   ui.next.textContent = state.index === state.trialIds.length - 1 ? '检查并提交' : '下一条';
@@ -254,7 +269,7 @@ async function submit() {
 
 async function init() {
   try {
-    const response = await fetch(MANIFEST_URL, {cache: 'no-store'}); if (!response.ok) throw new Error('HTTP ' + response.status);
+    const response = await fetchWithTimeout(MANIFEST_URL); if (!response.ok) throw new Error('HTTP ' + response.status);
     manifest = await response.json(); allTrials = manifest.trials;
     if (manifest.study !== 'dereverb-p808-batch-v1' || manifest.sample_count !== 163
       || !Array.isArray(manifest.batches)) throw new Error('P.808 分批索引不完整');
@@ -262,7 +277,10 @@ async function init() {
     candidateIds = CANDIDATE_KEYS.concat(manifest.models.map((model) => model.id));
     ui.start.disabled = false;
     ui.start.textContent = '开始或继续';
-  } catch (error) { ui.setupError.textContent = '音频清单加载失败：' + error.message; ui.start.disabled = true; }
+  } catch (error) {
+    ui.setupError.textContent = '音频清单加载失败：' + (error.name === 'AbortError' ? '请求超时，请刷新页面重试。' : error.message);
+    ui.start.disabled = true;
+  }
 }
 
 ui.start.addEventListener('click', async () => {
