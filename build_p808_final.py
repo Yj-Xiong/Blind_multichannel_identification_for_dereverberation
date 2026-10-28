@@ -60,7 +60,7 @@ APP = r"""
   function card(trial, key, index) {
     const card = document.createElement('article'); card.className = 'candidate'; card.dataset.key = key;
     const head = document.createElement('div'); head.className = 'candidate-head';
-    const title = document.createElement('strong'); title.textContent = '匿名版本 ' + String.fromCharCode(65 + index);
+    const title = document.createElement('strong'); title.textContent = '样本 ' + String.fromCharCode(65 + index);
     const value = document.createElement('span'); value.className = 'score-value';
     const old = state.scores[trial.sample_id]?.[key]; value.textContent = valid(old) ? old.toFixed(1) : '未评分';
     head.append(title, value);
@@ -79,7 +79,7 @@ APP = r"""
   function renderProgress() {
     const trial = trials.get(state.ids[state.index]); const scoreValues = orderedCandidates(trial).map((key) => state.scores[trial.sample_id]?.[key]).filter(valid);
     const duplicated = new Set(scoreValues.map((v) => v.toFixed(1))).size !== scoreValues.length;
-    ui.progress.textContent = (complete(trial) ? '本条已完成' : '请给 10 个匿名版本评分') + (duplicated ? '，不能同分' : '');
+    ui.progress.textContent = (complete(trial) ? '本条已完成' : '请给 10 个样本评分') + (duplicated ? '，不能同分' : '');
     ui.next.disabled = !complete(trial); ui.submit.disabled = !state.ids.every((id) => complete(trials.get(id)));
     ui.candidates.querySelectorAll('.candidate').forEach((node) => {
       const v = state.scores[trial.sample_id]?.[node.dataset.key];
@@ -153,9 +153,9 @@ def main():
 </style></head><body>
 <header class="topbar"><div class="brand"><span class="brand-mark"><img src="center-logo.png" alt="苏州大学听觉与语言智能中心"></span><span>Dereverb 短批次听评</span><span class="version">v2</span></div><button id="reset" class="quiet">重新开始</button></header>
 <main class="short-main"><section id="setup" class="short-setup"><p class="eyebrow">短批次主观评估</p><h1>每批 15 条，完成即可提交</h1>
-<p>同一测试 ID 可以回来继续下一批；已经完成的样本不会再次出现。每个样本的 10 个匿名版本必须使用不同分数，形成明确排序。</p>
-<div class="study-facts"><div><strong>15</strong><span>每批样本</span></div><div><strong>163</strong><span>可抽取样本</span></div><div><strong>10</strong><span>每个样本的匿名版本</span></div><div><strong>1</strong><span>每批独立提交</span></div></div>
-<section class="scoring-rules"><h2>评分规则</h2><ol><li>每批先听公开参考；每个样本包含 8 个模型结果、1 个隐藏参考和 1 个未处理输入。</li><li>按 0.0–10.0 分、每 0.1 分一个档位评分；混响、噪声和处理伪影越明显，分数应越低。</li><li>每个样本的 10 个匿名版本必须全部使用不同分数，形成明确排序；完成一批即可提交。</li></ol></section>
+<p>同一测试 ID 可以回来继续下一批；已经完成的样本不会再次出现。每个样本的 10 个评分项必须使用不同分数，形成明确排序。</p>
+<div class="study-facts"><div><strong>15</strong><span>每批样本</span></div><div><strong>163</strong><span>可抽取样本</span></div><div><strong>10</strong><span>每个样本的评分项</span></div><div><strong>1</strong><span>每批独立提交</span></div></div>
+<section class="scoring-rules"><h2>评分规则</h2><ol><li>每批先听公开参考；每个样本包含 8 个模型结果、1 个隐藏参考和 1 个未处理输入。</li><li>按 0.0–10.0 分、每 0.1 分一个档位评分；混响、噪声和处理伪影越明显，分数应越低。</li><li>每个样本的 10 个评分项必须全部使用不同分数，形成明确排序；完成一批即可提交。</li></ol></section>
 <div class="short-form"><label>测试 ID<input id="listener" placeholder="name 或 name_YYYYMMDD"></label><label>听评经验<select id="experience"><option value="general">普通听众</option><option value="experienced">有语音处理经验</option><option value="expert">领域专家</option></select></label><label>收听设备<select id="device"><option value="headphones">耳机</option><option value="speakers">扬声器</option><option value="other">其他</option></select></label><button id="start">开始听测</button></div><p>完成一批即可提交；同一测试 ID 返回时会继续未完成批次或领取下一批。进度保存在本机浏览器，建议使用耳机并保持相同音量。</p><p id="error" class="short-error"></p></section>
 <section id="study" class="short-study" hidden><div class="short-head"><div><p id="batch" class="eyebrow"></p><h2 id="sample"></h2></div><strong id="progress"></strong></div>
 <div class="short-reference"><strong>公开参考（不计分）</strong><audio id="reference" controls preload="none"></audio></div><div id="candidates" class="short-cards"></div>
