@@ -1,5 +1,6 @@
 const ENDPOINT = 'https://formspree.io/f/mpqgvpvo';
-const MANIFEST_URL = new URL(document.body.dataset.manifest || 'batch_index.json', import.meta.url).href;
+const BASE_URL = new URL('./', document.baseURI);
+const MANIFEST_URL = new URL(document.body.dataset.manifest || 'batch_index.json', BASE_URL).href;
 const STORAGE_PREFIX = 'dereverb-p808-batch-v2:';
 const BATCH_SIZE = 15;
 const CANDIDATE_KEYS = ['hidden_reference', 'unprocessed'];
@@ -49,7 +50,7 @@ function shuffle(items, seed) {
 
 function stateKey(listenerId) { return STORAGE_PREFIX + listenerId; }
 function newSessionId() {
-  if (globalThis.crypto && typeof globalThis.crypto.randomUUID === 'function') return globalThis.crypto.randomUUID();
+  if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
   return 'session-' + Date.now() + '-' + Math.random().toString(16).slice(2);
 }
 function save() {
@@ -74,24 +75,26 @@ function candidates(trial) {
 }
 
 function assetUrl(path) {
-  return new URL(path, import.meta.url).href;
+  return new URL(path, BASE_URL).href;
 }
 
 async function fetchWithTimeout(url) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 20000);
+  const controller = typeof AbortController === 'function' ? new AbortController() : null;
+  const timeout = controller ? setTimeout(() => controller.abort(), 20000) : null;
   try {
-    const response = await fetch(url, {cache: 'no-store', signal: controller.signal});
+    const options = {cache: 'no-store'};
+    if (controller) options.signal = controller.signal;
+    const response = await fetch(url, options);
     return response;
   } finally {
-    clearTimeout(timeout);
+    if (timeout) clearTimeout(timeout);
   }
 }
 
 async function loadBatch(round) {
   if (batchCache.has(round)) return batchCache.get(round);
   const name = 'batches/batch-' + String(round).padStart(3, '0') + '.json';
-  const response = await fetchWithTimeout(new URL(name, import.meta.url).href);
+  const response = await fetchWithTimeout(new URL(name, BASE_URL).href);
   if (!response.ok) throw new Error('批次清单 HTTP ' + response.status);
   const payload = await response.json();
   if (payload.study !== manifest.study || !Array.isArray(payload.trials)) throw new Error('批次清单无效');
