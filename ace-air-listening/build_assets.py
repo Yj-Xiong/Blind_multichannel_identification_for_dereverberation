@@ -30,6 +30,7 @@ MODELS = (
     ("usddps", "USDDPS"),
 )
 AIR_AUDIO_VERSION = "air-rms27-peak1p5-v1"
+ALL_AUDIO_VERSION = "all-rms27-peak1p5-v1"
 TARGET_RMS_DBFS = -27.0
 MAX_PEAK_DBFS = -1.5
 
@@ -105,11 +106,18 @@ def main():
     parser.add_argument("--ffmpeg", default="ffmpeg")
     parser.add_argument("--air-only-level-match", action="store_true",
                         help="Keep ACE audio and scores; publish level-matched AIR files at a new path.")
+    parser.add_argument("--all-level-match", action="store_true",
+                        help="Publish level-matched ACE and AIR files in a new manifest.")
+    parser.add_argument("--manifest-name", default="manifest.json",
+                        help="Manifest filename to write under the output directory.")
     args = parser.parse_args()
+    if args.air_only_level_match and args.all_level_match:
+        parser.error("choose one level matching mode")
     roots = {"ACE": args.ace_root, "AIR": args.air_root}
+    level_match_all = args.all_level_match
     samples = {
         (dataset, model): load_jsonl(args.results_root / model / DATASETS[dataset] / "samples.jsonl")
-        for dataset in DATASETS if not args.air_only_level_match or dataset == "AIR"
+        for dataset in DATASETS if level_match_all or not args.air_only_level_match or dataset == "AIR"
         for model, _ in MODELS
     }
     output = args.output
@@ -121,11 +129,17 @@ def main():
         assert len(old_ace) == 56
         manifest["audio_version"] = {"ACE": "original-v1", "AIR": AIR_AUDIO_VERSION}
         manifest["trials"] = old_ace
+    elif level_match_all:
+        manifest = {"study": "dereverb-p808-batch-v1", "dataset_version": "v1.0.1",
+                    "audio_version": ALL_AUDIO_VERSION,
+                    "models": [{"id": model, "name": label} for model, label in MODELS],
+                    "trials": []}
     else:
         manifest = {"study": "ace56-air30-joint-v3", "dataset_version": "v1.0.1", "models": [
             {"id": model, "name": label} for model, label in MODELS
         ], "trials": []}
-    level_report = {"audio_version": AIR_AUDIO_VERSION, "target_rms_dbfs": TARGET_RMS_DBFS,
+    level_report = {"audio_version": ALL_AUDIO_VERSION if level_match_all else AIR_AUDIO_VERSION,
+                    "target_rms_dbfs": TARGET_RMS_DBFS,
                     "maximum_peak_dbfs": MAX_PEAK_DBFS, "tracks": []}
     for dataset, root in roots.items():
         if args.air_only_level_match and dataset != "AIR":
@@ -136,7 +150,9 @@ def main():
             input_path = root / "openbench_upload" / "se_in" / f"{sample_id}.wav"
             if sf.info(ref_path).samplerate != 16000 or sf.info(input_path).samplerate != 16000:
                 raise ValueError(f"Expected 16 kHz: {sample_id}")
-            folder = AIR_AUDIO_VERSION if args.air_only_level_match else dataset.lower()
+            folder = (ALL_AUDIO_VERSION if level_match_all
+                      else AIR_AUDIO_VERSION if args.air_only_level_match
+                      else dataset.lower())
             base = output / "audio" / folder / sample_id
             tracks = {
                 "reference": ref_path,
@@ -151,7 +167,7 @@ def main():
             trial_tracks = {}
             for key, source in tracks.items():
                 target = base / f"{key}.mp3"
-                if args.air_only_level_match:
+                if args.air_only_level_match or level_match_all:
                     gain, stats = air_gain(source)
                     if key == "hidden_reference":
                         target.parent.mkdir(parents=True, exist_ok=True)
@@ -179,9 +195,14 @@ def main():
         assert len(level_report["tracks"]) == 107 * 11
         report_path = output / "air_loudness_report.json"
         report_path.write_text(json.dumps(level_report, indent=2, ensure_ascii=False) + "\n")
-    temporary = output / f"manifest.json.{uuid.uuid4().hex}.tmp"
+    if level_match_all:
+        assert len(manifest["trials"]) == 163
+        assert len(level_report["tracks"]) == 163 * 11
+        (output / "all_loudness_report.json").write_text(
+            json.dumps(level_report, indent=2, ensure_ascii=False) + "\n")
+    temporary = output / f"{args.manifest_name}.{uuid.uuid4().hex}.tmp"
     temporary.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
-    os.replace(temporary, output / "manifest.json")
+    os.replace(temporary, output / args.manifest_name)
     print(f"Done: {len(manifest['trials'])} trials", flush=True)
 
 

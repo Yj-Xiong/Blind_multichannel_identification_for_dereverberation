@@ -7,10 +7,20 @@ The same audio and scoring protocol is available through three entry points:
 | `index.html` | All 56 ACE samples, then one 30 dB sample from each of 107 AIR scenes | `ace56-air30-joint-v3` | `ace56-air30-joint-v3` |
 | `ace.html` | All 56 ACE samples | `ace56-only-v1` | `ace56-only-v1` |
 | `air.html` | 107 AIR scenes at 30 dB | `air30-only-v1` | `air30-only-v1` |
+| `batch.html` | 163 normalized ACE/AIR samples, 10 samples per round | `dereverb-p808-batch-v1` | `dereverb-p808-batch-v1:<listener>` |
 
 Each entry saves and submits independently. Opening the ACE or AIR entry does
 not change progress in the joint study; results are not copied between entries.
 The joint study still requires all 163 samples before its combined submission.
+
+The batch entry follows the P.808 crowdsourcing organization principles:
+short independent tasks, randomized sample selection, listener setup
+information, a visible reference, and one submission per completed task. This
+study adds a project-specific 0.0–10.0 ranking scale with 0.1 increments.
+The ten anonymous versions for each sample must have distinct scores so that
+the subjective result produces an unambiguous ranking; this distinct-score
+constraint is an extension for this benchmark, not a claim that the page is a
+full conformance test of every P.808 procedure.
 
 Each trial has an additional visible dry reference player that is not scored.
 The ten blinded, scored tracks contain a hidden dry reference, an unprocessed
@@ -31,12 +41,13 @@ metadata, dataset version, audio version, and submission time. A failed submissi
 the record as JSON; a copy is also available after success. Older records
 must not be combined with this protocol without explicit review.
 
-AIR playback audio is gain matched within each trial. The source WAV first
+The batch playback audio for both ACE and AIR is gain matched within each trial. The source WAV first
 channel is measured before encoding; a gain-only adjustment targets −27 dBFS
 whole-file RMS with a −1.5 dBFS peak ceiling. The reference, hidden reference,
 unprocessed input, and eight model outputs use the same rule. A file that hits
 the peak ceiling may remain below the RMS target; the per-track audit is saved
-as `air_loudness_report.json`. The original ACE audio is unchanged.
+as `all_loudness_report.json`. The older joint, ACE-only, and AIR-only
+entries retain their prior audio paths and browser state.
 
 The new AIR files live under `audio/air-rms27-peak1p5-v1/`, so browser caches
 cannot substitute older MP3s. The manifest is fetched without cache. Existing
@@ -52,4 +63,5 @@ queue for this bulk export; the local submission script is
 Every published MP3 has a SHA-256 value in `manifest.json`. The header uses the
 center logo embedded in the Open-Bench presentation template.
 
-Reference: [ITU-R BS.1534](https://www.itu.int/rec/R-REC-BS.1534/en).
+References: [ITU-T P.808](https://www.itu.int/rec/T-REC-P.808/en),
+[ITU-R BS.1534](https://www.itu.int/rec/R-REC-BS.1534/en).
