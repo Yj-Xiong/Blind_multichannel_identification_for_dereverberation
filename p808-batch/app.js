@@ -23,8 +23,9 @@ let trialById;
 let candidateIds;
 let allTrials;
 const batchCache = new Map();
-ui.start.disabled = true;
-ui.start.textContent = '加载清单…';
+let initPromise;
+ui.start.disabled = false;
+ui.start.textContent = '开始或继续';
 
 function hash(value) {
   let result = 2166136261;
@@ -279,12 +280,17 @@ async function init() {
     ui.start.textContent = '开始或继续';
   } catch (error) {
     ui.setupError.textContent = '音频清单加载失败：' + (error.name === 'AbortError' ? '请求超时，请刷新页面重试。' : error.message);
-    ui.start.disabled = true;
+    ui.start.disabled = false;
+    ui.start.textContent = '重试加载清单';
   }
 }
 
 ui.start.addEventListener('click', async () => {
-  if (!manifest) { ui.setupError.textContent = '音频清单仍在加载，请稍候。'; return; }
+  if (!manifest) {
+    ui.start.disabled = true; ui.start.textContent = '加载清单…';
+    await initPromise;
+    if (!manifest) { ui.start.disabled = false; ui.start.textContent = '重试加载清单'; return; }
+  }
   const listenerId = ui.listener.value.trim();
   if (!listenerId) { ui.setupError.textContent = '请输入听评者编号。'; ui.listener.focus(); return; }
   ui.start.disabled = true; ui.start.textContent = '加载当前批次…';
@@ -314,4 +320,4 @@ ui.nextBatch.addEventListener('click', async () => {
 ui.downloadLast.addEventListener('click', () => download(state.currentPayload));
 ui.reset.addEventListener('click', () => { if (!confirm('清除这个听评 ID 的本机进度并重新开始？')) return; localStorage.removeItem(stateKey(state?.listenerId || ui.listener.value.trim())); state = null; render(); });
 document.addEventListener('play', (event) => { if (event.target instanceof HTMLAudioElement) document.querySelectorAll('audio').forEach((player) => { if (player !== event.target) player.pause(); }); }, true);
-init();
+initPromise = init();
