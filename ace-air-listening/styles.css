@@ -24,6 +24,10 @@ h1 { margin-bottom: 14px; font-size: clamp(25px, 3vw, 34px); line-height: 1.2; }
 h2 { font-size: 20px; }
 .setup, .review { max-width: 820px; margin: 6vh auto 0; }
 .intro { max-width: 760px; font-size: 16px; line-height: 1.75; color: #425855; }
+.study-entry-links { display: flex; gap: 20px; flex-wrap: wrap; border-bottom: 1px solid #d7e1de; margin: 16px 0 22px; }
+.study-entry-links a { color: #4b6461; font-size: 13px; font-weight: 650; text-decoration: none; padding: 0 0 10px; }
+.study-entry-links a:hover, .study-entry-links a[aria-current="page"] { color: #087a70; }
+.study-entry-links a[aria-current="page"] { border-bottom: 2px solid #087a70; }
 .study-facts { display: grid; grid-template-columns: repeat(4, 1fr); margin: 30px 0; border-block: 1px solid #d7e1de; }
 .study-facts > div { min-height: 82px; padding: 17px 12px 15px; display: flex; flex-direction: column; border-right: 1px solid #d7e1de; }
 .study-facts > div:last-child { border: 0; }

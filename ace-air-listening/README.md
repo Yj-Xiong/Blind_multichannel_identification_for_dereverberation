@@ -1,10 +1,16 @@
 # Dereverb Listening Study
 
-This GitHub Pages study evaluates all 56 ACE Chromebook samples and one 30 dB
-sample from each of 107 AIR RIR scenes. The listener completes ACE first, then
-AIR, and submits one combined record covering 163 samples. Progress is kept in
-the same browser under `ace56-air30-joint-v3`; previous study versions remain
-separate because their candidate sets and score scales differ.
+The same audio and scoring protocol is available through three entry points:
+
+| Entry | Files | Submission type | Browser storage |
+| --- | --- | --- | --- |
+| `index.html` | All 56 ACE samples, then one 30 dB sample from each of 107 AIR scenes | `ace56-air30-joint-v3` | `ace56-air30-joint-v3` |
+| `ace.html` | All 56 ACE samples | `ace56-only-v1` | `ace56-only-v1` |
+| `air.html` | 107 AIR scenes at 30 dB | `air30-only-v1` | `air30-only-v1` |
+
+Each entry saves and submits independently. Opening the ACE or AIR entry does
+not change progress in the joint study; results are not copied between entries.
+The joint study still requires all 163 samples before its combined submission.
 
 Each trial has an additional visible dry reference player that is not scored.
 The ten blinded, scored tracks contain a hidden dry reference, an unprocessed
@@ -17,8 +23,8 @@ MUSHRA-style, not a controlled ITU-R BS.1534 test. The navigation allows
 revisiting completed samples and the first incomplete sample; AIR remains
 inaccessible until all ACE samples are rated.
 
-The 163-sample record is sent once to the existing Formspree endpoint with
-type `ace56-air30-joint-v3`. The `candidateIds` array defines the order of
+Each completed record is sent once to the existing Formspree endpoint with
+the entry's submission type above. The `candidateIds` array defines the order of
 each trial's numeric `scores` array; its numeric `order` array records the
 presentation order. The record includes the score scale, sample IDs, listener
 metadata, dataset version, audio version, and submission time. A failed submission downloads

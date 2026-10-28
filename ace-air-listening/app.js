@@ -1,7 +1,11 @@
 import { migrateAirAudio } from './audio_revision.mjs';
+import { orderedTrials, STUDIES } from './study_modes.mjs';
 
 const ENDPOINT = 'https://formspree.io/f/mpqgvpvo';
-const STORAGE_KEY = 'ace56-air30-joint-v3';
+const MODE = document.body.dataset.study || 'joint';
+const CONFIG = STUDIES[MODE];
+if (!CONFIG) throw new Error('未知听评入口');
+const STORAGE_KEY = CONFIG.storageKey;
 const CANDIDATE_KEYS = ['hidden_reference', 'unprocessed'];
 const $ = (selector) => document.querySelector(selector);
 const ui = {
@@ -22,6 +26,7 @@ let manifest;
 let state;
 let trialById;
 let candidateIds;
+let trials;
 
 function hash(value) {
   let result = 2166136261;
@@ -43,21 +48,6 @@ function shuffle(items, seed) {
     [result[i], result[j]] = [result[j], result[i]];
   }
   return result;
-}
-
-function orderedTrials() {
-  const ace = manifest.trials.filter((trial) => trial.dataset === 'ACE');
-  const air = manifest.trials.filter((trial) => trial.dataset === 'AIR');
-  const scenes = [...new Set(ace.map((trial) => trial.scene_id))].sort();
-  const bySceneAndSnr = new Map(ace.map((trial) => [`${trial.scene_id}:${trial.snr_db}`, trial]));
-  if (scenes.length !== 14 || ace.length !== 56 || air.length !== 107
-    || air.some((trial) => trial.snr_db !== 30)) throw new Error('ACE / AIR 样本清单不完整');
-  const aceOrder = Array.from({ length: 7 }, (_, group) => [10, 20, 30, 40].flatMap((snr, snrIndex) => {
-    const pair = ((group + snrIndex) % 7) * 2;
-    return [scenes[pair], scenes[pair + 1]].map((scene) => bySceneAndSnr.get(`${scene}:${snr}`));
-  })).flat();
-  if (aceOrder.some((trial) => !trial)) throw new Error('ACE 样本清单缺少 SNR 条件');
-  return [...aceOrder, ...air];
 }
 
 function candidates(trial) {
@@ -110,8 +100,12 @@ function renderRail() {
   Array.from(ui.trialPicker.options).forEach((option, index) => { option.disabled = index > maxNavigable; });
   ui.trialPicker.value = String(state.index);
   ui.progressLabel.textContent = `${done.filter(Boolean).length} / ${state.trialIds.length}`;
-  ui.aceProgress.textContent = `${done.slice(0, 56).filter(Boolean).length} / 56`;
-  ui.airProgress.textContent = `${done.slice(56).filter(Boolean).length} / 107`;
+  for (const [dataset, element] of [['ACE', ui.aceProgress], ['AIR', ui.airProgress]]) {
+    element.parentElement.hidden = !CONFIG.datasets.includes(dataset);
+    const matching = state.trialIds.map((id, index) => getTrial(index).dataset === dataset ? done[index] : null)
+      .filter((value) => value !== null);
+    element.textContent = `${matching.filter(Boolean).length} / ${matching.length}`;
+  }
 }
 
 function candidateCard(trial, key, index) {
@@ -192,7 +186,7 @@ function renderTrial() {
   ui.candidates.replaceChildren(...candidates(trial).map((key, index) => candidateCard(trial, key, index)));
   ui.previous.disabled = state.index === 0;
   ui.next.textContent = state.index === state.trialIds.length - 1
-    ? '检查并提交' : state.index === 55 ? '进入 AIR' : '下一条';
+    ? '检查并提交' : MODE === 'joint' && state.index === 55 ? '进入 AIR' : '下一条';
   ui.navProgress.textContent = `${state.index + 1} / ${state.trialIds.length}`;
   updateProgress();
 }
@@ -200,9 +194,17 @@ function renderTrial() {
 function renderReview() {
   const done = state.trialIds.map((_, index) => complete(getTrial(index)));
   const allComplete = done.every(Boolean);
-  ui.reviewSummary.textContent = `${state.listenerId} · ACE ${done.slice(0, 56).filter(Boolean).length}/56 · AIR ${done.slice(56).filter(Boolean).length}/107 · ${allComplete ? '可统一提交' : '仍有未评分片段'}`;
+  const summary = CONFIG.datasets.map((dataset) => {
+    const matching = state.trialIds.map((id, index) => getTrial(index).dataset === dataset ? done[index] : null)
+      .filter((value) => value !== null);
+    return `${dataset} ${matching.filter(Boolean).length}/${matching.length}`;
+  });
+  ui.reviewSummary.textContent = [state.listenerId, ...summary,
+    allComplete ? '可以提交' : '仍有未评分片段'].join('，');
   ui.reviewChecks.replaceChildren();
-  for (const [dataset, start, end] of [['ACE', 0, 56], ['AIR', 56, 163]]) {
+  for (const dataset of CONFIG.datasets) {
+    const start = state.trialIds.findIndex((id, index) => getTrial(index).dataset === dataset);
+    const end = start + state.trialIds.filter((id, index) => getTrial(index).dataset === dataset).length;
     const completed = done.slice(start, end).filter(Boolean).length;
     const firstIncomplete = done.findIndex((isDone, index) => index >= start && index < end && !isDone);
     const row = document.createElement('button');
@@ -227,7 +229,7 @@ function render() {
 
 function resultPayload() {
   return {
-    schema: 'se.subjective.mushra_style.v3', study: manifest.study,
+    schema: 'se.subjective.mushra_style.v3', study: CONFIG.study,
     datasetVersion: manifest.dataset_version,
     audioVersion: manifest.audio_version, sessionId: state.sessionId,
     candidateIds, scale: { min: 0, max: 10, step: 0.1, uniquePerTrial: true },
@@ -246,7 +248,7 @@ function download(payload) {
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = url; link.download = `ace-air-listening-${state.sessionId}.json`; link.click();
+  link.href = url; link.download = `${CONFIG.downloadPrefix}-${state.sessionId}.json`; link.click();
   setTimeout(() => URL.revokeObjectURL(url), 10000);
 }
 
@@ -260,7 +262,7 @@ async function submit() {
   try {
     const response = await fetch(ENDPOINT, { method: 'POST', headers: {
       'Content-Type': 'application/json', Accept: 'application/json',
-    }, body: JSON.stringify({ type: 'ace56-air30-joint-v3', study: payload.study,
+    }, body: JSON.stringify({ type: CONFIG.study, study: payload.study,
       listenerId: payload.listenerId, sessionId: payload.sessionId,
       payloadJson: JSON.stringify(payload) }) });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -279,7 +281,7 @@ async function init() {
     const response = await fetch('manifest.json', { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     manifest = await response.json();
-    const trials = orderedTrials();
+    trials = orderedTrials(manifest, MODE);
     trialById = new Map(manifest.trials.map((trial) => [trial.sample_id, trial]));
     candidateIds = [...CANDIDATE_KEYS, ...manifest.models.map((model) => model.id)];
     ui.trialPicker.replaceChildren(...trials.map((trial, index) => {
@@ -292,15 +294,17 @@ async function init() {
     if (saved) {
       const parsed = JSON.parse(saved);
       const expected = trials.map((trial) => trial.sample_id);
-      if (parsed.study === manifest.study && parsed.trialIds?.length === expected.length
+      if (parsed.study === CONFIG.study && parsed.trialIds?.length === expected.length
         && parsed.trialIds.every((id, index) => id === expected[index])) {
         state = parsed;
         const airVersion = manifest.audio_version?.AIR || 'original-v1';
-        if ((state.airAudioVersion || 'original-v1') !== airVersion) {
+        if (CONFIG.datasets.includes('AIR') && (state.airAudioVersion || 'original-v1') !== airVersion) {
           localStorage.setItem(`${STORAGE_KEY}:before-${airVersion}`, saved);
           const migration = migrateAirAudio(state, trials, airVersion);
           localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-          ui.audioUpdateNotice.textContent = `AIR 音频已更新。ACE 的 56 条评分保持不变；${migration.removed} 条旧 AIR 评分已清除，请用新音频重新评分。`;
+          ui.audioUpdateNotice.textContent = MODE === 'joint'
+            ? `AIR 音频已更新。ACE 的 56 条评分保持不变；${migration.removed} 条旧 AIR 评分已清除，请用新音频重新评分。`
+            : `AIR 音频已更新；${migration.removed} 条旧评分已清除，请用新音频重新评分。`;
           ui.audioUpdateNotice.hidden = false;
         }
       }
@@ -315,16 +319,17 @@ async function init() {
 $('#start').addEventListener('click', () => {
   const listenerId = ui.listener.value.trim();
   if (!listenerId) { ui.setupError.textContent = '请输入听评者编号。'; ui.listener.focus(); return; }
-  state = { study: manifest.study, sessionId: crypto.randomUUID(), listenerId,
+  state = { study: CONFIG.study, sessionId: crypto.randomUUID(), listenerId,
     experience: ui.experience.value, device: ui.device.value, index: 0,
-    trialIds: orderedTrials().map((trial) => trial.sample_id), scores: {},
+    trialIds: trials.map((trial) => trial.sample_id), scores: {},
     airAudioVersion: manifest.audio_version?.AIR || 'original-v1' };
   save(); render();
 });
 ui.trialPicker.addEventListener('change', () => {
   const index = Number(ui.trialPicker.value);
   const firstIncomplete = state.trialIds.findIndex((_, position) => !complete(getTrial(position)));
-  if (!Number.isInteger(index) || index < 0 || index > (firstIncomplete === -1 ? 162 : firstIncomplete)) return;
+  if (!Number.isInteger(index) || index < 0
+    || index > (firstIncomplete === -1 ? state.trialIds.length - 1 : firstIncomplete)) return;
   state.index = index; save(); render(); window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 ui.previous.addEventListener('click', () => { state.index -= 1; save(); render(); });
