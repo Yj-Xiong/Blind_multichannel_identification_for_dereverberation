@@ -23,7 +23,7 @@ APP = r"""
     start: $('#start'), error: $('#error'), progress: $('#progress'),
     sample: $('#sample'), reference: $('#reference'), candidates: $('#candidates'),
     back: $('#back'), next: $('#next'), submit: $('#submit'), status: $('#status'),
-    batch: $('#batch'), reset: $('#reset'), nextBatch: $('#next-batch')
+    batch: $('#batch'), reset: $('#reset')
   };
   let state = null;
   const trials = new Map(data.trials.map((t) => [t.sample_id, t]));
@@ -49,7 +49,7 @@ APP = r"""
   function pickBatch() {
     const ids = (data.batches[state.round] || []).filter((id) => !state.used.includes(id));
     if (!ids.length) return false;
-    state.round += 1; state.ids = ids.slice(0, size); state.index = 0; state.scores = {}; state.allScores ||= {}; state.submitted = false; return true;
+    state.round += 1; state.ids = ids.slice(0, size); state.index = 0; state.scores = {}; state.allScores ||= {}; state.submitted = false; state.completed = false; return true;
   }
   function orderedCandidates(trial) { return shuffle(keys, hash(state.listener + ':' + trial.sample_id)); }
   function complete(trial) {
@@ -93,17 +93,19 @@ APP = r"""
     const finished = state.index >= state.ids.length;
     if (finished) {
       ui.batch.textContent = '第 ' + state.round + ' 批';
-      ui.sample.textContent = '本批已完成，可以提交评分';
-      ui.progress.textContent = state.submitted ? '本批已提交' : '本批 ' + state.ids.length + ' 条均已评分';
+      ui.sample.textContent = state.completed ? '全部批次已完成' : '本批已完成，可以提交评分';
+      ui.progress.textContent = state.completed ? '全部样本已提交' : '本批 ' + state.ids.length + ' 条均已评分';
       ui.reference.parentElement.hidden = true; ui.candidates.hidden = true;
       ui.back.hidden = false; ui.back.disabled = state.index === 0;
-      ui.next.hidden = true; ui.submit.hidden = state.submitted; ui.submit.disabled = state.submitted;
-      ui.nextBatch.hidden = !state.submitted; ui.nextBatch.disabled = false;
-      if (!state.submitted) ui.status.textContent = '请提交本批评分。';
+      ui.next.hidden = true; ui.submit.hidden = state.completed; ui.submit.disabled = state.completed;
+      ui.submit.textContent = '提交本批并进入下一批';
+      if (state.completed) ui.status.textContent = '所有样本都已完成。';
+      else ui.status.textContent = '请提交本批评分，提交后自动进入下一批。';
       return;
     }
     ui.reference.parentElement.hidden = false; ui.candidates.hidden = false;
-    ui.back.hidden = false; ui.next.hidden = false; ui.submit.hidden = true; ui.nextBatch.hidden = true;
+    ui.back.hidden = false; ui.next.hidden = false; ui.submit.hidden = true; ui.submit.textContent = '提交本批并进入下一批';
+    ui.status.textContent = '';
     const trial = trials.get(state.ids[state.index]); ui.batch.textContent = '第 ' + state.round + ' 批';
     ui.sample.textContent = trial.dataset + '  第 ' + (state.index + 1) + ' / ' + state.ids.length + ' 条';
     ui.reference.src = trackUrl(trial.tracks.reference.file);
@@ -127,22 +129,23 @@ APP = r"""
     try {
       const response = await fetch('https://formspree.io/f/mpqgvpvo', {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify({type: 'dereverb-p808-short-v3', payloadJson: JSON.stringify(payload)})});
       if (!response.ok) throw new Error('HTTP ' + response.status);
-      state.used.push(...state.ids); state.submitted = true; save(); ui.status.textContent = '本批已提交，可以开始下一批。';
-    } catch (error) { download(payload); state.used.push(...state.ids); state.submitted = true; save(); ui.status.textContent = '网络提交失败，已下载本批记录；可以继续下一批。'; }
-    render();
+      state.used.push(...state.ids); state.submitted = true;
+    } catch (error) { download(payload); state.used.push(...state.ids); state.submitted = true; }
+    if (!pickBatch()) state.completed = true;
+    save(); render();
   }
   ui.start.addEventListener('click', () => {
     const id = ui.listener.value.trim(); if (!id) { ui.error.textContent = '请输入测试 ID。'; return; }
     state = loadState(id) || {listener: id, experience: ui.experience.value, device: ui.device.value,
-      round: 0, index: 0, ids: [], scores: {}, allScores: {}, used: [], submitted: false};
+      round: 0, index: 0, ids: [], scores: {}, allScores: {}, used: [], submitted: false, completed: false};
     state.allScores = {...(state.allScores || {}), ...(state.scores || {})};
+    state.completed = Boolean(state.completed);
     if (!state.ids.length || state.submitted) { if (!pickBatch()) { ui.error.textContent = '所有样本都已完成。'; return; } }
     save(); render();
   });
   ui.next.addEventListener('click', () => { if (complete(trials.get(state.ids[state.index]))) { state.index += 1; save(); render(); } });
   ui.back.addEventListener('click', () => { state.index -= 1; save(); render(); });
   ui.submit.addEventListener('click', submit);
-  ui.nextBatch.addEventListener('click', () => { if (!state.submitted) return; if (!pickBatch()) { ui.status.textContent = '所有样本都已完成。'; ui.nextBatch.disabled = true; return; } save(); render(); });
   ui.reset.addEventListener('click', () => { if (state) localStorage.removeItem('p808-final:' + state.listener); state = null; render(); });
   document.addEventListener('play', (e) => { if (e.target instanceof HTMLAudioElement) document.querySelectorAll('audio').forEach((a) => { if (a !== e.target) a.pause(); }); }, true);
   window.addEventListener('error', (e) => { ui.error.textContent = '页面脚本错误：' + e.message; });
@@ -179,7 +182,7 @@ def main():
 <div class="short-form"><label>测试 ID<input id="listener" placeholder="name 或 name_YYYYMMDD"></label><label>听评经验<select id="experience"><option value="general">普通听众</option><option value="experienced">有语音处理经验</option><option value="expert">领域专家</option></select></label><label>收听设备<select id="device"><option value="headphones">耳机</option><option value="speakers">扬声器</option><option value="other">其他</option></select></label><button id="start">开始听测</button></div><p>完成一批即可提交；同一测试 ID 返回时会继续未完成批次或领取下一批。每次提交会保留该测试 ID 的累计结果。进度保存在本机浏览器，建议使用耳机并保持相同音量。</p><p id="error" class="short-error"></p></section>
 <section id="study" class="short-study" hidden><div class="short-head"><div><p id="batch" class="eyebrow"></p><h2 id="sample"></h2></div><strong id="progress"></strong></div>
 <div class="short-reference"><strong>公开参考（不计分）</strong><audio id="reference" controls preload="none"></audio></div><div id="candidates" class="short-cards"></div>
-<p id="status" class="short-error"></p><div class="short-nav"><button id="back">上一条</button><button id="next">下一条</button><button id="submit" hidden>提交本批</button><button id="next-batch" hidden>开始下一批</button></div></section></main>
+<p id="status" class="short-error"></p><div class="short-nav"><button id="back">上一条</button><button id="next">下一条</button><button id="submit" hidden>提交本批并进入下一批</button></div></section></main>
 <script>window.P808_DATA=""" + json.dumps(source, ensure_ascii=False, separators=(",", ":")) + """;</script><script>""" + APP + """</script></body></html>"""
     OUTPUT.write_text(html)
     print(OUTPUT, OUTPUT.stat().st_size)
