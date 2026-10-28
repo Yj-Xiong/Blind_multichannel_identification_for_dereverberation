@@ -22,6 +22,8 @@ let state;
 let trialById;
 let candidateIds;
 let allTrials;
+ui.start.disabled = true;
+ui.start.textContent = '加载清单…';
 
 function hash(value) {
   let result = 2166136261;
@@ -44,6 +46,10 @@ function shuffle(items, seed) {
 }
 
 function stateKey(listenerId) { return STORAGE_PREFIX + listenerId; }
+function newSessionId() {
+  if (globalThis.crypto && typeof globalThis.crypto.randomUUID === 'function') return globalThis.crypto.randomUUID();
+  return 'session-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+}
 function save() {
   localStorage.setItem(stateKey(state.listenerId), JSON.stringify(state));
   ui.saveState.textContent = '已保存在本机';
@@ -87,7 +93,7 @@ function startOrResume(listenerId) {
     return true;
   }
   state = { study: manifest.study, audioVersion: manifest.audio_version,
-    listenerId, sessionId: crypto.randomUUID(), experience: ui.experience.value,
+    listenerId, sessionId: newSessionId(), experience: ui.experience.value,
     device: ui.device.value, round: 0, index: 0, trialIds: [], scores: {},
     usedSampleIds: [], submittedBatches: [], submittedAt: null, currentPayload: null };
   return pickNextBatch();
@@ -236,10 +242,13 @@ async function init() {
     if (manifest.study !== 'dereverb-p808-batch-v1' || allTrials.length !== 163) throw new Error('P.808 分批清单不完整');
     trialById = new Map(allTrials.map((trial) => [trial.sample_id, trial]));
     candidateIds = CANDIDATE_KEYS.concat(manifest.models.map((model) => model.id));
+    ui.start.disabled = false;
+    ui.start.textContent = '开始或继续';
   } catch (error) { ui.setupError.textContent = '音频清单加载失败：' + error.message; ui.start.disabled = true; }
 }
 
 ui.start.addEventListener('click', () => {
+  if (!manifest) { ui.setupError.textContent = '音频清单仍在加载，请稍候。'; return; }
   const listenerId = ui.listener.value.trim();
   if (!listenerId) { ui.setupError.textContent = '请输入听评者编号。'; ui.listener.focus(); return; }
   if (!startOrResume(listenerId)) { ui.setupError.textContent = '所有样本都已完成。'; return; }
