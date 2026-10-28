@@ -273,8 +273,14 @@ async function submit() {
 
 async function init() {
   try {
-    const response = await fetchWithTimeout(MANIFEST_URL); if (!response.ok) throw new Error('HTTP ' + response.status);
-    manifest = await response.json(); allTrials = manifest.trials;
+    if (window.__P808_BATCH_INDEX__) {
+      manifest = window.__P808_BATCH_INDEX__;
+    } else {
+      const response = await fetchWithTimeout(MANIFEST_URL);
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      manifest = await response.json();
+    }
+    allTrials = manifest.trials;
     if (manifest.study !== 'dereverb-p808-batch-v1' || manifest.sample_count !== 163
       || !Array.isArray(manifest.batches)) throw new Error('P.808 分批索引不完整');
     trialById = new Map(allTrials.map((trial) => [trial.sample_id, trial]));
