@@ -257,6 +257,28 @@ function download(payload, suffix = '') {
   setTimeout(() => URL.revokeObjectURL(url), 10000);
 }
 
+async function submitProgress() {
+  if (!state || ui.exportCurrent.disabled) return;
+  const payload = resultPayload();
+  payload.submissionKind = 'progress';
+  ui.exportCurrent.disabled = true;
+  ui.saveState.textContent = '正在提交当前进度';
+  try {
+    const response = await fetch(ENDPOINT, { method: 'POST', headers: {
+      'Content-Type': 'application/json', Accept: 'application/json',
+    }, body: JSON.stringify({ type: `${CONFIG.study}-progress`, study: payload.study,
+      listenerId: payload.listenerId, sessionId: payload.sessionId,
+      payloadJson: JSON.stringify(payload) }) });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    ui.saveState.textContent = '当前进度已提交';
+  } catch (error) {
+    download(payload, '-progress');
+    ui.saveState.textContent = '提交失败，已下载进度备份';
+  } finally {
+    ui.exportCurrent.disabled = false;
+  }
+}
+
 async function submit() {
   if (!state.trialIds.every((_, index) => complete(getTrial(index)))) {
     ui.submitError.textContent = '请完成所有片段评分，并确保每轮分数互不相同。'; return;
@@ -345,7 +367,7 @@ ui.next.addEventListener('click', () => {
 $('#back-to-trials').addEventListener('click', () => { state.index = state.trialIds.length - 1; save(); render(); });
 ui.submit.addEventListener('click', submit);
 ui.download.addEventListener('click', () => download(state.submittedPayload || resultPayload()));
-if (ui.exportCurrent) ui.exportCurrent.addEventListener('click', () => { if (state) download(resultPayload(), '-current'); });
+if (ui.exportCurrent) ui.exportCurrent.addEventListener('click', submitProgress);
 $('#reset').addEventListener('click', () => {
   if (!confirm('清除本机当前听评进度并重新开始？')) return;
   localStorage.removeItem(STORAGE_KEY); state = null; render();
