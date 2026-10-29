@@ -111,7 +111,7 @@ APP = r"""
     ui.back.hidden = false; ui.next.hidden = false; ui.submit.hidden = true;
     ui.status.textContent = '';
     const trial = trials.get(state.ids[state.index]); ui.batch.textContent = '第 ' + state.round + ' 批';
-    ui.sample.textContent = trial.dataset + '  第 ' + (state.index + 1) + ' / ' + state.ids.length + ' 条';
+    ui.sample.textContent = trial.dataset + '  当前批样本 ' + (state.index + 1) + ' / ' + state.ids.length;
     ui.reference.src = trackUrl(trial.tracks.reference.file);
     ui.candidates.replaceChildren(...orderedCandidates(trial).map((key, i) => card(trial, key, i)));
     ui.back.disabled = state.index === 0;
