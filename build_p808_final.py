@@ -16,6 +16,7 @@ APP = r"""
   const data = window.P808_DATA;
   const size = 15;
   const samplingVersion = 'listener-random-v1';
+  const scoringVersion = 'ovl-0-100-v1';
   const keys = ['hidden_reference', 'unprocessed'].concat(data.models.map((m) => m.id));
   const $ = (s) => document.querySelector(s);
   const ui = {
@@ -42,7 +43,15 @@ APP = r"""
     }
     return out;
   }
-  function valid(v) { return typeof v === 'number' && v >= 0 && v <= 10 && Math.abs(v * 10 - Math.round(v * 10)) < 1e-8; }
+  function valid(v) { return typeof v === 'number' && v >= 0 && v <= 100 && Math.abs(v - Math.round(v)) < 1e-8; }
+  function migrateScoreMap(map) {
+    if (!map) return;
+    Object.keys(map).forEach((sampleId) => {
+      Object.keys(map[sampleId] || {}).forEach((key) => {
+        if (typeof map[sampleId][key] === 'number' && map[sampleId][key] <= 10) map[sampleId][key] = Math.round(map[sampleId][key] * 10);
+      });
+    });
+  }
   function save() { localStorage.setItem('p808-final:' + state.listener, JSON.stringify(state)); }
   function loadState(id) {
     try { return JSON.parse(localStorage.getItem('p808-final:' + id)); } catch { return null; }
@@ -58,7 +67,7 @@ APP = r"""
   function orderedCandidates(trial) { return shuffle(keys, hash(state.listener + ':' + trial.sample_id)); }
   function complete(trial) {
     const scores = orderedCandidates(trial).map((key) => (state.scores[trial.sample_id] || {})[key]);
-    return scores.every(valid) && new Set(scores.map((v) => v.toFixed(1))).size === scores.length;
+    return scores.every(valid) && new Set(scores.map((v) => String(v))).size === scores.length;
   }
   function trackUrl(file) { return file; }
   function card(trial, key, index) {
@@ -66,29 +75,29 @@ APP = r"""
     const head = document.createElement('div'); head.className = 'candidate-head';
     const title = document.createElement('strong'); title.textContent = '样本 ' + String.fromCharCode(65 + index);
     const value = document.createElement('span'); value.className = 'score-value';
-    const old = (state.scores[trial.sample_id] || {})[key]; value.textContent = valid(old) ? old.toFixed(1) : '未评分';
+    const old = (state.scores[trial.sample_id] || {})[key]; value.textContent = valid(old) ? old.toFixed(0) : '未评分';
     head.append(title, value);
     const audio = document.createElement('audio'); audio.controls = true; audio.preload = 'none'; audio.src = trackUrl(trial.tracks[key].file);
     const row = document.createElement('div'); row.className = 'score-row';
-    const range = document.createElement('input'); range.type = 'range'; range.min = '0'; range.max = '10'; range.step = '0.1'; range.value = valid(old) ? old : '5';
-    const number = document.createElement('input'); number.type = 'number'; number.min = '0'; number.max = '10'; number.step = '0.1'; number.value = valid(old) ? old : '';
+    const range = document.createElement('input'); range.type = 'range'; range.min = '0'; range.max = '100'; range.step = '1'; range.value = valid(old) ? old : '50';
+    const number = document.createElement('input'); number.type = 'number'; number.min = '0'; number.max = '100'; number.step = '1'; number.value = valid(old) ? old : '';
     const update = (raw) => {
-      if (raw === '') return; const n = Math.round(Number(raw) * 10) / 10;
+      if (raw === '') return; const n = Math.round(Number(raw));
       if (!valid(n)) return; state.scores[trial.sample_id] = state.scores[trial.sample_id] || {}; state.scores[trial.sample_id][key] = n;
       state.allScores = state.allScores || {}; state.allScores[trial.sample_id] = state.allScores[trial.sample_id] || {}; state.allScores[trial.sample_id][key] = n;
-      range.value = n; number.value = n; value.textContent = n.toFixed(1); card.classList.add('rated'); save(); renderProgress();
+      range.value = n; number.value = n; value.textContent = n.toFixed(0); card.classList.add('rated'); save(); renderProgress();
     };
     range.addEventListener('input', () => update(range.value)); number.addEventListener('change', () => update(number.value));
     row.append(range, number); card.append(head, audio, row); return card;
   }
   function renderProgress() {
     const trial = trials.get(state.ids[state.index]); const scoreValues = orderedCandidates(trial).map((key) => (state.scores[trial.sample_id] || {})[key]).filter(valid);
-    const duplicated = new Set(scoreValues.map((v) => v.toFixed(1))).size !== scoreValues.length;
+    const duplicated = new Set(scoreValues.map((v) => String(v))).size !== scoreValues.length;
     ui.progress.textContent = (complete(trial) ? '本条已完成' : '请给 10 个样本评分') + (duplicated ? '，不能同分' : '');
     ui.next.disabled = !complete(trial); ui.submit.disabled = !state.ids.every((id) => complete(trials.get(id)));
     ui.candidates.querySelectorAll('.candidate').forEach((node) => {
       const v = (state.scores[trial.sample_id] || {})[node.dataset.key];
-      node.classList.toggle('conflict', valid(v) && scoreValues.filter((x) => x.toFixed(1) === v.toFixed(1)).length > 1);
+      node.classList.toggle('conflict', valid(v) && scoreValues.filter((x) => String(x) === String(v)).length > 1);
     });
   }
   function render() {
@@ -130,13 +139,15 @@ APP = r"""
     state.allScores = state.allScores || {};
     const cumulativeScores = {...state.allScores, ...state.scores};
     const cumulativeSampleIds = [...new Set([...state.used, ...state.ids])];
-    const payload = {schema: 'se.subjective.p808_short_batch.v3', study: data.study, round: state.round,
+    const payload = {schema: 'se.subjective.p808_short_batch.v4', study: data.study, round: state.round,
+      scoringVersion: scoringVersion, scale: {min: 0, max: 100, step: 1, dimension: 'OVL', uniquePerTrial: true},
+      dimensions: {SIG: '语音本身的声音质量', BAK: '回声和背景声音的干扰', OVL: '整体满意度'},
       samplingVersion: state.samplingVersion, sampleOrder: state.order, listenerId: state.listener,
       experience: state.experience, device: state.device, batchSize: state.ids.length, totalSize: cumulativeSampleIds.length,
       sampleIds: cumulativeSampleIds, scores: cumulativeScores, batchSampleIds: state.ids, batchScores: state.scores,
       submittedAt: new Date().toISOString()};
     try {
-      const response = await fetch('https://formspree.io/f/mpqgvpvo', {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify({type: 'dereverb-p808-short-v3', payloadJson: JSON.stringify(payload)})});
+      const response = await fetch('https://formspree.io/f/mpqgvpvo', {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify({type: 'dereverb-p808-short-v4', payloadJson: JSON.stringify(payload)})});
       if (!response.ok) throw new Error('HTTP ' + response.status);
       state.used.push(...state.ids); state.submitted = true;
     } catch (error) { download(payload); state.used.push(...state.ids); state.submitted = true; }
@@ -148,6 +159,11 @@ APP = r"""
     const id = ui.listener.value.trim(); if (!id) { ui.error.textContent = '请输入测试 ID。'; return; }
     state = loadState(id) || {listener: id, experience: ui.experience.value, device: ui.device.value,
       round: 0, index: 0, ids: [], scores: {}, allScores: {}, used: [], submitted: false, completed: false};
+    if (state.scoringVersion !== scoringVersion) {
+      migrateScoreMap(state.scores);
+      migrateScoreMap(state.allScores);
+      state.scoringVersion = scoringVersion;
+    }
     if (!Array.isArray(state.order) || state.order.length !== data.trials.length
       || state.samplingVersion !== samplingVersion) {
       state.order = sampleOrder(id);
@@ -203,11 +219,11 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
 <main class="short-main"><section id="setup" class="short-setup"><p class="eyebrow">短批次主观评估</p><h1>每批 15 条，完成即可提交</h1>
 <p>每个测试 ID 独立随机生成样本顺序；同一测试 ID 可以回来继续下一批，已经完成的样本不会再次出现。每个样本的 10 个评分项必须使用不同分数，形成明确排序。</p>
 <div class="study-facts"><div><strong>15</strong><span>每批样本</span></div><div><strong>163</strong><span>可抽取样本</span></div><div><strong>10</strong><span>每个样本的评分项</span></div><div><strong>1</strong><span>每批独立提交</span></div></div>
-<section class="evaluation-guidance" aria-label="评分说明"><strong>怎么评分</strong><p><b>先听参考语音，再听下面 10 段声音。</b>只听三件事：回声大不大；每个字清不清楚；声音有没有变怪，比如像金属声、机器人声、忽大忽小或断断续续。<b>8–10 分：</b>回声很小，讲话基本清楚，整体最好；<b>6–7 分：</b>有一点回声或怪声，但容易听懂；<b>4–5 分：</b>问题明显，但大部分还能听懂；<b>2–3 分：</b>回声或怪声较重，很多字不清楚；<b>0–1 分：</b>很难听清。参考语音不评分，它代表本轮的最高标准。10 段声音必须使用不同分数，从好到差排出顺序。</p></section>
-<section class="scoring-rules"><h2>评分规则</h2><ol><li>每个样本先听参考语音，再听下面 10 段声音。</li><li>按 0.0–10.0 分、每 0.1 分一个档位评分；回声越大、字越不清楚、声音越怪，分数越低。</li><li>10 段声音必须全部使用不同分数，从好到差排出顺序；完成一批即可提交。</li></ol></section>
+<section class="evaluation-guidance" aria-label="评分说明"><strong>我们要评什么</strong><p>这是一个<b>去回声</b>测试：看录音里的回声有没有被去掉，同时看说话声音有没有被损坏。<b>先听参考语音，再听下面 10 段声音。</b>每组会随机放入 1 段和参考语音相同的隐藏参考。请听三点：<b>说话声音本身</b>，每个字是否完整，有没有变闷、发糊、像机器人或断断续续；<b>回声和背景声音</b>，说话后有没有拖着回声，房间声或噪声是否残留；<b>总体评价</b>，把前两点合起来，判断整体是否清楚、舒服。最后给每段声音一个 0–100 分的总体分。<b>80–100：</b>回声很小，讲话基本清楚，整体最好；<b>60–79：</b>有一点问题，但容易听懂；<b>40–59：</b>问题明显，但大部分还能听懂；<b>20–39：</b>回声或怪声较重，很多字不清楚；<b>0–19：</b>很难听清。参考语音不评分，它代表本轮的最高标准。10 段声音必须使用不同分数，从好到差排出顺序。</p></section>
+<section class="scoring-rules"><h2>评分规则</h2><ol><li>每个样本先听参考语音，再听下面 10 段声音；其中 1 段是随机隐藏参考。</li><li>按 0–100 分、每 1 分一个档位给出总体分，同时考虑说话声音是否被损坏，以及回声和背景声音是否残留。</li><li>10 段声音必须全部使用不同分数，从好到差排出顺序；完成一批即可提交。</li></ol></section>
 <div class="short-form"><label>测试 ID<input id="listener" placeholder="name 或 name_YYYYMMDD"></label><label>听评经验<select id="experience"><option value="general">普通听众</option><option value="experienced">有语音处理经验</option><option value="expert">领域专家</option></select></label><label>收听设备<select id="device"><option value="headphones">耳机</option><option value="speakers">扬声器</option><option value="other">其他</option></select></label><button id="start">开始听测</button></div><p>每个测试 ID 会独立随机生成批次；完成一批即可提交。同一测试 ID 返回时会继续未完成批次或领取下一批。每次提交会保留该测试 ID 的累计结果。进度保存在本机浏览器，建议使用耳机并保持相同音量。</p><p id="error" class="short-error"></p></section>
 <section id="study" class="short-study" hidden><div class="short-head"><div><p id="batch" class="eyebrow"></p><h2 id="sample"></h2></div><strong id="progress"></strong></div>
-<section class="evaluation-guidance" aria-label="评分提示"><strong>怎么评分</strong><p>请听回声大小、字是否清楚、声音有没有变怪。8–10 分表示整体最好；6–7 分表示有一点问题但容易听懂；4–5 分表示问题明显但大部分还能听懂；2–3 分表示很多字不清楚；0–1 分表示很难听清。参考语音不评分，它代表本轮的最高标准。10 段声音必须使用不同分数，从好到差排出顺序。</p></section>
+<section class="evaluation-guidance" aria-label="评分提示"><strong>评分提示</strong><p>每组有 1 段随机隐藏参考。先听说话声音有没有变闷、发糊或断断续续，再听说话后有没有回声、房间声或噪声，最后给出一个 0–100 分的总体分。80–100 分表示整体最好；60–79 分表示有一点问题但容易听懂；40–59 分表示问题明显但大部分还能听懂；20–39 分表示很多字不清楚；0–19 分表示很难听清。参考语音不评分，它代表本轮的最高标准。10 段声音必须使用不同分数，从好到差排出顺序。</p></section>
 <div class="short-reference"><div><strong>参考语音</strong><span>可反复播放，不计入评分</span></div><audio id="reference" controls preload="none"></audio></div><div id="candidates" class="short-cards"></div>
 <p id="status" class="short-error"></p><div class="short-nav"><button id="back">上一条</button><button id="next">下一条</button><button id="submit" hidden>提交本批并进入下一批</button></div></section></main>
 <script>window.P808_DATA=""" + json.dumps(source, ensure_ascii=False, separators=(",", ":")) + """;</script><script>""" + APP + """</script></body></html>"""
