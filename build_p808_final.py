@@ -14,7 +14,7 @@ OUTPUT = ROOT / "p808/index.html"
 APP = r"""
 (() => {
   const data = window.P808_DATA;
-  const size = 15;
+  const size = 20;
   const samplingVersion = 'listener-random-v1';
   const keys = ['hidden_reference', 'unprocessed'].concat(data.models.map((m) => m.id));
   const $ = (s) => document.querySelector(s);
@@ -194,9 +194,9 @@ def main():
 @media(max-width:700px){.short-form,.short-reference{display:grid;grid-template-columns:1fr}.short-cards{grid-template-columns:1fr}}
 </style></head><body>
 <header class="topbar"><div class="brand"><span class="brand-mark"><img src="center-logo.png" alt="苏州大学听觉与语言智能中心"></span><span>Dereverb 短批次听评</span><span class="version">v2</span></div><button id="reset" class="quiet">重新开始</button></header>
-<main class="short-main"><section id="setup" class="short-setup"><p class="eyebrow">短批次主观评估</p><h1>每批 15 条，完成即可提交</h1>
+<main class="short-main"><section id="setup" class="short-setup"><p class="eyebrow">短批次主观评估</p><h1>每批 20 条，完成即可提交</h1>
 <p>每个测试 ID 独立随机生成样本顺序；同一测试 ID 可以回来继续下一批，已经完成的样本不会再次出现。每个样本的 10 个评分项必须使用不同分数，形成明确排序。</p>
-<div class="study-facts"><div><strong>15</strong><span>每批样本</span></div><div><strong>163</strong><span>可抽取样本</span></div><div><strong>10</strong><span>每个样本的评分项</span></div><div><strong>1</strong><span>每批独立提交</span></div></div>
+<div class="study-facts"><div><strong>20</strong><span>每批样本</span></div><div><strong>163</strong><span>可抽取样本</span></div><div><strong>10</strong><span>每个样本的评分项</span></div><div><strong>1</strong><span>每批独立提交</span></div></div>
 <section class="scoring-rules"><h2>评分规则</h2><ol><li>每批先听公开参考；每个样本包含 8 个模型结果、1 个隐藏参考和 1 个未处理输入。</li><li>按 0.0–10.0 分、每 0.1 分一个档位评分；混响、噪声和处理伪影越明显，分数应越低。</li><li>每个样本的 10 个评分项必须全部使用不同分数，形成明确排序；完成一批即可提交。</li></ol></section>
 <div class="short-form"><label>测试 ID<input id="listener" placeholder="name 或 name_YYYYMMDD"></label><label>听评经验<select id="experience"><option value="general">普通听众</option><option value="experienced">有语音处理经验</option><option value="expert">领域专家</option></select></label><label>收听设备<select id="device"><option value="headphones">耳机</option><option value="speakers">扬声器</option><option value="other">其他</option></select></label><button id="start">开始听测</button></div><p>每个测试 ID 会独立随机生成批次；完成一批即可提交。同一测试 ID 返回时会继续未完成批次或领取下一批。每次提交会保留该测试 ID 的累计结果。进度保存在本机浏览器，建议使用耳机并保持相同音量。</p><p id="error" class="short-error"></p></section>
 <section id="study" class="short-study" hidden><div class="short-head"><div><p id="batch" class="eyebrow"></p><h2 id="sample"></h2></div><strong id="progress"></strong></div>
