@@ -15,7 +15,7 @@ APP = r"""
 (() => {
   const data = window.P808_DATA;
   const size = 15;
-  const samplingVersion = 'listener-random-v1';
+  const samplingVersion = 'listener-random-v2-no-adjacent-reference';
   const scoringVersion = 'ovl-0-100-v1';
   const keys = ['hidden_reference', 'unprocessed'].concat(data.models.map((m) => m.id));
   const $ = (s) => document.querySelector(s);
@@ -57,7 +57,18 @@ APP = r"""
     try { return JSON.parse(localStorage.getItem('p808-final:' + id)); } catch { return null; }
   }
   function sampleOrder(listener) {
-    return shuffle(data.trials.map((trial) => trial.sample_id), hash('p808-order:' + listener));
+    const pool = shuffle(data.trials.map((trial) => trial.sample_id), hash('p808-order:' + listener));
+    const order = [];
+    let lastReference = null;
+    while (pool.length) {
+      const choices = pool.filter((id) => trials.get(id).tracks.reference.sha256 !== lastReference);
+      const source = choices.length ? choices : pool;
+      const pick = source[hash('p808-pick:' + listener + ':' + order.length) % source.length];
+      const position = pool.indexOf(pick);
+      order.push(pool.splice(position, 1)[0]);
+      lastReference = trials.get(order[order.length - 1]).tracks.reference.sha256;
+    }
+    return order;
   }
   function pickBatch() {
     const ids = state.order.filter((id) => !state.used.includes(id));
