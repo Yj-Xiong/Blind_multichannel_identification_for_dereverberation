@@ -191,6 +191,10 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
 .short-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.short-card{padding:14px;border:1px solid #d1dcda;border-radius:6px;background:#fff}
 .short-card.conflict{border-color:#ba5144;background:#fff8f6}.short-card audio{width:100%;margin:10px 0}.short-card-head{display:flex;justify-content:space-between}
 .short-reference strong{display:block}.short-reference span{display:block;margin-top:3px;color:#56736d;font-size:12px}
+.evaluation-guidance{margin:20px 0;padding:14px 16px;border:1px solid #b9d8d1;border-left:4px solid #087a70;border-radius:5px;background:#edf7f3;color:#385650;font-size:13px;line-height:1.7}
+.evaluation-guidance strong{display:block;margin-bottom:4px;color:#175f57;font-size:14px}
+.evaluation-guidance p{margin:0;color:#385650}
+.evaluation-guidance b{color:#244a44}
 .short-score{display:grid;grid-template-columns:1fr 64px;gap:10px}.short-score input{width:100%}.short-nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid #d4dfdc}
 .short-nav button{padding:9px 15px;border:1px solid #cad7d4;border-radius:5px;background:#fff}.short-nav button:last-child{background:#087a70;color:#fff}.short-error{color:#b34332;min-height:22px}
 @media(max-width:700px){.topbar{padding-left:14px;padding-right:14px;padding-inline:14px}.brand{min-width:0}.brand>span:nth-child(2){overflow:hidden;text-overflow:ellipsis}.topbar .quiet{padding-left:9px;padding-right:9px;padding-inline:9px;white-space:nowrap}.short-main{padding-left:14px;padding-right:14px;padding-inline:14px}.short-form,.short-reference{display:grid;grid-template-columns:1fr}.short-cards{grid-template-columns:1fr}.short-nav{gap:8px}.short-nav button{min-height:42px;padding-left:10px;padding-right:10px;padding-inline:10px}}
@@ -199,9 +203,11 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
 <main class="short-main"><section id="setup" class="short-setup"><p class="eyebrow">短批次主观评估</p><h1>每批 15 条，完成即可提交</h1>
 <p>每个测试 ID 独立随机生成样本顺序；同一测试 ID 可以回来继续下一批，已经完成的样本不会再次出现。每个样本的 10 个评分项必须使用不同分数，形成明确排序。</p>
 <div class="study-facts"><div><strong>15</strong><span>每批样本</span></div><div><strong>163</strong><span>可抽取样本</span></div><div><strong>10</strong><span>每个样本的评分项</span></div><div><strong>1</strong><span>每批独立提交</span></div></div>
+<section class="evaluation-guidance" aria-label="评分说明"><strong>评分说明</strong><p><b>评估内容：</b>去混响后的自然度、混响残留、语音清晰度和处理伪影。<b>评分方法：</b>按 0.0–10.0 分评分，分数越高表示听感越自然、越接近参考语音。参考语音作为本轮得分上界，只用于比较，不计入评分。</p></section>
 <section class="scoring-rules"><h2>评分规则</h2><ol><li>每批先听公开参考；每个样本包含 8 个模型结果、1 个隐藏参考和 1 个未处理输入。</li><li>按 0.0–10.0 分、每 0.1 分一个档位评分；混响、噪声和处理伪影越明显，分数应越低。</li><li>每个样本的 10 个评分项必须全部使用不同分数，形成明确排序；完成一批即可提交。</li></ol></section>
 <div class="short-form"><label>测试 ID<input id="listener" placeholder="name 或 name_YYYYMMDD"></label><label>听评经验<select id="experience"><option value="general">普通听众</option><option value="experienced">有语音处理经验</option><option value="expert">领域专家</option></select></label><label>收听设备<select id="device"><option value="headphones">耳机</option><option value="speakers">扬声器</option><option value="other">其他</option></select></label><button id="start">开始听测</button></div><p>每个测试 ID 会独立随机生成批次；完成一批即可提交。同一测试 ID 返回时会继续未完成批次或领取下一批。每次提交会保留该测试 ID 的累计结果。进度保存在本机浏览器，建议使用耳机并保持相同音量。</p><p id="error" class="short-error"></p></section>
 <section id="study" class="short-study" hidden><div class="short-head"><div><p id="batch" class="eyebrow"></p><h2 id="sample"></h2></div><strong id="progress"></strong></div>
+<section class="evaluation-guidance" aria-label="评分提示"><strong>评分提示</strong><p>分数越高表示听感越自然、越接近参考语音。参考语音作为本轮得分上界，只用于比较，不计入评分。</p></section>
 <div class="short-reference"><div><strong>参考语音</strong><span>可反复播放，不计入评分</span></div><audio id="reference" controls preload="none"></audio></div><div id="candidates" class="short-cards"></div>
 <p id="status" class="short-error"></p><div class="short-nav"><button id="back">上一条</button><button id="next">下一条</button><button id="submit" hidden>提交本批并进入下一批</button></div></section></main>
 <script>window.P808_DATA=""" + json.dumps(source, ensure_ascii=False, separators=(",", ":")) + """;</script><script>""" + APP + """</script></body></html>"""
