@@ -170,7 +170,7 @@ tbody tr:last-child { border-bottom: 2px solid #1b3833; }
 @media (max-width: 900px) { .study { grid-template-columns: 1fr; gap: 18px; } .rail { position: static; } .trial-list { display: flex; overflow-x: auto; margin-bottom: 15px; } .trial-jump { min-width: 96px; grid-template-columns: 20px 1fr; } .trial-check { display: none; } .rail-note { display: none; } .analysis-grid { grid-template-columns: 1fr; } }
 @media (max-width: 660px) { .topbar { height: 56px; } .brand { gap: 7px; font-size: 13px; } .brand-mark { width: 38px; height: 38px; flex-basis: 38px; } .version, .save-state { display: none; } .page, .analysis-page { padding-top: 20px; } .setup { margin-top: 2vh; } .study-facts { grid-template-columns: repeat(2, 1fr); } .study-facts > div:nth-child(2) { border-right: 0; } .study-facts > div:nth-child(-n+2) { border-bottom: 1px solid #d7e1de; } .setup-form { grid-template-columns: 1fr; } .candidate-list, .review-checks { grid-template-columns: 1fr; } .reference-bar { grid-template-columns: 1fr; gap: 10px; } .analysis-header { align-items: start; flex-direction: column; } .analysis-toolbar .quiet { margin-left: 0; } .analysis-overview { grid-template-columns: repeat(2, 1fr); } .overview-cell:nth-child(2) { border-right: 0; } .overview-cell:nth-child(-n+2) { border-bottom: 1px solid #d4dfdc; } .rank-row { grid-template-columns: 17px minmax(95px, 1fr) 100px 36px; gap: 5px; font-size: 11px; } }
 
-html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}.short-main{width:100%}audio,input,select,button{max-width:100%}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}.topbar{padding:0 16px}.short-main{width:100%}audio,input,select,button{max-width:100%}
 .short-main{max-width:1200px;margin:0 auto;padding:28px 20px 70px}.short-setup{max-width:900px;margin:5vh auto}
 .short-setup h1{font-size:32px}.short-setup p{line-height:1.7;color:#526662}.short-form{display:grid;grid-template-columns:1.5fr 1fr 1fr auto;gap:12px;align-items:end}
 .short-form label{display:grid;gap:6px;font-size:13px;font-weight:700}.short-form input,.short-form select{height:40px;padding:0 10px;border:1px solid #bfcfcb;border-radius:5px;background:#fff}
@@ -182,7 +182,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
 .short-reference strong{display:block}.short-reference span{display:block;margin-top:3px;color:#56736d;font-size:12px}
 .short-score{display:grid;grid-template-columns:1fr 64px;gap:10px}.short-score input{width:100%}.short-nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid #d4dfdc}
 .short-nav button{padding:9px 15px;border:1px solid #cad7d4;border-radius:5px;background:#fff}.short-nav button:last-child{background:#087a70;color:#fff}.short-error{color:#b34332;min-height:22px}
-@media(max-width:700px){.topbar{padding-inline:14px}.brand{min-width:0}.brand>span:nth-child(2){overflow:hidden;text-overflow:ellipsis}.topbar .quiet{padding-inline:9px;white-space:nowrap}.short-main{padding-inline:14px}.short-form,.short-reference{display:grid;grid-template-columns:1fr}.short-cards{grid-template-columns:1fr}.short-nav{gap:8px}.short-nav button{min-height:42px;padding-inline:10px}}
+@media(max-width:700px){.topbar{padding-left:14px;padding-right:14px;padding-inline:14px}.brand{min-width:0}.brand>span:nth-child(2){overflow:hidden;text-overflow:ellipsis}.topbar .quiet{padding-left:9px;padding-right:9px;padding-inline:9px;white-space:nowrap}.short-main{padding-left:14px;padding-right:14px;padding-inline:14px}.short-form,.short-reference{display:grid;grid-template-columns:1fr}.short-cards{grid-template-columns:1fr}.short-nav{gap:8px}.short-nav button{min-height:42px;padding-left:10px;padding-right:10px;padding-inline:10px}}
 </style></head><body>
 <header class="topbar"><div class="brand"><span class="brand-mark"><img src="center-logo.png" alt="苏州大学听觉与语言智能中心"></span><span>Dereverb 短批次听评</span><span class="version">v2</span></div><button id="reset" class="quiet">重新开始</button></header>
 <main class="short-main"><section id="setup" class="short-setup"><p class="eyebrow">短批次主观评估</p><h1>每批 15 条，完成即可提交</h1>
@@ -235,11 +235,11 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
   function pickBatch() {
     const ids = state.order.filter((id) => !state.used.includes(id));
     if (!ids.length) return false;
-    state.round += 1; state.ids = ids.slice(0, size); state.index = 0; state.scores = {}; state.allScores ||= {}; state.submitted = false; state.completed = false; return true;
+    state.round += 1; state.ids = ids.slice(0, size); state.index = 0; state.scores = {}; state.allScores = state.allScores || {}; state.submitted = false; state.completed = false; return true;
   }
   function orderedCandidates(trial) { return shuffle(keys, hash(state.listener + ':' + trial.sample_id)); }
   function complete(trial) {
-    const scores = orderedCandidates(trial).map((key) => state.scores[trial.sample_id]?.[key]);
+    const scores = orderedCandidates(trial).map((key) => (state.scores[trial.sample_id] || {})[key]);
     return scores.every(valid) && new Set(scores.map((v) => v.toFixed(1))).size === scores.length;
   }
   function trackUrl(file) { return file; }
@@ -248,7 +248,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
     const head = document.createElement('div'); head.className = 'candidate-head';
     const title = document.createElement('strong'); title.textContent = '样本 ' + String.fromCharCode(65 + index);
     const value = document.createElement('span'); value.className = 'score-value';
-    const old = state.scores[trial.sample_id]?.[key]; value.textContent = valid(old) ? old.toFixed(1) : '未评分';
+    const old = (state.scores[trial.sample_id] || {})[key]; value.textContent = valid(old) ? old.toFixed(1) : '未评分';
     head.append(title, value);
     const audio = document.createElement('audio'); audio.controls = true; audio.preload = 'none'; audio.src = trackUrl(trial.tracks[key].file);
     const row = document.createElement('div'); row.className = 'score-row';
@@ -256,20 +256,20 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
     const number = document.createElement('input'); number.type = 'number'; number.min = '0'; number.max = '10'; number.step = '0.1'; number.value = valid(old) ? old : '';
     const update = (raw) => {
       if (raw === '') return; const n = Math.round(Number(raw) * 10) / 10;
-      if (!valid(n)) return; state.scores[trial.sample_id] ||= {}; state.scores[trial.sample_id][key] = n;
-      state.allScores ||= {}; state.allScores[trial.sample_id] ||= {}; state.allScores[trial.sample_id][key] = n;
+      if (!valid(n)) return; state.scores[trial.sample_id] = state.scores[trial.sample_id] || {}; state.scores[trial.sample_id][key] = n;
+      state.allScores = state.allScores || {}; state.allScores[trial.sample_id] = state.allScores[trial.sample_id] || {}; state.allScores[trial.sample_id][key] = n;
       range.value = n; number.value = n; value.textContent = n.toFixed(1); card.classList.add('rated'); save(); renderProgress();
     };
     range.addEventListener('input', () => update(range.value)); number.addEventListener('change', () => update(number.value));
     row.append(range, number); card.append(head, audio, row); return card;
   }
   function renderProgress() {
-    const trial = trials.get(state.ids[state.index]); const scoreValues = orderedCandidates(trial).map((key) => state.scores[trial.sample_id]?.[key]).filter(valid);
+    const trial = trials.get(state.ids[state.index]); const scoreValues = orderedCandidates(trial).map((key) => (state.scores[trial.sample_id] || {})[key]).filter(valid);
     const duplicated = new Set(scoreValues.map((v) => v.toFixed(1))).size !== scoreValues.length;
     ui.progress.textContent = (complete(trial) ? '本条已完成' : '请给 10 个样本评分') + (duplicated ? '，不能同分' : '');
     ui.next.disabled = !complete(trial); ui.submit.disabled = !state.ids.every((id) => complete(trials.get(id)));
     ui.candidates.querySelectorAll('.candidate').forEach((node) => {
-      const v = state.scores[trial.sample_id]?.[node.dataset.key];
+      const v = (state.scores[trial.sample_id] || {})[node.dataset.key];
       node.classList.toggle('conflict', valid(v) && scoreValues.filter((x) => x.toFixed(1) === v.toFixed(1)).length > 1);
     });
   }
@@ -295,7 +295,8 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
     const trial = trials.get(state.ids[state.index]); ui.batch.textContent = '第 ' + state.round + ' 批';
     ui.sample.textContent = '当前批样本 ' + (state.index + 1) + ' / ' + state.ids.length;
     ui.reference.src = trackUrl(trial.tracks.reference.file);
-    ui.candidates.replaceChildren(...orderedCandidates(trial).map((key, i) => card(trial, key, i)));
+    ui.candidates.innerHTML = '';
+    orderedCandidates(trial).forEach((key, i) => ui.candidates.appendChild(card(trial, key, i)));
     ui.back.disabled = state.index === 0;
     ui.next.textContent = state.index === state.ids.length - 1 ? '提交本批并进入下一批' : '下一条';
     renderProgress();
@@ -308,7 +309,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
   async function submit() {
     if (state.submitting) return;
     state.submitting = true; ui.next.disabled = true; ui.submit.disabled = true;
-    state.allScores ||= {};
+    state.allScores = state.allScores || {};
     const cumulativeScores = {...state.allScores, ...state.scores};
     const cumulativeSampleIds = [...new Set([...state.used, ...state.ids])];
     const payload = {schema: 'se.subjective.p808_short_batch.v3', study: data.study, round: state.round,
