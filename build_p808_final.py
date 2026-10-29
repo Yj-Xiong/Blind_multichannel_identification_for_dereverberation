@@ -70,6 +70,13 @@ APP = r"""
     return scores.every(valid) && new Set(scores.map((v) => String(v))).size === scores.length;
   }
   function trackUrl(file) { return file; }
+  function setAudioSource(player, file) {
+    player.pause();
+    player.removeAttribute('src');
+    player.load();
+    player.src = trackUrl(file);
+    player.load();
+  }
   function card(trial, key, index) {
     const card = document.createElement('article'); card.className = 'candidate'; card.dataset.key = key;
     const head = document.createElement('div'); head.className = 'candidate-head';
@@ -77,7 +84,7 @@ APP = r"""
     const value = document.createElement('span'); value.className = 'score-value';
     const old = (state.scores[trial.sample_id] || {})[key]; value.textContent = valid(old) ? old.toFixed(0) : '未评分';
     head.append(title, value);
-    const audio = document.createElement('audio'); audio.controls = true; audio.preload = 'none'; audio.src = trackUrl(trial.tracks[key].file);
+    const audio = document.createElement('audio'); audio.controls = true; audio.preload = 'none'; setAudioSource(audio, trial.tracks[key].file);
     const row = document.createElement('div'); row.className = 'score-row';
     const range = document.createElement('input'); range.type = 'range'; range.min = '0'; range.max = '100'; range.step = '1'; range.value = valid(old) ? old : '50';
     const number = document.createElement('input'); number.type = 'number'; number.min = '0'; number.max = '100'; number.step = '1'; number.value = valid(old) ? old : '';
@@ -121,7 +128,7 @@ APP = r"""
     ui.status.textContent = '';
     const trial = trials.get(state.ids[state.index]); ui.batch.textContent = '第 ' + state.round + ' 批';
     ui.sample.textContent = '当前批样本 ' + (state.index + 1) + ' / ' + state.ids.length;
-    ui.reference.src = trackUrl(trial.tracks.reference.file);
+    setAudioSource(ui.reference, trial.tracks.reference.file);
     ui.candidates.innerHTML = '';
     orderedCandidates(trial).forEach((key, i) => ui.candidates.appendChild(card(trial, key, i)));
     ui.back.disabled = state.index === 0;
