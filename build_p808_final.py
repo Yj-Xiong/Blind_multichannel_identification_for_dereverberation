@@ -180,6 +180,7 @@ def main():
     html = """<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Dereverb 短批次听评</title><style>""" + style + """
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}.short-main{width:100%}audio,input,select,button{max-width:100%}
 .short-main{max-width:1200px;margin:0 auto;padding:28px 20px 70px}.short-setup{max-width:900px;margin:5vh auto}
 .short-setup h1{font-size:32px}.short-setup p{line-height:1.7;color:#526662}.short-form{display:grid;grid-template-columns:1.5fr 1fr 1fr auto;gap:12px;align-items:end}
 .short-form label{display:grid;gap:6px;font-size:13px;font-weight:700}.short-form input,.short-form select{height:40px;padding:0 10px;border:1px solid #bfcfcb;border-radius:5px;background:#fff}
@@ -191,7 +192,7 @@ def main():
 .short-reference strong{display:block}.short-reference span{display:block;margin-top:3px;color:#56736d;font-size:12px}
 .short-score{display:grid;grid-template-columns:1fr 64px;gap:10px}.short-score input{width:100%}.short-nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid #d4dfdc}
 .short-nav button{padding:9px 15px;border:1px solid #cad7d4;border-radius:5px;background:#fff}.short-nav button:last-child{background:#087a70;color:#fff}.short-error{color:#b34332;min-height:22px}
-@media(max-width:700px){.short-form,.short-reference{display:grid;grid-template-columns:1fr}.short-cards{grid-template-columns:1fr}}
+@media(max-width:700px){.topbar{padding-inline:14px}.brand{min-width:0}.brand>span:nth-child(2){overflow:hidden;text-overflow:ellipsis}.topbar .quiet{padding-inline:9px;white-space:nowrap}.short-main{padding-inline:14px}.short-form,.short-reference{display:grid;grid-template-columns:1fr}.short-cards{grid-template-columns:1fr}.short-nav{gap:8px}.short-nav button{min-height:42px;padding-inline:10px}}
 </style></head><body>
 <header class="topbar"><div class="brand"><span class="brand-mark"><img src="center-logo.png" alt="苏州大学听觉与语言智能中心"></span><span>Dereverb 短批次听评</span><span class="version">v2</span></div><button id="reset" class="quiet">重新开始</button></header>
 <main class="short-main"><section id="setup" class="short-setup"><p class="eyebrow">短批次主观评估</p><h1>每批 15 条，完成即可提交</h1>
