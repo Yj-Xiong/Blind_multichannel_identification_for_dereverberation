@@ -25,7 +25,7 @@ APP = r"""
     start: $('#start'), error: $('#error'), progress: $('#progress'),
     sample: $('#sample'), reference: $('#reference'), candidates: $('#candidates'),
     back: $('#back'), next: $('#next'), submit: $('#submit'), status: $('#status'),
-    batch: $('#batch'), reset: $('#reset')
+    batch: $('#batch'), reset: $('#reset'), progressSubmit: $('#progress-submit')
   };
   let state = null;
   const trials = new Map(data.trials.map((t) => [t.sample_id, t]));
@@ -111,8 +111,11 @@ APP = r"""
   function renderProgress() {
     const trial = trials.get(state.ids[state.index]); const scoreValues = orderedCandidates(trial).map((key) => (state.scores[trial.sample_id] || {})[key]).filter(valid);
     const duplicated = new Set(scoreValues.map((v) => String(v))).size !== scoreValues.length;
+    const completedCount = state.ids.filter((id) => complete(trials.get(id))).length;
     ui.progress.textContent = (complete(trial) ? '本条已完成' : '请给 10 个样本评分') + (duplicated ? '，不能同分' : '');
     ui.next.disabled = !complete(trial); ui.submit.disabled = !state.ids.every((id) => complete(trials.get(id)));
+    ui.progressSubmit.hidden = completedCount < 5 || completedCount >= state.ids.length || completedCount % 5 !== 0;
+    ui.progressSubmit.disabled = Boolean(state.submitting);
     ui.candidates.querySelectorAll('.candidate').forEach((node) => {
       const v = (state.scores[trial.sample_id] || {})[node.dataset.key];
       node.classList.toggle('conflict', valid(v) && scoreValues.filter((x) => String(x) === String(v)).length > 1);
@@ -128,14 +131,14 @@ APP = r"""
       ui.progress.textContent = state.completed ? '全部样本已提交' : '本批 ' + state.ids.length + ' 条均已评分';
       ui.reference.parentElement.hidden = true; ui.candidates.hidden = true;
       ui.back.hidden = false; ui.back.disabled = state.index === 0;
-      ui.next.hidden = true; ui.submit.hidden = state.completed; ui.submit.disabled = state.completed;
+      ui.next.hidden = true; ui.progressSubmit.hidden = true; ui.submit.hidden = state.completed; ui.submit.disabled = state.completed;
       ui.submit.textContent = '提交本批并进入下一批';
       if (state.completed) ui.status.textContent = '所有样本都已完成。';
       else ui.status.textContent = '请提交本批评分，提交后自动进入下一批。';
       return;
     }
     ui.reference.parentElement.hidden = false; ui.candidates.hidden = false;
-    ui.back.hidden = false; ui.next.hidden = false; ui.submit.hidden = true;
+    ui.back.hidden = false; ui.next.hidden = false; ui.submit.hidden = true; ui.progressSubmit.hidden = true;
     ui.status.textContent = '';
     const trial = trials.get(state.ids[state.index]); ui.batch.textContent = '第 ' + state.round + ' 批';
     ui.sample.textContent = '当前批样本 ' + (state.index + 1) + ' / ' + state.ids.length;
@@ -146,29 +149,44 @@ APP = r"""
     ui.next.textContent = state.index === state.ids.length - 1 ? '提交本批并进入下一批' : '下一条';
     renderProgress();
   }
-  function download(payload) {
+  function download(payload, suffix) {
     const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], {type: 'application/json'}));
-    const a = document.createElement('a'); a.href = url; a.download = 'p808-short-' + state.listener + '-batch-' + state.round + '.json'; a.click();
+    const a = document.createElement('a'); a.href = url; a.download = 'p808-short-' + state.listener + '-batch-' + state.round + (suffix || '') + '.json'; a.click();
     setTimeout(() => URL.revokeObjectURL(url), 10000);
+  }
+  function buildPayload(kind) {
+    state.allScores = state.allScores || {};
+    const completedIds = state.ids.filter((id) => complete(trials.get(id)));
+    const cumulativeSampleIds = [...new Set([...state.used, ...completedIds])];
+    return {schema: 'se.subjective.p808_short_batch.v4', study: data.study, round: state.round,
+      submissionKind: kind, scoringVersion: scoringVersion, scale: {min: 0, max: 100, step: 1, dimension: 'OVL', uniquePerTrial: true},
+      dimensions: {SIG: '语音本身的声音质量', BAK: '回声和背景声音的干扰', OVL: '整体满意度'},
+      samplingVersion: state.samplingVersion, sampleOrder: state.order, listenerId: state.listener,
+      experience: state.experience, device: state.device, batchSize: state.ids.length, totalSize: cumulativeSampleIds.length,
+      sampleIds: cumulativeSampleIds, scores: {...state.allScores, ...state.scores},
+      completedSampleIds: completedIds, batchSampleIds: completedIds, batchScores: completedIds.reduce((out, id) => { out[id] = state.scores[id]; return out; }, {}),
+      submittedAt: new Date().toISOString()};
+  }
+  async function submitProgress() {
+    if (state.submitting) return;
+    state.submitting = true; ui.progressSubmit.disabled = true;
+    const payload = buildPayload('checkpoint');
+    try {
+      const response = await fetch('https://formspree.io/f/mpqgvpvo', {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify({type: 'dereverb-p808-short-v4-checkpoint', payloadJson: JSON.stringify(payload)})});
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      ui.status.textContent = '当前进度已提交，可以继续听测。';
+    } catch (error) { download(payload, '-checkpoint'); ui.status.textContent = '提交失败，已下载当前进度备份。'; }
+    state.submitting = false; save(); renderProgress();
   }
   async function submit() {
     if (state.submitting) return;
     state.submitting = true; ui.next.disabled = true; ui.submit.disabled = true;
-    state.allScores = state.allScores || {};
-    const cumulativeScores = {...state.allScores, ...state.scores};
-    const cumulativeSampleIds = [...new Set([...state.used, ...state.ids])];
-    const payload = {schema: 'se.subjective.p808_short_batch.v4', study: data.study, round: state.round,
-      scoringVersion: scoringVersion, scale: {min: 0, max: 100, step: 1, dimension: 'OVL', uniquePerTrial: true},
-      dimensions: {SIG: '语音本身的声音质量', BAK: '回声和背景声音的干扰', OVL: '整体满意度'},
-      samplingVersion: state.samplingVersion, sampleOrder: state.order, listenerId: state.listener,
-      experience: state.experience, device: state.device, batchSize: state.ids.length, totalSize: cumulativeSampleIds.length,
-      sampleIds: cumulativeSampleIds, scores: cumulativeScores, batchSampleIds: state.ids, batchScores: state.scores,
-      submittedAt: new Date().toISOString()};
+    const payload = buildPayload('batch');
     try {
       const response = await fetch('https://formspree.io/f/mpqgvpvo', {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify({type: 'dereverb-p808-short-v4', payloadJson: JSON.stringify(payload)})});
       if (!response.ok) throw new Error('HTTP ' + response.status);
       state.used.push(...state.ids); state.submitted = true;
-    } catch (error) { download(payload); state.used.push(...state.ids); state.submitted = true; }
+    } catch (error) { download(payload, '-batch'); state.used.push(...state.ids); state.submitted = true; }
     if (!pickBatch()) { state.completed = true; state.index = state.ids.length; }
     state.submitting = false;
     save(); render();
@@ -197,6 +215,7 @@ APP = r"""
     if (state.index === state.ids.length - 1) { submit(); return; }
     state.index += 1; save(); render();
   });
+  ui.progressSubmit.addEventListener('click', submitProgress);
   ui.back.addEventListener('click', () => { state.index -= 1; save(); render(); });
   ui.submit.addEventListener('click', submit);
   ui.reset.addEventListener('click', () => { if (state) localStorage.removeItem('p808-final:' + state.listener); state = null; render(); });
@@ -239,11 +258,11 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
 <div class="study-facts"><div><strong>15</strong><span>每批样本</span></div><div><strong>163</strong><span>可抽取样本</span></div><div><strong>10</strong><span>每个样本的评分项</span></div><div><strong>1</strong><span>每批独立提交</span></div></div>
 <section class="evaluation-guidance" aria-label="评分说明"><strong>我们要评什么</strong><p>这是一个<b>去回声</b>测试：看录音里的回声有没有被去掉，同时看说话声音有没有被损坏。<b>先听上方参考语音，再听下面 10 段声音。</b>下面 10 段中随机有 1 段和参考语音完全相同，这段隐藏参考也要参加评分。请听三点：<b>说话声音本身</b>，每个字是否完整，有没有变闷、发糊、像机器人或断断续续；<b>回声和背景声音</b>，说话后有没有拖着回声，房间声或噪声是否残留；<b>总体评价</b>，把前两点合起来，判断整体是否清楚、舒服。最后给每段声音一个 0–100 分的总体分。<b>80–100：</b>回声很小，讲话基本清楚，整体最好；<b>60–79：</b>有一点问题，但容易听清；<b>40–59：</b>问题明显，但大部分还能听清；<b>20–39：</b>回声或怪声较重，明显影响听感；<b>0–19：</b>很难听清。上方参考语音不计分；下面的隐藏参考要计分。10 段声音必须使用不同分数，从好到差排出顺序。</p></section>
 <section class="scoring-rules"><h2>评分规则</h2><ol><li>每个样本先听上方参考语音，再听下面 10 段声音；其中 1 段是随机隐藏参考，也要评分。</li><li>按 0–100 分、每 1 分一个档位给出总体分，同时考虑说话声音是否被损坏，以及回声和背景声音是否残留。</li><li>10 段声音必须全部使用不同分数，从好到差排出顺序；完成一批即可提交。</li></ol></section>
-<div class="short-form"><label>测试 ID<input id="listener" placeholder="name 或 name_YYYYMMDD"></label><label>听评经验<select id="experience"><option value="general">普通听众</option><option value="experienced">有语音处理经验</option><option value="expert">领域专家</option></select></label><label>收听设备<select id="device"><option value="headphones">耳机</option><option value="speakers">扬声器</option><option value="other">其他</option></select></label><button id="start">开始听测</button></div><p>每个测试 ID 会独立随机生成批次；完成一批即可提交。同一测试 ID 返回时会继续未完成批次或领取下一批。每次提交会保留该测试 ID 的累计结果。进度保存在本机浏览器，建议使用耳机并保持相同音量。</p><p id="error" class="short-error"></p></section>
+<div class="short-form"><label>测试 ID<input id="listener" placeholder="name 或 name_YYYYMMDD"></label><label>听评经验<select id="experience"><option value="general">普通听众</option><option value="experienced">有语音处理经验</option><option value="expert">领域专家</option></select></label><label>收听设备<select id="device"><option value="headphones">耳机</option><option value="speakers">扬声器</option><option value="other">其他</option></select></label><button id="start">开始听测</button></div><p>每个测试 ID 会独立随机生成批次；每完成 5 条可以提交当前进度，完成 15 条后提交并进入下一批。同一测试 ID 返回时会继续未完成批次或领取下一批。每次提交会保留该测试 ID 的累计结果。进度保存在本机浏览器，建议使用耳机并保持相同音量。</p><p id="error" class="short-error"></p></section>
 <section id="study" class="short-study" hidden><div class="short-head"><div><p id="batch" class="eyebrow"></p><h2 id="sample"></h2></div><strong id="progress"></strong></div>
 <section class="evaluation-guidance" aria-label="评分提示"><strong>评分提示</strong><p>每组有 1 段随机隐藏参考，隐藏参考和下面其他声音一样要评分。先听说话声音有没有变闷、发糊或断断续续，再听说话后有没有回声、房间声或噪声，最后给出一个 0–100 分的总体分。80–100 分表示整体最好；60–79 分表示有一点问题但容易听清；40–59 分表示问题明显但大部分还能听清；20–39 分表示回声或怪声明显影响听感；0–19 分表示很难听清。上方参考语音不计分；下面的隐藏参考要计分。10 段声音必须使用不同分数，从好到差排出顺序。</p></section>
 <div class="short-reference"><div><strong>参考语音</strong><span>可反复播放，不计入评分</span></div><audio id="reference" controls preload="none"></audio></div><div id="candidates" class="short-cards"></div>
-<p id="status" class="short-error"></p><div class="short-nav"><button id="back">上一条</button><button id="next">下一条</button><button id="submit" hidden>提交本批并进入下一批</button></div></section></main>
+<p id="status" class="short-error"></p><div class="short-nav"><button id="back">上一条</button><button id="next">下一条</button><button id="progress-submit" hidden>提交当前进度</button><button id="submit" hidden>提交本批并进入下一批</button></div></section></main>
 <script>window.P808_DATA=""" + json.dumps(source, ensure_ascii=False, separators=(",", ":")) + """;</script><script>""" + APP + """</script></body></html>"""
     OUTPUT.write_text(html)
     print(OUTPUT, OUTPUT.stat().st_size)
