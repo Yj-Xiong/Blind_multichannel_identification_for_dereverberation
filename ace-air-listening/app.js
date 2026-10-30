@@ -71,7 +71,7 @@ function validScore(value) {
 
 function complete(trial) {
   const scores = candidateIds.map((key) => state.scores[trial.sample_id]?.[key]);
-  return scores.every(validScore) && new Set(scores.map((score) => score.toFixed(1))).size === candidateIds.length;
+  return scores.every(validScore);
 }
 
 function pauseOtherAudio(current) {
@@ -160,20 +160,12 @@ function updateProgress() {
   const trial = getTrial();
   const scores = state.scores[trial.sample_id] || {};
   const rated = candidateIds.filter((key) => validScore(scores[key])).length;
-  const byScore = new Map();
-  for (const key of candidateIds) {
-    if (!validScore(scores[key])) continue;
-    const value = scores[key].toFixed(1);
-    if (!byScore.has(value)) byScore.set(value, []);
-    byScore.get(value).push(key);
-  }
-  const duplicates = new Set([...byScore.values()].filter((keys) => keys.length > 1).flat());
   ui.candidates.querySelectorAll('.candidate').forEach((card) => {
-    card.classList.toggle('conflict', duplicates.has(card.dataset.key));
+    card.classList.remove('conflict');
   });
   ui.ratedCount.textContent = `${rated} / ${candidateIds.length} 已评分`;
   ui.next.disabled = !complete(trial);
-  ui.trialError.textContent = duplicates.size ? '本轮有相同分数，请调整高亮的音频评分。' : '';
+  ui.trialError.textContent = '';
   renderRail();
 }
 
@@ -235,7 +227,7 @@ function resultPayload({ forSubmission = false } = {}) {
     schema: 'se.subjective.mushra_style.v3', study: CONFIG.study,
     datasetVersion: manifest.dataset_version,
     audioVersion: manifest.audio_version, sessionId: state.sessionId,
-    candidateIds, scale: { min: 0, max: 10, step: 0.1, uniquePerTrial: true },
+    candidateIds, scale: { min: 0, max: 10, step: 0.1, uniquePerTrial: false },
     listenerId: state.listenerId, experience: state.experience, device: state.device,
     status: forSubmission ? 'submitted' : (completeResults ? 'complete' : 'in_progress'),
     exportedAt: timestamp,
@@ -290,7 +282,7 @@ async function submitProgress() {
 
 async function submit() {
   if (!state.trialIds.every((_, index) => complete(getTrial(index)))) {
-    ui.submitError.textContent = '请完成所有片段评分，并确保每轮分数互不相同。'; return;
+    ui.submitError.textContent = '请完成所有片段评分。'; return;
   }
   const payload = resultPayload({ forSubmission: true });
   ui.submit.disabled = true;
@@ -368,7 +360,7 @@ ui.trialPicker.addEventListener('change', () => {
 });
 ui.previous.addEventListener('click', () => { state.index -= 1; save(); render(); });
 ui.next.addEventListener('click', () => {
-  if (!complete(getTrial())) { ui.trialError.textContent = '请给本轮全部音频评分，且分数互不相同。'; return; }
+  if (!complete(getTrial())) { ui.trialError.textContent = '请给本轮全部音频评分。'; return; }
   state.index += 1; save(); render(); window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 $('#back-to-trials').addEventListener('click', () => { state.index = state.trialIds.length - 1; save(); render(); });
