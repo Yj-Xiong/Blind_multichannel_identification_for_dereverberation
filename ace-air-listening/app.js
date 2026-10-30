@@ -242,22 +242,68 @@ function resultPayload({ forSubmission = false } = {}) {
 }
 
 function download(payload, suffix = '') {
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  downloadFile(JSON.stringify(payload, null, 2), `${CONFIG.downloadPrefix}${suffix}-${state.sessionId}.json`, 'application/json');
+  downloadFile(csvForPayload(payload), `${CONFIG.downloadPrefix}${suffix}-${state.sessionId}.csv`, 'text/csv;charset=utf-8');
+}
+
+function downloadFile(content, name, type) {
+  const blob = new Blob([content], { type });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = url; link.download = `${CONFIG.downloadPrefix}${suffix}-${state.sessionId}.json`; link.click();
+  link.href = url; link.download = name; link.click();
   setTimeout(() => URL.revokeObjectURL(url), 10000);
 }
 
-function formBody(type, payload) {
+function csvCell(value) {
+  let text = String(value == null ? '' : value);
+  if (/^[\s]*[=+@-]/.test(text) && typeof value !== 'number') text = `'${text}`;
+  return `"${text.replace(/"/g, '""')}"`;
+}
+
+function csvForPayload(payload) {
+  const columns = ['listener_id', 'session_id', 'study', 'submission_kind', 'submitted_at', 'dataset', 'sample_id', 'candidate_position', 'candidate_key', 'score', 'scale_max', 'audio_file', 'audio_url', 'audio_sha256', 'reference_file'];
+  const rows = [columns.map(csvCell).join(',')];
+  payload.results.forEach((result) => {
+    const trial = trialById.get(result.sample_id);
+    result.scores.forEach((score, keyIndex) => {
+      if (!validScore(score)) return;
+      rows.push([payload.listenerId, payload.sessionId, payload.study, payload.submissionKind || 'final',
+        payload.submittedAt || payload.exportedAt, trial.dataset, result.sample_id,
+        result.order.indexOf(keyIndex) + 1, payload.candidateIds[keyIndex], score, payload.scale.max,
+        trial.tracks[payload.candidateIds[keyIndex]].file,
+        new URL(trial.tracks[payload.candidateIds[keyIndex]].file, location.href).href,
+        trial.tracks[payload.candidateIds[keyIndex]].sha256,
+        trial.tracks.reference.file].map(csvCell).join(','));
+    });
+  });
+  return '\uFEFF' + rows.join('\r\n') + '\r\n';
+}
+
+function formBody(type, payload, attachCsv) {
+  const csv = csvForPayload(payload);
   const body = new FormData();
   body.append('type', type);
   body.append('study', payload.study);
   body.append('listenerId', payload.listenerId);
   body.append('sessionId', payload.sessionId);
+  body.append('coveredSampleIds', payload.results.filter((row) => row.scores.some(validScore)).map((row) => row.sample_id).join(', '));
   body.append('_subject', `Dereverb 听评 ${type} ${payload.listenerId}`);
   body.append('payloadJson', JSON.stringify(payload));
+  body.append('resultsCsv', csv);
+  if (attachCsv) body.append('resultsFile', new Blob([csv], { type: 'text/csv;charset=utf-8' }),
+    `${CONFIG.downloadPrefix}-${payload.listenerId.replace(/[^a-zA-Z0-9_-]/g, '_')}-${payload.sessionId}-${(payload.submittedAt || payload.exportedAt).replace(/[^0-9]/g, '')}.csv`);
   return body;
+}
+
+async function sendSubmission(type, payload) {
+  let body;
+  try { body = formBody(type, payload, true); }
+  catch (error) { body = formBody(type, payload, false); }
+  let response = await fetch(ENDPOINT, { method: 'POST', headers: { Accept: 'application/json' }, body });
+  if (response.status >= 400 && response.status < 500) {
+    response = await fetch(ENDPOINT, { method: 'POST', headers: { Accept: 'application/json' }, body: formBody(type, payload, false) });
+  }
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
 }
 
 async function submitProgress() {
@@ -267,10 +313,7 @@ async function submitProgress() {
   ui.exportCurrent.disabled = true;
   ui.saveState.textContent = '正在提交当前进度';
   try {
-    const response = await fetch(ENDPOINT, { method: 'POST', headers: {
-      Accept: 'application/json',
-    }, body: formBody(`${CONFIG.study}-progress`, payload) });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    await sendSubmission(`${CONFIG.study}-progress`, payload);
     ui.saveState.textContent = '当前进度已提交';
   } catch (error) {
     download(payload, '-progress');
@@ -288,10 +331,7 @@ async function submit() {
   ui.submit.disabled = true;
   ui.submitError.textContent = '提交中…';
   try {
-    const response = await fetch(ENDPOINT, { method: 'POST', headers: {
-      Accept: 'application/json',
-    }, body: formBody(CONFIG.study, payload) });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    await sendSubmission(CONFIG.study, payload);
     state.submittedAt = payload.submittedAt;
     state.submittedPayload = payload;
     save(); renderReview();

@@ -337,9 +337,63 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
     renderProgress();
   }
   function download(payload, suffix) {
-    const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], {type: 'application/json'}));
-    const a = document.createElement('a'); a.href = url; a.download = 'p808-short-' + state.listener + '-batch-' + state.round + (suffix || '') + '.json'; a.click();
+    const name = 'p808-short-' + state.listener + '-batch-' + state.round + (suffix || '');
+    downloadFile(JSON.stringify(payload, null, 2), name + '.json', 'application/json');
+    downloadFile(csvForPayload(payload), name + '.csv', 'text/csv;charset=utf-8');
+  }
+  function downloadFile(content, name, type) {
+    const url = URL.createObjectURL(new Blob([content], {type: type}));
+    const a = document.createElement('a'); a.href = url; a.download = name; a.click();
     setTimeout(() => URL.revokeObjectURL(url), 10000);
+  }
+  function csvCell(value) {
+    let text = String(value == null ? '' : value);
+    if (/^[\s]*[=+@-]/.test(text) && typeof value !== 'number') text = "'" + text;
+    return '"' + text.replace(/"/g, '""') + '"';
+  }
+  function csvForPayload(payload) {
+    const columns = ['listener_id', 'session_id', 'study', 'round', 'submission_kind', 'submitted_at', 'dataset', 'sample_id', 'candidate_position', 'candidate_key', 'score', 'scale_max', 'audio_file', 'audio_url', 'audio_sha256', 'reference_file'];
+    const lines = [columns.map(csvCell).join(',')];
+    payload.sampleIds.forEach((sampleId) => {
+      const trial = trials.get(sampleId);
+      if (!trial) return;
+      orderedCandidates(trial).forEach((key, index) => {
+        const score = (payload.scores[sampleId] || {})[key];
+        if (valid(score)) lines.push([payload.listenerId, payload.study, payload.round, payload.submissionKind,
+          payload.submittedAt, trial.dataset, sampleId, index + 1, key, score, 100,
+          trial.tracks[key].file, new URL(trial.tracks[key].file, location.href).href,
+          trial.tracks[key].sha256, trial.tracks.reference.file].map(csvCell).join(','));
+      });
+    });
+    return '\uFEFF' + lines.join('\r\n') + '\r\n';
+  }
+  function submissionBody(type, payload, attachCsv) {
+    const csv = csvForPayload(payload);
+    const body = new FormData();
+    body.append('type', type);
+    body.append('listenerId', payload.listenerId);
+    body.append('sessionId', payload.sessionId);
+    body.append('round', String(payload.round));
+    body.append('coveredSampleIds', payload.sampleIds.join(', '));
+    body.append('currentBatchSampleIds', payload.batchSampleIds.join(', '));
+    body.append('_subject', 'Dereverb 听评 ' + payload.listenerId + ' 第 ' + payload.round + ' 批');
+    body.append('payloadJson', JSON.stringify(payload));
+    body.append('resultsCsv', csv);
+    if (attachCsv) body.append('resultsFile', new Blob([csv], {type: 'text/csv;charset=utf-8'}),
+      'p808-' + payload.listenerId.replace(/[^a-zA-Z0-9_-]/g, '_') + '-' + payload.sessionId +
+      '-batch-' + payload.round + '-' + payload.submissionKind + '-' + payload.submittedAt.replace(/[^0-9]/g, '') + '.csv');
+    return body;
+  }
+  async function sendSubmission(type, payload) {
+    const url = 'https://formspree.io/f/mpqgvpvo';
+    let body;
+    try { body = submissionBody(type, payload, true); }
+    catch (error) { body = submissionBody(type, payload, false); }
+    let response = await fetch(url, {method: 'POST', headers: {Accept: 'application/json'}, body: body});
+    if (response.status >= 400 && response.status < 500) {
+      response = await fetch(url, {method: 'POST', headers: {Accept: 'application/json'}, body: submissionBody(type, payload, false)});
+    }
+    if (!response.ok) throw new Error('HTTP ' + response.status);
   }
   function buildPayload(kind) {
     state.allScores = state.allScores || {};
@@ -349,6 +403,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
       submissionKind: kind, scoringVersion: scoringVersion, scale: {min: 0, max: 100, step: 1, dimension: 'OVL', uniquePerTrial: false},
       dimensions: {SIG: '语音本身的声音质量', BAK: '回声和背景声音的干扰', OVL: '整体满意度'},
       samplingVersion: state.samplingVersion, sampleOrder: state.order, listenerId: state.listener,
+      sessionId: state.sessionId,
       experience: state.experience, device: state.device, batchSize: state.ids.length, totalSize: cumulativeSampleIds.length,
       sampleIds: cumulativeSampleIds, scores: {...state.allScores, ...state.scores},
       completedSampleIds: completedIds, batchSampleIds: completedIds, batchScores: completedIds.reduce((out, id) => { out[id] = state.scores[id]; return out; }, {}),
@@ -359,8 +414,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
     state.submitting = true; ui.progressSubmit.disabled = true;
     const payload = buildPayload('checkpoint');
     try {
-      const response = await fetch('https://formspree.io/f/mpqgvpvo', {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify({type: 'dereverb-p808-short-v4-checkpoint', payloadJson: JSON.stringify(payload)})});
-      if (!response.ok) throw new Error('HTTP ' + response.status);
+      await sendSubmission('dereverb-p808-short-v4-checkpoint', payload);
       ui.status.textContent = '当前进度已提交，可以继续听测。';
     } catch (error) { download(payload, '-checkpoint'); ui.status.textContent = '提交失败，已下载当前进度备份。'; }
     state.submitting = false; save(); renderProgress();
@@ -370,8 +424,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
     state.submitting = true; ui.next.disabled = true; ui.submit.disabled = true;
     const payload = buildPayload('batch');
     try {
-      const response = await fetch('https://formspree.io/f/mpqgvpvo', {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify({type: 'dereverb-p808-short-v4', payloadJson: JSON.stringify(payload)})});
-      if (!response.ok) throw new Error('HTTP ' + response.status);
+      await sendSubmission('dereverb-p808-short-v4', payload);
       state.used.push(...state.ids); state.submitted = true;
     } catch (error) { download(payload, '-batch'); state.used.push(...state.ids); state.submitted = true; }
     if (!pickBatch()) { state.completed = true; state.index = state.ids.length; }
@@ -382,6 +435,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
     const id = ui.listener.value.trim(); if (!id) { ui.error.textContent = '请输入测试 ID。'; return; }
     state = loadState(id) || {listener: id, experience: ui.experience.value, device: ui.device.value,
       round: 0, index: 0, ids: [], scores: {}, allScores: {}, used: [], submitted: false, completed: false};
+    if (!state.sessionId) state.sessionId = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
     if (state.scoringVersion !== scoringVersion) {
       migrateScoreMap(state.scores);
       migrateScoreMap(state.allScores);
