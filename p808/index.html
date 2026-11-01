@@ -359,7 +359,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
       if (!trial) return;
       orderedCandidates(trial).forEach((key, index) => {
         const score = (payload.scores[sampleId] || {})[key];
-        if (valid(score)) lines.push([payload.listenerId, payload.study, payload.round, payload.submissionKind,
+        if (valid(score)) lines.push([payload.listenerId, payload.sessionId, payload.study, payload.round, payload.submissionKind,
           payload.submittedAt, trial.dataset, sampleId, index + 1, key, score, 100,
           trial.tracks[key].file, new URL(trial.tracks[key].file, location.href).href,
           trial.tracks[key].sha256, trial.tracks.reference.file].map(csvCell).join(','));
@@ -367,33 +367,19 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
     });
     return '\uFEFF' + lines.join('\r\n') + '\r\n';
   }
-  function submissionBody(type, payload, attachCsv) {
-    const csv = csvForPayload(payload);
-    const body = new FormData();
-    body.append('type', type);
-    body.append('listenerId', payload.listenerId);
-    body.append('sessionId', payload.sessionId);
-    body.append('round', String(payload.round));
-    body.append('coveredSampleIds', payload.sampleIds.join(', '));
-    body.append('currentBatchSampleIds', payload.batchSampleIds.join(', '));
-    body.append('_subject', 'Dereverb 听评 ' + payload.listenerId + ' 第 ' + payload.round + ' 批');
-    body.append('payloadJson', JSON.stringify(payload));
-    body.append('resultsCsv', csv);
-    if (attachCsv) body.append('resultsFile', new Blob([csv], {type: 'text/csv;charset=utf-8'}),
-      'p808-' + payload.listenerId.replace(/[^a-zA-Z0-9_-]/g, '_') + '-' + payload.sessionId +
-      '-batch-' + payload.round + '-' + payload.submissionKind + '-' + payload.submittedAt.replace(/[^0-9]/g, '') + '.csv');
-    return body;
+  async function postSubmission(body) {
+    const response = await fetch('https://formspree.io/f/mpqgvpvo', {
+      method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'},
+      body: JSON.stringify(body)
+    });
+    if (!response.ok) {
+      const result = await response.json().catch(() => ({}));
+      const detail = (result.errors || []).map((item) => item.message).filter(Boolean).join('; ');
+      throw new Error('HTTP ' + response.status + (detail ? ': ' + detail : ''));
+    }
   }
   async function sendSubmission(type, payload) {
-    const url = 'https://formspree.io/f/mpqgvpvo';
-    let body;
-    try { body = submissionBody(type, payload, true); }
-    catch (error) { body = submissionBody(type, payload, false); }
-    let response = await fetch(url, {method: 'POST', headers: {Accept: 'application/json'}, body: body});
-    if (response.status >= 400 && response.status < 500) {
-      response = await fetch(url, {method: 'POST', headers: {Accept: 'application/json'}, body: submissionBody(type, payload, false)});
-    }
-    if (!response.ok) throw new Error('HTTP ' + response.status);
+    await postSubmission({type: type, payloadJson: JSON.stringify(payload)});
   }
   function buildPayload(kind) {
     state.allScores = state.allScores || {};
@@ -416,7 +402,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
     try {
       await sendSubmission('dereverb-p808-short-v4-checkpoint', payload);
       ui.status.textContent = '当前进度已提交，可以继续听测。';
-    } catch (error) { download(payload, '-checkpoint'); ui.status.textContent = '提交失败，已下载当前进度备份。'; }
+    } catch (error) { download(payload, '-checkpoint'); ui.status.textContent = '提交失败（' + error.message + '），已下载备份，请重试。'; }
     state.submitting = false; save(); renderProgress();
   }
   async function submit() {
@@ -426,7 +412,12 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
     try {
       await sendSubmission('dereverb-p808-short-v4', payload);
       state.used.push(...state.ids); state.submitted = true;
-    } catch (error) { download(payload, '-batch'); state.used.push(...state.ids); state.submitted = true; }
+    } catch (error) {
+      download(payload, '-batch');
+      ui.status.textContent = '提交失败（' + error.message + '），已下载备份，请重试本批。';
+      state.submitting = false; ui.next.disabled = false; ui.submit.disabled = false;
+      save(); return;
+    }
     if (!pickBatch()) { state.completed = true; state.index = state.ids.length; }
     state.submitting = false;
     save(); render();

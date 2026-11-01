@@ -279,31 +279,16 @@ function csvForPayload(payload) {
   return '\uFEFF' + rows.join('\r\n') + '\r\n';
 }
 
-function formBody(type, payload, attachCsv) {
-  const csv = csvForPayload(payload);
-  const body = new FormData();
-  body.append('type', type);
-  body.append('study', payload.study);
-  body.append('listenerId', payload.listenerId);
-  body.append('sessionId', payload.sessionId);
-  body.append('coveredSampleIds', payload.results.filter((row) => row.scores.some(validScore)).map((row) => row.sample_id).join(', '));
-  body.append('_subject', `Dereverb 听评 ${type} ${payload.listenerId}`);
-  body.append('payloadJson', JSON.stringify(payload));
-  body.append('resultsCsv', csv);
-  if (attachCsv) body.append('resultsFile', new Blob([csv], { type: 'text/csv;charset=utf-8' }),
-    `${CONFIG.downloadPrefix}-${payload.listenerId.replace(/[^a-zA-Z0-9_-]/g, '_')}-${payload.sessionId}-${(payload.submittedAt || payload.exportedAt).replace(/[^0-9]/g, '')}.csv`);
-  return body;
-}
-
 async function sendSubmission(type, payload) {
-  let body;
-  try { body = formBody(type, payload, true); }
-  catch (error) { body = formBody(type, payload, false); }
-  let response = await fetch(ENDPOINT, { method: 'POST', headers: { Accept: 'application/json' }, body });
-  if (response.status >= 400 && response.status < 500) {
-    response = await fetch(ENDPOINT, { method: 'POST', headers: { Accept: 'application/json' }, body: formBody(type, payload, false) });
+  const response = await fetch(ENDPOINT, { method: 'POST', headers: {
+    'Content-Type': 'application/json', Accept: 'application/json',
+  }, body: JSON.stringify({ type, study: payload.study, listenerId: payload.listenerId,
+    sessionId: payload.sessionId, payloadJson: JSON.stringify(payload) }) });
+  if (!response.ok) {
+    const result = await response.json().catch(() => ({}));
+    const detail = (result.errors || []).map((item) => item.message).filter(Boolean).join('; ');
+    throw new Error(`HTTP ${response.status}${detail ? `: ${detail}` : ''}`);
   }
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
 }
 
 async function submitProgress() {
