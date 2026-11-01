@@ -315,7 +315,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
 <section id="study" class="short-study" hidden><div class="short-head"><div><p id="batch" class="eyebrow"></p><h2 id="sample"></h2></div><strong id="progress"></strong></div>
 <section class="evaluation-guidance" aria-label="评分提示"><strong>评分提示</strong><p>每组有 1 段随机隐藏参考，隐藏参考和下面其他声音一样要评分。先听说话声音有没有变闷、发糊或断断续续，再听说话后有没有回声、房间声或噪声，最后给出一个 0–100 分的总体分。80–100 分表示整体最好；60–79 分表示有一点问题但容易听清；40–59 分表示问题明显但大部分还能听清；20–39 分表示回声或怪声明显影响听感；0–19 分表示很难听清。上方参考语音不计分；下面的隐藏参考要计分。相同分数可以使用。</p></section>
 <div class="short-reference"><div><strong>参考语音</strong><span>可反复播放，不计入评分</span></div><audio id="reference" controls preload="none"></audio></div><div id="candidates" class="short-cards"></div>
-<p id="status" class="short-error"></p><div class="short-nav"><button id="back">上一条</button><button id="next">下一条</button><button id="progress-submit" hidden>提交当前进度</button><button id="submit" hidden>提交本批并进入下一批</button></div></section></main>
+<p id="status" class="short-error"></p><div class="short-nav"><button id="back">上一条</button><button id="progress-submit" hidden>提交当前进度</button><button id="next">下一条</button><button id="submit" hidden>提交本批并进入下一批</button></div></section></main>
 <script>window.P808_DATA=""" + json.dumps(source, ensure_ascii=False, separators=(",", ":")) + """;</script><script>""" + APP + """</script></body></html>"""
     OUTPUT.write_text(html)
     print(OUTPUT, OUTPUT.stat().st_size)
