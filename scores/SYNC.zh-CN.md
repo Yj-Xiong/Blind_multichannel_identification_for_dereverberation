@@ -10,7 +10,8 @@
 1. 在 Formspree 后台轮换此前在聊天中明文出现的密钥。只保留新暂存表单
    `mjyypvzy` 的**只读** API 密钥供同步使用；不需要主密钥。
 2. 打开 GitHub 仓库的 **Settings → Secrets and variables → Actions**，
-   新建仓库 Secret：`FORMSPREE_STAGING_READ_ONLY_KEY`，值为刚生成的只读密钥。
+   新建仓库 Secret：`FORMS1MJY`（也兼容
+   `FORMSPREE_STAGING_READ_ONLY_KEY`），值为刚生成的只读密钥。
    不要把密钥写进文件、工作流或网页。
 3. 在 **Actions → Sync staged listening scores → Run workflow** 手动运行一次。
    成功后检查 `scores/inbox/` 和 `scores/latest.csv` 是否出现数据。

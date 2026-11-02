@@ -20,7 +20,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     env:
-      FORMSPREE_STAGING_READ_ONLY_KEY: ${{ secrets.FORMSPREE_STAGING_READ_ONLY_KEY }}
+      FORMSPREE_STAGING_READ_ONLY_KEY: ${{ secrets.FORMS1MJY || secrets.FORMSPREE_STAGING_READ_ONLY_KEY }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -32,7 +32,7 @@ jobs:
       - name: Verify Formspree API secret
         run: |
           if [[ -z "$FORMSPREE_STAGING_READ_ONLY_KEY" ]]; then
-            echo 'Missing repository Actions secret FORMSPREE_STAGING_READ_ONLY_KEY.' >&2
+            echo 'Missing repository Actions secret FORMS1MJY or FORMSPREE_STAGING_READ_ONLY_KEY.' >&2
             exit 1
           fi
       - name: Import Formspree submissions
