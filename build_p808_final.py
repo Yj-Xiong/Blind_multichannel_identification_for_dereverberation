@@ -14,7 +14,7 @@ APP = r"""
 (() => {
   const data = window.P808_DATA;
   const size = 10;
-  const samplingVersion = 'listener-random-v3-short40-no-adjacent-source';
+  const samplingVersion = 'listener-random-v4-short40-random-block-order';
   const scoringVersion = 'ovl-0-100-v1';
   const modelKeys = data.models.map((m) => m.id);
   function keysFor(trial) {
@@ -29,7 +29,7 @@ APP = r"""
     setup: $('#setup'), study: $('#study'), listener: $('#listener'),
     experience: $('#experience'), device: $('#device'),
     start: $('#start'), error: $('#error'), progress: $('#progress'),
-    sample: $('#sample'), reference: $('#reference'), candidates: $('#candidates'),
+    sample: $('#sample'), reference: $('#reference'), candidates: $('#candidates'), guidance: $('#trial-guidance'),
     back: $('#back'), next: $('#next'), submit: $('#submit'), status: $('#status'),
     batch: $('#batch'), reset: $('#reset'), progressSubmit: $('#progress-submit')
   };
@@ -69,9 +69,11 @@ APP = r"""
     let value = ((hash('p808-block:' + listener + ':' + data.allocation_version) + 0.5) / 4294967296) * total;
     let first = weights.findIndex((weight) => (value -= weight) < 0);
     if (first < 0) first = blocks.length - 1;
+    const remaining = shuffle(blocks.map((_, index) => index).filter((index) => index !== first),
+      hash('p808-remaining-blocks:' + listener + ':' + data.allocation_version));
     const order = [];
-    for (let offset = 0; offset < blocks.length; offset++) {
-      const block = blocks[(first + offset) % blocks.length];
+    for (const [offset, blockIndex] of [first, ...remaining].entries()) {
+      const block = blocks[blockIndex];
       order.push(...shuffle(block, hash('p808-within-block:' + listener + ':' + offset)));
     }
     return {order, firstBlock: first};
@@ -147,6 +149,9 @@ APP = r"""
     ui.status.textContent = '';
     const trial = trials.get(state.ids[state.index]); ui.batch.textContent = '第 ' + state.round + ' 批';
     ui.sample.textContent = '当前批样本 ' + (state.index + 1) + ' / ' + state.ids.length;
+    ui.guidance.textContent = trial.tracks.reference
+      ? '先听上方参考语音，可反复播放；它不计分。下方 10 段中随机有一段与参考完全相同的隐藏参考，也要照常评分。'
+      : '这条没有上方参考语音。请直接比较下方 9 段声音，按同一标准逐一评分。';
     if (trial.tracks.reference) setAudioSource(ui.reference, trial.tracks.reference.file);
     else { ui.reference.pause(); ui.reference.removeAttribute('src'); ui.reference.load(); }
     ui.candidates.innerHTML = '';
@@ -303,6 +308,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
 .evaluation-guidance{margin:20px 0;padding:14px 16px;border:1px solid #b9d8d1;border-left:4px solid #087a70;border-radius:5px;background:#edf7f3;color:#385650;font-size:13px;line-height:1.7}
 .evaluation-guidance strong{display:block;margin-bottom:4px;color:#175f57;font-size:14px}
 .evaluation-guidance p{margin:0;color:#385650}
+.evaluation-guidance p + p{margin-top:8px}
 .evaluation-guidance b{color:#244a44}
 .short-score{display:grid;grid-template-columns:1fr 64px;gap:10px}.short-score input{width:100%}.short-nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid #d4dfdc}
 .short-nav button{padding:9px 15px;border:1px solid #cad7d4;border-radius:5px;background:#fff}.short-nav button:last-child{background:#087a70;color:#fff}.short-error{color:#b34332;min-height:22px}
@@ -316,7 +322,10 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
 <section class="scoring-rules"><h2>评分规则</h2><ol><li>有上方参考语音时先听参考，再评下面 10 段；没有参考时评下面 9 段。</li><li>按 0–100 分、每 1 分一个档位给出总体分，同时考虑说话声音是否被损坏，以及回声和背景声音是否残留。</li><li>每段声音都要评分；相同分数可以使用，完成一批即可提交。</li></ol></section>
 <div class="short-form"><label>测试 ID<input id="listener" placeholder="name 或 name_YYYYMMDD"></label><label>听评经验<select id="experience"><option value="general">普通听众</option><option value="experienced">有语音处理经验</option><option value="expert">领域专家</option></select></label><label>收听设备<select id="device"><option value="headphones">耳机</option><option value="speakers">扬声器</option><option value="other">其他</option></select></label><button id="start">开始听测</button></div><p>每个测试 ID 独立随机排列 40 条样本，每批 10 条；可随时提交当前进度，同一 ID 返回时继续未完成批次。已完成样本不会重复；进度保存在本机浏览器。建议用耳机并保持相同音量。</p><p id="error" class="short-error"></p></section>
 <section id="study" class="short-study" hidden><div class="short-head"><div><p id="batch" class="eyebrow"></p><h2 id="sample"></h2></div><strong id="progress"></strong></div>
-<section class="evaluation-guidance" aria-label="评分提示"><strong>评分提示</strong><p>听说话是否清楚完整，再听回声与背景噪声，最后给出 0–100 分的总体分。上方如有参考语音，可反复播放且不计分；下方所有声音都要评分。相同分数可以使用。</p></section>
+<section class="evaluation-guidance" aria-label="评分提示"><strong>评分提示</strong>
+<p><b>先听说话声：</b>字音是否清楚、完整、连贯，有没有变闷、失真或断续。<b>再听环境声：</b>说话后是否拖着回声，背景噪声是否明显。两方面一起考虑，给每段声音一个 0–100 分的总体分；说话越清楚完整、回声和噪声越少，分数越高。</p>
+<p><b>分数参考：</b>80–100 分，清楚完整，回声和噪声很小；60–79 分，有轻微问题但容易听清；40–59 分，问题明显，部分字音受影响；20–39 分，回声、噪声或失真较重；0–19 分，听清说话很费力。</p>
+<p id="trial-guidance"></p><p>下方每段声音都要评分；可以给不同声音相同分数。</p></section>
 <div class="short-reference"><div><strong>参考语音</strong><span>可反复播放，不计入评分</span></div><audio id="reference" controls preload="none"></audio></div><div id="candidates" class="short-cards"></div>
 <p id="status" class="short-error"></p><div class="short-nav"><button id="back">上一条</button><button id="progress-submit" hidden>提交当前进度</button><button id="next">下一条</button><button id="submit" hidden>提交本批并进入下一批</button></div></section></main>
 <script>window.P808_DATA=""" + json.dumps(source, ensure_ascii=False, separators=(",", ":")) + """;</script><script>""" + APP + """</script></body></html>"""
