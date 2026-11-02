@@ -11,6 +11,7 @@ import os
 import re
 from datetime import datetime
 from pathlib import Path
+from urllib.error import HTTPError
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 from urllib.request import Request, urlopen
 
@@ -171,4 +172,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except HTTPError as error:
+        print("::error title=Formspree submissions API::HTTP {}".format(error.code))
+        raise
+    except Exception as error:
+        print("::error title=Formspree score sync::{}: {}".format(
+            type(error).__name__, str(error).replace("\n", " ")[:180]))
+        raise
