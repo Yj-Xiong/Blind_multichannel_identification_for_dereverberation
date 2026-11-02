@@ -2,6 +2,10 @@ name: Sync staged listening scores
 
 on:
   workflow_dispatch:
+  push:
+    branches: [gh-pages]
+    paths:
+      - .github/workflows/sync-staged-scores.yml
   schedule:
     - cron: '*/15 * * * *'
 
