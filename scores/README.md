@@ -10,7 +10,8 @@ The active staging form accepts four multipart fields:
 - `user_id`: Chinese characters, English letters, or digits, 1 to 20 characters.
 - `device_type`: positive integer. The current page uses `1` for headphones,
   `2` for speakers, and `3` for other devices.
-- `upload`: UTF-8 CSV file containing the scored rows.
+- `scores_csv`: UTF-8 CSV text containing the scored rows. This Formspree
+  form does not permit file attachments.
 
 `checkpoint` submissions may contain partial rows. A completed batch is sent
 to the notification endpoint separately. The Formspree inbox does not write

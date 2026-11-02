@@ -124,9 +124,11 @@ APP = r"""
     const trial = trials.get(state.ids[state.index]); const scoreValues = orderedCandidates(trial).map((key) => (state.scores[trial.sample_id] || {})[key]).filter(valid);
     const completedCount = state.ids.filter((id) => complete(trials.get(id))).length;
     const hasScores = state.ids.some((id) => Object.values(state.scores[id] || {}).some(valid));
+    const hasPendingStage = state.used.some((id) => !(state.stagedSampleIds || []).includes(id));
     ui.progress.textContent = complete(trial) ? '本条已完成' : '请给 ' + keysFor(trial).length + ' 段声音评分';
     ui.next.disabled = !complete(trial); ui.submit.disabled = !state.ids.every((id) => complete(trials.get(id)));
-    ui.progressSubmit.hidden = !hasScores || completedCount >= state.ids.length;
+    ui.progressSubmit.hidden = (!hasScores && !hasPendingStage) || (completedCount >= state.ids.length && !hasPendingStage);
+    ui.progressSubmit.textContent = !hasScores && hasPendingStage ? '补传已完成批次' : '提交当前进度';
     ui.progressSubmit.disabled = Boolean(state.submitting);
     ui.candidates.querySelectorAll('.candidate').forEach((node) => {
       const v = (state.scores[trial.sample_id] || {})[node.dataset.key];
@@ -143,7 +145,11 @@ APP = r"""
       ui.progress.textContent = state.completed ? '全部样本已提交' : '本批 ' + state.ids.length + ' 条均已评分';
       ui.reference.parentElement.hidden = true; ui.candidates.hidden = true;
       ui.back.hidden = false; ui.back.disabled = state.index === 0;
-      ui.next.hidden = true; ui.progressSubmit.hidden = true; ui.submit.hidden = state.completed; ui.submit.disabled = state.completed;
+      ui.next.hidden = true;
+      ui.progressSubmit.hidden = !state.used.some((id) => !(state.stagedSampleIds || []).includes(id));
+      ui.progressSubmit.disabled = Boolean(state.submitting);
+      ui.progressSubmit.textContent = '补传已完成批次';
+      ui.submit.hidden = state.completed; ui.submit.disabled = state.completed;
       ui.submit.textContent = '提交本批并进入下一批';
       if (state.completed) ui.status.textContent = '所有样本都已完成。';
       else ui.status.textContent = '请提交本批评分，提交后自动进入下一批。';
@@ -209,25 +215,39 @@ APP = r"""
   }
   async function postStaging(payload) {
     if (!stagingEndpoint) throw new Error('暂存接口尚未配置');
-    const form = new FormData();
-    form.append('task_id', data.study);
-    form.append('user_id', state.listener);
-    form.append('device_type', String(deviceType(state.device)));
-    form.append('upload', new Blob([csvForPayload(payload)], {type: 'text/csv;charset=utf-8'}),
-      'scores.csv');
-    const response = await fetch(stagingEndpoint, {
-      method: 'POST', headers: {Accept: 'application/json'}, body: form
-    });
-    if (!response.ok) {
-      const result = await response.json().catch(() => ({}));
-      const detail = (result.errors || []).map((item) => item.message).filter(Boolean).join('; ');
-      throw new Error('暂存接口 HTTP ' + response.status + (detail ? ': ' + detail : ''));
+    const staged = new Set(state.stagedSampleIds || []);
+    const pending = state.used.filter((id) => !staged.has(id));
+    const groups = [];
+    for (let offset = 0; offset < pending.length; offset += size) {
+      const ids = pending.slice(offset, offset + size);
+      groups.push({ids, round: Math.floor(state.order.indexOf(ids[0]) / size) + 1, kind: 'batch'});
+    }
+    const current = state.ids.filter((id) => !state.used.includes(id) &&
+      Object.values(state.scores[id] || {}).some(valid));
+    if (current.length) groups.push({ids: current, round: state.round, kind: payload.submissionKind});
+    for (const group of groups) {
+      const form = new FormData();
+      form.append('task_id', data.study);
+      form.append('user_id', state.listener);
+      form.append('device_type', String(deviceType(state.device)));
+      form.append('scores_csv', csvForPayload({...payload, sampleIds: group.ids,
+        round: group.round, submissionKind: group.kind}));
+      const response = await fetch(stagingEndpoint, {
+        method: 'POST', headers: {Accept: 'application/json'}, body: form
+      });
+      if (!response.ok) {
+        const result = await response.json().catch(() => ({}));
+        const detail = (result.errors || []).map((item) => item.message).filter(Boolean).join('; ');
+        throw new Error('暂存接口 HTTP ' + response.status + (detail ? ': ' + detail : ''));
+      }
+      if (group.kind === 'batch') {
+        state.stagedSampleIds = [...new Set([...(state.stagedSampleIds || []), ...group.ids])];
+        save();
+      }
     }
   }
   async function sendSubmission(type, payload) {
-    await postSubmission({type: type, task_id: data.study, user_id: state.listener,
-      device_type: deviceType(state.device), scores_csv: csvForPayload(payload),
-      payloadJson: JSON.stringify(payload)});
+    await postSubmission({type: type, payloadJson: JSON.stringify(payload)});
   }
   function buildPayload(kind) {
     state.allScores = state.allScores || {};
@@ -252,11 +272,14 @@ APP = r"""
     if (state.submitting) return;
     state.submitting = true; ui.progressSubmit.disabled = true;
     const payload = buildPayload('checkpoint');
+    let message;
     try {
       await postStaging(payload);
-      ui.status.textContent = '当前进度已暂存，可以继续听测。';
-    } catch (error) { download(payload, '-checkpoint'); ui.status.textContent = '暂存失败（' + error.message + '），已下载当前进度备份；整批完成后可继续提交。'; }
-    state.submitting = false; save(); renderProgress();
+      message = '当前进度已暂存，可以继续听测。';
+    } catch (error) { download(payload, '-checkpoint'); message = '暂存失败（' + error.message + '），已下载当前进度备份；整批完成后可继续提交。'; }
+    state.submitting = false; save();
+    if (state.index >= state.ids.length) render(); else renderProgress();
+    ui.status.textContent = message;
   }
   async function submit() {
     if (state.submitting) return;
@@ -278,13 +301,14 @@ APP = r"""
     save(); render();
     if (stagingError) {
       download(payload, '-stage-backup');
-      ui.status.textContent = '整批已提交，但暂存失败（' + stagingError.message + '）；已下载备份。';
+      ui.status.textContent = '原结果表单已接收整批，但暂存失败（' + stagingError.message + '）；已下载备份。';
     }
   }
   ui.start.addEventListener('click', () => {
     const id = ui.listener.value.trim(); if (!validUserId(id)) { ui.error.textContent = '请输入 1–20 位中英文或数字测试 ID。'; return; }
     state = loadState(id) || {listener: id, experience: ui.experience.value, device: ui.device.value,
-      round: 0, index: 0, ids: [], scores: {}, allScores: {}, used: [], submitted: false, completed: false};
+      round: 0, index: 0, ids: [], scores: {}, allScores: {}, used: [],
+      stagedSampleIds: [], submitted: false, completed: false};
     if (!state.sessionId) state.sessionId = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
     if (state.scoringVersion !== scoringVersion) {
       migrateScoreMap(state.scores);
@@ -301,6 +325,7 @@ APP = r"""
     }
     state.allScores = {...(state.allScores || {}), ...(state.scores || {})};
     state.completed = Boolean(state.completed);
+    if (state.completed) { save(); render(); return; }
     if (!state.ids.length || state.submitted) { if (!pickBatch()) { ui.error.textContent = '所有样本都已完成。'; return; } }
     save(); render();
   });
