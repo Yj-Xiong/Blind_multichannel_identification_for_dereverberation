@@ -43,15 +43,17 @@ class FormspreeSyncTests(unittest.TestCase):
 
         def fake_urlopen(request, timeout):
             calls.append(request)
-            count = 100 if len(calls) == 1 else 1
+            count = 100 if len(calls) == 2 else 1
             return Response({"submissions": [submission("2026-11-02T10:00:00") for _ in range(count)]})
 
         with patch("scores.sync_formspree.urlopen", side_effect=fake_urlopen):
-            rows = fetch_submissions("https://formspree.io/api/0/forms/form1/submissions", "test-key")
+            rows = fetch_submissions("https://formspree.io/api/0/forms/form1/submissions", "a" * 32)
         self.assertEqual(len(rows), 101)
-        self.assertIn("offset=0", calls[0].full_url)
-        self.assertIn("offset=100", calls[1].full_url)
-        self.assertEqual(calls[0].get_header("Authorization"), "Basic OnRlc3Qta2V5")
+        self.assertNotIn("?", calls[0].full_url)
+        self.assertIn("offset=0", calls[1].full_url)
+        self.assertIn("offset=100", calls[2].full_url)
+        self.assertEqual(calls[0].get_header("Authorization"),
+                         "Basic OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFh")
 
     def test_archive_uses_formspree_date_and_is_idempotent(self):
         first = submission("2026-11-02T10:00:00.000000")

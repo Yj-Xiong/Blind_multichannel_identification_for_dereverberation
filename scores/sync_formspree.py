@@ -46,12 +46,17 @@ def parse_page(content):
 
 
 def fetch_submissions(url, key):
+    key = key.strip()
     if not key:
         raise ValueError("FORMSPREE_STAGING_READ_ONLY_KEY is not set")
+    if not re.fullmatch(r"[A-Za-z0-9_-]{16,128}", key):
+        raise ValueError("Formspree secret must contain only the API key value")
     start = urlparse(url)
     if start.scheme != "https" or not start.netloc:
         raise ValueError("Formspree export URL must be HTTPS")
     authorization = "Basic " + base64.b64encode((":" + key).encode("utf-8")).decode("ascii")
+    with urlopen(Request(url, headers={"Authorization": authorization}), timeout=60) as response:
+        parse_page(response.read())
     submissions = []
     limit = 100
     for page_number in range(1000):
