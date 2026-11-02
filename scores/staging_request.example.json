@@ -1,0 +1,6 @@
+{
+  "task_id": "task20261102",
+  "user_id": "listenerA01",
+  "device_type": 1,
+  "scores_csv": "listener_id,session_id,task_id,round,submission_kind,submitted_at,dataset,sample_id,candidate_position,candidate_key,score,scale_max,audio_file,audio_url,audio_sha256,reference_file\nlistenerA01,session-abc,task20261102,1,checkpoint,2026-11-02T10:00:00Z,ACE,ace_0001_snr10dB,1,cleanmel-offline-l-map,76,100,audio/example.mp3,https://example.invalid/audio/example.mp3,sha256-example,audio/reference.mp3\n"
+}

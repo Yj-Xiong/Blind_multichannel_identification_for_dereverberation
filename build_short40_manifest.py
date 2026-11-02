@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Package the selected 28 paired and 12 no-reference listening trials."""
+"""Package the selected paired listening trials into four seven-sample batches."""
 
 import argparse
 import hashlib
@@ -22,7 +22,7 @@ SELECTION = P808 / "short40_selection.json"
 ALLOCATION = P808 / "short40_allocation_weights.json"
 REAL = P808 / "real_noisy_5to20db_v1" / "manifest.json"
 INFERENCE = P808 / "real_inference"
-OUTPUT = P808 / "short40_manifest.json"
+OUTPUT = P808 / "short28_manifest.json"
 AUDIO_VERSION = "real-noisy-5to20db-rms27-v1"
 MODELS = (
     "cleanmel-offline-l-map", "vinp-ospatialnet", "vinp-tcnsas",
@@ -81,8 +81,8 @@ def main():
     args = parser.parse_args()
     source = json.loads(SOURCE.read_text())
     selection = json.loads(SELECTION.read_text())
-    real = json.loads(REAL.read_text())
     if args.prepare_available:
+        real = json.loads(REAL.read_text())
         count = 0
         for item in real["samples"]:
             sample_id = item["sample_id"]
@@ -107,37 +107,8 @@ def main():
             path = P808 / track["file"]
             if not path.is_file() or digest(path) != track["sha256"]:
                 raise ValueError("Missing or changed paired audio: " + str(path))
-    if len(real["samples"]) != 12:
-        raise ValueError("Expected 12 real recordings")
-    for item in real["samples"]:
-        sample_id = item["sample_id"]
-        source_audio = Path(item["noisy_audio"])
-        if not source_audio.is_file() or digest(source_audio) != item["noisy_sha256"]:
-            raise ValueError("Changed no-reference source: " + sample_id)
-        audio_sources = {"unprocessed": source_audio}
-        for model in MODELS:
-            path = INFERENCE / model / Path(item["source"]).name
-            if not path.is_file():
-                raise FileNotFoundError(path)
-            if sf.info(path).samplerate != 16000 or sf.info(path).frames != 160000:
-                raise ValueError("Invalid enhanced audio: " + str(path))
-            audio_sources[model] = path
-        tracks = {}
-        for key, path in audio_sources.items():
-            target = P808 / "audio" / AUDIO_VERSION / sample_id / (key + ".mp3")
-            encode(path, target)
-            tracks[key] = {"file": target.relative_to(P808).as_posix(),
-                           "sha256": digest(target)}
-        selected.append({"dataset": "REAL", "dataset_name": "4floor_2m_deg180_12speech",
-                         "dataset_version": "v1.0.1", "sample_id": sample_id,
-                         "scene_id": sample_id, "room": "4floor", "array_type": "4ch",
-                         "snr_db": item["target_added_noise_snr_db"],
-                         "has_reference": False, "source_sha256": item["source_sha256"],
-                         "noisy_sha256": item["noisy_sha256"],
-                         "noise_sha256": item["noise_sha256"], "tracks": tracks})
-        print(sample_id, len(tracks), "tracks", flush=True)
-    if len(selected) != 40 or len({trial["sample_id"] for trial in selected}) != 40:
-        raise ValueError("Expected 40 unique listening trials")
+    if len(selected) != 28 or len({trial["sample_id"] for trial in selected}) != 28:
+        raise ValueError("Expected 28 unique paired listening trials")
     weights = allocation.get("sample_weights", {})
     unknown = set(weights) - {trial["sample_id"] for trial in selected}
     if unknown:
@@ -151,8 +122,7 @@ def main():
             raise ValueError("Invalid allocation weight for " + trial["sample_id"])
         trial["allocation_weight"] = weight
     blocks = [[] for _ in range(4)]
-    limits = {"ACE": (4, 4, 3, 3), "AIR": (3, 3, 4, 4),
-              "REAL": (3, 3, 3, 3)}
+    limits = {"ACE": (4, 4, 3, 3), "AIR": (3, 3, 4, 4)}
     for dataset, counts in limits.items():
         candidates = sorted((trial for trial in selected if trial["dataset"] == dataset),
                             key=lambda trial: hashlib.sha256(
@@ -163,13 +133,13 @@ def main():
             offset += count
         if offset != len(candidates):
             raise ValueError("Block allocation does not cover " + dataset)
-    if any(len(block) != 10 for block in blocks):
-        raise ValueError("Every allocation block must contain 10 samples")
-    manifest = {"study": selection["study"], "dataset_version": "v1.0.1",
+    if any(len(block) != 7 for block in blocks):
+        raise ValueError("Every allocation block must contain 7 samples")
+    manifest = {"study": "dereverb28v1", "dataset_version": "v1.0.1",
                 "allocation_version": allocation["allocation_version"],
                 "allocation_blocks": blocks,
                 "audio_version": {"ACE": source["audio_version"],
-                                  "AIR": source["audio_version"], "REAL": AUDIO_VERSION},
+                                  "AIR": source["audio_version"]},
                 "models": source["models"], "trials": selected}
     temporary = OUTPUT.with_name(OUTPUT.name + "." + uuid.uuid4().hex + ".tmp")
     temporary.write_text(json.dumps(manifest, ensure_ascii=False,
