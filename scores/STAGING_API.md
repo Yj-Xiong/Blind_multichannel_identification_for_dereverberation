@@ -31,9 +31,11 @@ The current page sends scored rows from the current seven-sample batch. A
 `checkpoint` may contain only some candidate scores. Completed batches that
 previously failed staging are retried as separate seven-sample submissions.
 On batch completion, the page attempts staging, then sends the complete
-cumulative JSON to the original notification form `mpqgvpvo` even if staging
-fails. A successful response from that form confirms receipt by Formspree;
-email delivery depends on the form's notification settings.
+cumulative JSON plus a CSV file attachment named `upload` to the original
+notification form `mpqgvpvo` even if staging fails. If that form rejects file
+uploads, the page retries with the original JSON-only request and downloads
+a CSV backup. A successful response confirms receipt by Formspree; email
+delivery depends on the form's notification settings.
 
 ## Validation
 

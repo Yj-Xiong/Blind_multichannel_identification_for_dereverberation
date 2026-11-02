@@ -247,7 +247,23 @@ APP = r"""
     }
   }
   async function sendSubmission(type, payload) {
-    await postSubmission({type: type, payloadJson: JSON.stringify(payload)});
+    const form = new FormData();
+    form.append('type', type);
+    form.append('payloadJson', JSON.stringify(payload));
+    form.append('upload', new Blob([csvForPayload(payload)], {type: 'text/csv;charset=utf-8'}),
+      'scores.csv');
+    const response = await fetch('https://formspree.io/f/mpqgvpvo', {
+      method: 'POST', headers: {Accept: 'application/json'}, body: form
+    });
+    if (response.ok) return 'attachment';
+    const result = await response.json().catch(() => ({}));
+    const detail = (result.errors || []).map((item) => item.message).filter(Boolean).join('; ')
+      || result.error || '';
+    if (response.status === 400 && /file uploads not permitted/i.test(detail)) {
+      await postSubmission({type: type, payloadJson: JSON.stringify(payload)});
+      return 'json';
+    }
+    throw new Error('HTTP ' + response.status + (detail ? ': ' + detail : ''));
   }
   function buildPayload(kind) {
     state.allScores = state.allScores || {};
@@ -287,8 +303,9 @@ APP = r"""
     const payload = buildPayload('batch');
     let stagingError = null;
     try { await postStaging(payload); } catch (error) { stagingError = error; }
+    let notificationMode;
     try {
-      await sendSubmission('dereverb-p808-short28-v1', payload);
+      notificationMode = await sendSubmission('dereverb-p808-short28-v1', payload);
       state.used.push(...state.ids); state.submitted = true;
     } catch (error) {
       download(payload, '-batch');
@@ -301,8 +318,12 @@ APP = r"""
     save(); render();
     if (stagingError) {
       download(payload, '-stage-backup');
-      ui.status.textContent = '原结果表单已接收整批，但暂存失败（' + stagingError.message + '）；已下载备份。';
-    }
+      ui.status.textContent = '结果表单已接收整批，暂存失败（' + stagingError.message +
+        '）；已下载备份。' + (notificationMode === 'json' ? '结果表单已回退到 JSON 提交。' : '');
+    } else if (notificationMode === 'json') {
+      download(payload, '-attachment-backup');
+      ui.status.textContent = '原结果表单不支持附件，整批已按 JSON 提交；已下载 CSV 备份。';
+    } else ui.status.textContent = '本批评分已被结果表单接收。';
   }
   ui.start.addEventListener('click', () => {
     const id = ui.listener.value.trim(); if (!validUserId(id)) { ui.error.textContent = '请输入 1–20 位中英文或数字测试 ID。'; return; }

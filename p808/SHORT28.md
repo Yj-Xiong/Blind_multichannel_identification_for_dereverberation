@@ -13,8 +13,10 @@ sample repeats for the same listener.
 The page uses `p808/short28_manifest.json` and stores browser progress under
 `p808-short28-v1:<listener ID>`. A checkpoint sends CSV text to the separate
 Formspree staging form `mjyypvzy`; this form rejected file attachments. A
-completed batch also sends CSV text there, then sends results to the original notification form
-`mpqgvpvo`. The staging form's email notifications must be disabled in its
+completed batch also sends CSV text there, then sends cumulative JSON and a
+CSV attachment to the original notification form `mpqgvpvo`. If that form
+also rejects file uploads, the page retries the original JSON-only request
+and downloads a CSV backup. The staging form's email notifications must be disabled in its
 dashboard; the page cannot control that setting. Staged data does not appear
 in this repository until an authenticated archive job imports it.
 
