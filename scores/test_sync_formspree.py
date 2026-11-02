@@ -66,6 +66,9 @@ class FormspreeSyncTests(unittest.TestCase):
                 rows = {row["candidate_key"]: row for row in csv.DictReader(stream)}
             self.assertEqual(rows["methodA"]["score"], "80")
             self.assertEqual(rows["methodA"]["received_at"], "2026-11-02T11:00:00.000000Z")
+            status = json.loads((output / "sync_status.json").read_text())
+            self.assertEqual(status, {"received": 2, "archived": 2,
+                                      "rejected": 0, "latest_scores": 2})
             self.assertEqual(archive([first, second], output), (0, 0, 2))
 
     def test_new_task_needs_no_manifest(self):

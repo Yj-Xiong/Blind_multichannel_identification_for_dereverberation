@@ -154,6 +154,9 @@ def archive(submissions, output):
             writer.writerow({name: "'" + value if isinstance(value, str) and
                              value.lstrip().startswith(("=", "+", "-", "@")) else value
                              for name, value in values.items()})
+    status = {"received": len(submissions), "archived": len(validated),
+              "rejected": rejected, "latest_scores": len(latest)}
+    (output / "sync_status.json").write_text(json.dumps(status, indent=2) + "\n", encoding="utf-8")
     return added, rejected, len(latest)
 
 

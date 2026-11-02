@@ -3,7 +3,8 @@
 听评页面已经把当前进度发到暂存表单 `mjyypvzy`。仓库的
 [`sync-staged-scores.yml`](../.github/workflows/sync-staged-scores.yml)
 每 15 分钟尝试读取该表单，并将有效提交写入公开的 `scores/inbox/`，
-再生成按候选评分去重的 `scores/latest.csv`。GitHub 定时任务可能延迟运行。
+再生成按候选评分去重的 `scores/latest.csv`。`scores/sync_status.json`
+记录读取、归档、拒绝和有效评分数，不包含评分内容。GitHub 定时任务可能延迟运行。
 
 ## 启用
 
