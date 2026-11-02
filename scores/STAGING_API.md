@@ -54,18 +54,14 @@ Formspree receives the form fields. The later archive job should validate
 6. Match the CSV `task_id` and `user_id` (or legacy `listener_id`) on
    **every** row to the form fields.
    Reject the entire submission if one row has another task or listener ID;
-   one CSV attachment cannot contain multiple tasks.
+   one CSV cannot contain multiple tasks.
 7. Validate every score as a finite number from `0` to its positive
    `scale_max`; partial rows are allowed for `checkpoint` submissions.
-8. Load the server-side manifest registered for `task_id` in
-   [`task_registry.json`](task_registry.json). A generic task manifest has
-   `task_id`, `samples`, and each sample's `candidates`, as in
-   [`example_task_manifest.json`](example_task_manifest.json). The existing
-   dereverberation manifest uses `study`, `trials`, and `tracks` instead; its
-   public `reference` player is not a scored candidate. Unknown sample or
-   candidate IDs reject the entire submission. Where a manifest provides
-   audio files, SHA-256 values, reference files, or dataset names, check
-   those additional CSV columns too.
+8. Require nonempty `sample_id` and `candidate_key` values of at most 128
+   characters. The four-field request provides no authoritative sample or
+   candidate list, so the staging service **cannot** check whether those
+   IDs exist and must not reject an otherwise valid new task for lacking a
+   manifest.
 9. A scored item is identified by `(task_id, user_id, sample_id,
    candidate_key)`. `candidate_position` is only the anonymous A-J display
    position. `session_id` records a visit but does not split one listener's
@@ -73,18 +69,29 @@ Formspree receives the form fields. The later archive job should validate
    Formspree's server receipt time and submission ID; the browser's
    `submitted_at` is audit metadata, not the authority for ordering.
 
-These checks run during the authenticated archive step, after Formspree has
-accepted the form. Formspree itself does not know the task manifest. A
-reference validator is included:
+These checks run during the archive step, after Formspree has accepted the
+form. A reference validator for the generic checks is included:
 
 ```bash
 python -m scores.validate_scores --task-id task20261102 \
   --user-id 测试者01 --device-type 1 --csv scores/example_scores.csv
 ```
 
-Task IDs are not hard-coded in the validator. Each additional subjective
-study needs a registered manifest with a matching `task_id` value. The
-dereverberation manifest's existing `study` field remains supported.
+Task IDs are not hard-coded, and no manifest registration is needed to stage
+a new subjective study. If a task owner separately provides an authoritative
+manifest, a later task-specific analysis can additionally check whether
+`sample_id` and `candidate_key` exist. The optional manifest format is shown
+in [`example_task_manifest.json`](example_task_manifest.json):
+
+```bash
+python -m scores.validate_scores --task-id task20261102 \
+  --user-id 测试者01 --device-type 1 --csv scores/example_scores.csv \
+  --manifest scores/example_task_manifest.json
+```
+
+The dereverberation manifest's existing `study`, `trials`, and `tracks`
+fields are also supported when one is explicitly supplied. The public
+`reference` player is then excluded from scored candidates.
 
 ## Alternative JSON receiver
 

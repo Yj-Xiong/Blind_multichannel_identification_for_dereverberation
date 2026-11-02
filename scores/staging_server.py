@@ -17,7 +17,7 @@ import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-from scores.validate_scores import registered_manifest, validate_csv
+from scores.validate_scores import validate_csv
 
 
 ROOT = Path(__file__).resolve().parent
@@ -40,8 +40,7 @@ def validate(request):
         raise ValueError("device_type must be a positive integer")
     if not isinstance(scores_csv, str) or len(scores_csv.encode("utf-8")) > 10 * 1024 * 1024:
         raise ValueError("scores_csv must be UTF-8 text no larger than 10 MiB")
-    return validate_csv(task_id, user_id, device_type,
-                        scores_csv.encode("utf-8"), registered_manifest(task_id))
+    return validate_csv(task_id, user_id, device_type, scores_csv.encode("utf-8"))
 
 
 def archive(request):

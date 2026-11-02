@@ -21,7 +21,8 @@ See [`STAGING_API.md`](STAGING_API.md),
 [`STAGING_API.zh-CN.md`](STAGING_API.zh-CN.md), and
 [`example_scores.csv`](example_scores.csv).
 The JSON example is for the optional self-hosted receiver.
-Run `validate_scores.py` against a task's registered manifest before importing
-uploaded rows. The core CSV schema is task-agnostic; extra task-specific
-columns are allowed. Repeated ratings of the same candidate are keyed by task,
+Run `validate_scores.py` on the CSV before importing rows. The core CSV schema
+is task-agnostic; extra task-specific columns are allowed. A task manifest is
+optional and only enables additional sample/candidate checks when supplied
+separately. Repeated ratings of the same candidate are keyed by task,
 listener, sample, and candidate, then resolved by server receipt time.

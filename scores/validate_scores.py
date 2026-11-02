@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate a staged score attachment against its registered task manifest."""
+"""Validate staged scores, with optional task-specific manifest checks."""
 
 import argparse
 import csv
@@ -21,22 +21,6 @@ REQUIRED_COLUMNS = {
     "task_id", "session_id", "submitted_at", "sample_id",
     "candidate_key", "score", "scale_max",
 }
-ROOT = Path(__file__).resolve().parent.parent
-
-
-def registered_manifest(task_id):
-    registry = json.loads((ROOT / "scores/task_registry.json").read_text())
-    relative = registry.get(task_id)
-    if not relative:
-        raise ValueError("task_id has no registered manifest")
-    path = (ROOT / relative).resolve()
-    try:
-        path.relative_to(ROOT)
-    except ValueError as error:
-        raise ValueError("Task manifest path is outside this repository") from error
-    return json.loads(path.read_text())
-
-
 def _timestamp(value):
     try:
         parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
@@ -47,17 +31,17 @@ def _timestamp(value):
     return parsed
 
 
-def validate_csv(task_id, user_id, device_type, content, manifest):
+def validate_csv(task_id, user_id, device_type, content, manifest=None):
     if not isinstance(task_id, str) or not re.fullmatch(r"[A-Za-z0-9]{1,20}", task_id):
         raise ValueError("task_id must contain 1-20 English letters or digits")
     if not isinstance(user_id, str) or not re.fullmatch(r"[A-Za-z0-9\u3400-\u9fff]{1,20}", user_id):
         raise ValueError("user_id must contain 1-20 Chinese, English, or numeric characters")
     if isinstance(device_type, bool) or not isinstance(device_type, int) or device_type <= 0:
         raise ValueError("device_type must be a positive integer")
-    if manifest.get("task_id", manifest.get("study")) != task_id:
+    if manifest is not None and manifest.get("task_id", manifest.get("study")) != task_id:
         raise ValueError("task_id is not registered by this manifest")
     if not isinstance(content, bytes) or len(content) > 10 * 1024 * 1024:
-        raise ValueError("CSV attachment must be at most 10 MiB")
+        raise ValueError("CSV payload must be at most 10 MiB")
     try:
         reader = csv.DictReader(io.StringIO(content.decode("utf-8-sig"), newline=""))
         fields = reader.fieldnames or []
@@ -67,14 +51,16 @@ def validate_csv(task_id, user_id, device_type, content, manifest):
             raise ValueError("CSV is missing required columns or has duplicate headers")
         rows = list(reader)
     except (UnicodeDecodeError, csv.Error) as error:
-        raise ValueError("CSV attachment is not valid UTF-8 CSV") from error
+        raise ValueError("CSV payload is not valid UTF-8 CSV") from error
     if not 1 <= len(rows) <= 10000:
         raise ValueError("CSV must contain 1-10000 score rows")
 
-    samples = manifest.get("samples", manifest.get("trials")) or []
-    by_sample = {sample["sample_id"]: sample for sample in samples}
-    if not samples or len(by_sample) != len(samples):
-        raise ValueError("Task manifest has duplicate sample IDs")
+    by_sample = None
+    if manifest is not None:
+        samples = manifest.get("samples", manifest.get("trials")) or []
+        by_sample = {sample["sample_id"]: sample for sample in samples}
+        if not samples or len(by_sample) != len(samples):
+            raise ValueError("Task manifest has duplicate sample IDs")
     seen = set()
     for index, row in enumerate(rows, 1):
         if None in row or any(value is None for value in row.values()):
@@ -101,26 +87,31 @@ def validate_csv(task_id, user_id, device_type, content, manifest):
                 raise ValueError("CSV row {} has an invalid round".format(index)) from error
             if round_number <= 0:
                 raise ValueError("CSV row {} has an invalid round".format(index))
-        sample = by_sample.get(row["sample_id"])
-        if sample is None:
-            raise ValueError("CSV row {} has an unknown sample_id".format(index))
-        tracks = sample.get("tracks", {})
-        candidates = sample.get("candidates")
-        if candidates is None:
-            candidates = [candidate for candidate in tracks if candidate != "reference"]
-        if not isinstance(candidates, list) or not all(isinstance(candidate, str) for candidate in candidates):
-            raise ValueError("Task manifest has invalid candidates")
+        sample_id = row["sample_id"]
         key = row["candidate_key"]
-        if key not in candidates:
-            raise ValueError("CSV row {} has an unknown scored candidate_key".format(index))
+        if not 1 <= len(sample_id) <= 128 or not 1 <= len(key) <= 128:
+            raise ValueError("CSV row {} needs nonempty sample_id and candidate_key".format(index))
+        sample = by_sample.get(sample_id) if by_sample is not None else None
+        if by_sample is not None and sample is None:
+            raise ValueError("CSV row {} has an unknown sample_id".format(index))
+        tracks = sample.get("tracks", {}) if sample is not None else {}
+        candidates = None
+        if sample is not None:
+            candidates = sample.get("candidates")
+            if candidates is None:
+                candidates = [candidate for candidate in tracks if candidate != "reference"]
+            if not isinstance(candidates, list) or not all(isinstance(candidate, str) for candidate in candidates):
+                raise ValueError("Task manifest has invalid candidates")
+            if key not in candidates:
+                raise ValueError("CSV row {} has an unknown scored candidate_key".format(index))
         if "candidate_position" in row:
             try:
                 position = int(row["candidate_position"])
             except ValueError as error:
                 raise ValueError("CSV row {} has an invalid candidate_position".format(index)) from error
-            if not 1 <= position <= len(candidates):
+            if position < 1 or (candidates is not None and position > len(candidates)):
                 raise ValueError("CSV row {} has an invalid candidate_position".format(index))
-        if "dataset" in row and sample.get("dataset") and row["dataset"] != sample["dataset"]:
+        if sample is not None and "dataset" in row and sample.get("dataset") and row["dataset"] != sample["dataset"]:
             raise ValueError("CSV row {} does not match the task manifest".format(index))
         if key in tracks:
             for column, field in (("audio_file", "file"), ("audio_sha256", "sha256")):
@@ -131,7 +122,7 @@ def validate_csv(task_id, user_id, device_type, content, manifest):
                 raise ValueError("CSV row {} does not match the task manifest".format(index))
         identity = (row["sample_id"], key)
         if identity in seen:
-            raise ValueError("CSV row {} repeats a candidate in one attachment".format(index))
+            raise ValueError("CSV row {} repeats a candidate in one submission".format(index))
         seen.add(identity)
     return rows
 
@@ -159,10 +150,10 @@ def main():
     parser.add_argument("--user-id", required=True)
     parser.add_argument("--device-type", type=int, required=True)
     parser.add_argument("--manifest", type=Path,
-                        help="Override the registered manifest for local validation")
+                        help="Optional task manifest for sample and candidate checks")
     parser.add_argument("--csv", type=Path, required=True)
     args = parser.parse_args()
-    manifest = json.loads(args.manifest.read_text()) if args.manifest else registered_manifest(args.task_id)
+    manifest = json.loads(args.manifest.read_text()) if args.manifest else None
     rows = validate_csv(args.task_id, args.user_id, args.device_type,
                         args.csv.read_bytes(), manifest)
     print("validated {} score rows for {} / {}".format(len(rows), args.task_id, args.user_id))

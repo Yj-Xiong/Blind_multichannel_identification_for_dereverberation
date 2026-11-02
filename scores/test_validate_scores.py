@@ -4,13 +4,15 @@ import json
 import unittest
 from pathlib import Path
 
-from scores.validate_scores import LEGACY_HEADER, latest_by_candidate, registered_manifest, validate_csv
+from scores.staging_server import validate as validate_request
+from scores.validate_scores import LEGACY_HEADER, latest_by_candidate, validate_csv
 
 
 MANIFEST = json.loads((Path(__file__).resolve().parent.parent / "p808/short28_manifest.json").read_text())
 TASK = MANIFEST["study"]
 USER = "测试者01"
 TRIAL = MANIFEST["trials"][0]
+EXAMPLE_MANIFEST = json.loads((Path(__file__).resolve().parent / "example_task_manifest.json").read_text())
 
 
 def row(key="unprocessed", score="42"):
@@ -39,16 +41,26 @@ class ScoreValidationTests(unittest.TestCase):
         self.assertEqual(len(self.validate([row()])), 1)
 
     def test_generic_task_with_minimal_score_columns(self):
-        manifest = registered_manifest("task20261102")
         score = {"task_id": "task20261102", "user_id": USER,
                  "session_id": "session001", "submitted_at": "2026-11-02T10:00:00Z",
                  "sample_id": "sample001", "candidate_key": "methodA",
                  "score": "76", "scale_max": "100"}
-        rows = validate_csv("task20261102", USER, 1, attachment([score]), manifest)
+        rows = validate_csv("task20261102", USER, 1, attachment([score]), EXAMPLE_MANIFEST)
         self.assertEqual(rows[0]["candidate_key"], "methodA")
         score["candidate_key"] = "unknown"
         with self.assertRaisesRegex(ValueError, "candidate_key"):
-            validate_csv("task20261102", USER, 1, attachment([score]), manifest)
+            validate_csv("task20261102", USER, 1, attachment([score]), EXAMPLE_MANIFEST)
+
+    def test_unknown_ids_are_accepted_without_a_manifest(self):
+        score = row()
+        score["task_id"] = "anotherTask"
+        score["sample_id"] = "newSample"
+        score["candidate_key"] = "newCandidate"
+        content = attachment([score])
+        self.assertEqual(len(validate_csv("anotherTask", USER, 1, content)), 1)
+        request = {"task_id": "anotherTask", "user_id": USER,
+                   "device_type": 1, "scores_csv": content.decode("utf-8")}
+        self.assertEqual(len(validate_request(request)), 1)
 
     def test_unknown_sample_is_rejected(self):
         invalid = row()
@@ -67,9 +79,9 @@ class ScoreValidationTests(unittest.TestCase):
         invalid = row("cleanmel-offline-l-map")
         invalid["task_id"] = "anotherTask"
         with self.assertRaisesRegex(ValueError, "identity differs"):
-            self.validate([row(), invalid])
+            validate_csv(TASK, USER, 1, attachment([row(), invalid]))
 
-    def test_outer_task_must_match_registered_manifest(self):
+    def test_outer_task_must_match_supplied_manifest(self):
         with self.assertRaisesRegex(ValueError, "not registered"):
             self.validate([row()], task="anotherTask")
 

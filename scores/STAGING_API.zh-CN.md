@@ -52,27 +52,34 @@ Formspree 只接收表单字段。之后从 Formspree 导出并写入公开 `sco
    只要有一行属于其他任务或用户，就拒绝整次提交；一份 CSV 不能混装多个任务。
 7. `score` 必须是有限数字，范围为 `0` 到正数 `scale_max`；`checkpoint`
    允许仅有已打分的行。
-8. 根据 `task_id` 从[任务登记表](task_registry.json)读取对应清单。通用任务清单
-   的结构见[示例](example_task_manifest.json)：`task_id`、`samples`，以及每个样本的
-   `candidates`。CSV 中的 `sample_id` 必须存在于 `samples`，`candidate_key`
-   必须属于该样本的 `candidates`，否则拒绝整次提交。当前去混响清单使用旧结构
-   `study`、`trials` 和 `tracks`；其中公开播放器 `reference` 不计入评分候选。
-   若清单还提供音频路径、SHA-256、参考文件或数据集名称，也应与 CSV 对应列核对。
+8. `sample_id` 和 `candidate_key` 必须非空、各不超过 128 个字符。当前四字段
+   请求**没有提供权威样本或候选清单**，所以通用暂存服务无法判断这些 ID
+   是否真实存在，也不能因为一个新任务没有清单就拒绝暂存。
 9. 同一候选评分由 `(task_id, user_id, sample_id, candidate_key)` 确定。
    `candidate_position` 只是页面随机显示的 A～J 位置；`session_id` 用于追溯访问，
    不会把同一用户的重复评分拆开。保留原始提交，并以 **Formspree 服务端接收时间**
    和提交 ID 选择最新评分；浏览器写入的 `submitted_at` 只作审计信息。
 
-上述校验发生在已认证的归档步骤，时间上晚于 Formspree 接收表单；Formspree
-本身不知道各任务的样本清单。仓库提供了可运行的校验器：
+上述校验发生在归档步骤，时间上晚于 Formspree 接收表单。仓库提供了可运行的
+通用校验器：
 
 ```bash
 python -m scores.validate_scores --task-id task20261102 \
   --user-id 测试者01 --device-type 1 --csv scores/example_scores.csv
 ```
 
-校验器不限定任务 ID。新增主观任务时，应在任务登记表中加入该任务的清单，
-且清单的 `task_id` 与表单一致。现有去混响清单的 `study` 字段也受到兼容。
+校验器不限定任务 ID；新增主观任务**不必登记清单**即可暂存。如果任务方
+以后单独提供了权威清单，后续针对该任务的分析可以再检查 `sample_id` 和
+`candidate_key` 是否存在。可选清单的结构见[示例](example_task_manifest.json)：
+
+```bash
+python -m scores.validate_scores --task-id task20261102 \
+  --user-id 测试者01 --device-type 1 --csv scores/example_scores.csv \
+  --manifest scores/example_task_manifest.json
+```
+
+显式提供去混响清单时，校验器也支持原有的 `study`、`trials`、`tracks` 结构，
+并把公开播放器 `reference` 排除在评分候选之外。
 
 ## 可选的 JSON 接收服务
 
