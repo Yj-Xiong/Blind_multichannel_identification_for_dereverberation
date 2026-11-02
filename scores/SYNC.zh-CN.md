@@ -30,5 +30,5 @@
 python -m scores.sync_formspree --input /path/to/formspree-export.json --output scores
 ```
 
-Formspree 提交成功不等于 GitHub 已同步。Secret 未设置时工作流会跳过同步，
+Formspree 提交成功不等于 GitHub 已同步。Secret 未设置时工作流会明确失败，
 不会把密钥写入日志。公开结果包含受试者填写的 ID，招募时应告知受试者。
