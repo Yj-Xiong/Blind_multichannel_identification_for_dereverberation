@@ -16,7 +16,9 @@ The active staging form accepts four multipart fields:
 to the notification endpoint separately. The Formspree inbox does not write
 to this directory automatically; an authenticated sync job is still required.
 
-See [`STAGING_API.md`](STAGING_API.md) and [`example_scores.csv`](example_scores.csv).
+See [`STAGING_API.md`](STAGING_API.md),
+[`STAGING_API.zh-CN.md`](STAGING_API.zh-CN.md), and
+[`example_scores.csv`](example_scores.csv).
 The JSON example is for the optional self-hosted receiver.
 Run `validate_scores.py` against a task's registered manifest before importing
 uploaded rows. The core CSV schema is task-agnostic; extra task-specific

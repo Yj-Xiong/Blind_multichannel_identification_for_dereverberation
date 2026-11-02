@@ -1,5 +1,7 @@
 # Staging score upload
 
+[中文版](STAGING_API.zh-CN.md)
+
 The listening page sends progress to the separate Formspree endpoint
 `https://formspree.io/f/mjyypvzy`. This is a staging inbox, not the GitHub
 score archive. Disable email notifications for this form in Formspree; the
