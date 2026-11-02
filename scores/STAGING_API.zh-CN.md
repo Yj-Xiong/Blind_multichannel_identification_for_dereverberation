@@ -92,3 +92,4 @@ python -m scores.validate_scores --task-id task20261102 \
 已发布页面**没有使用**这个 JSON 服务。若采用它，需要自行部署公开 HTTPS
 地址并配置仓库写入凭据。当前 Formspree 收到的表单数据也不会自动进入 GitHub；
 仍需部署一个持有受保护凭据的同步任务，完成导出、校验和提交。
+仓库已包含定时同步工作流；启用步骤见[同步说明](SYNC.zh-CN.md)。

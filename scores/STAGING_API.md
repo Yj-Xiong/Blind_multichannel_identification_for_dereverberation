@@ -106,3 +106,6 @@ It is not used by the published page. It would need a public HTTPS host and
 repository write credentials before it could provide automatic GitHub
 archiving. Formspree submissions likewise require a separate authenticated
 sync job before scores appear in this repository.
+
+The repository includes a scheduled sync workflow. Configure its Formspree
+read-only API key as a GitHub Actions secret; see [sync setup](SYNC.zh-CN.md).

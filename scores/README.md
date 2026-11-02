@@ -20,6 +20,7 @@ to this directory automatically; an authenticated sync job is still required.
 See [`STAGING_API.md`](STAGING_API.md),
 [`STAGING_API.zh-CN.md`](STAGING_API.zh-CN.md), and
 [`example_scores.csv`](example_scores.csv).
+See [`SYNC.zh-CN.md`](SYNC.zh-CN.md) for the GitHub Actions sync setup.
 The JSON example is for the optional self-hosted receiver.
 Run `validate_scores.py` on the CSV before importing rows. The core CSV schema
 is task-agnostic; extra task-specific columns are allowed. A task manifest is
