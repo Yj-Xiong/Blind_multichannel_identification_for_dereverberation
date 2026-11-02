@@ -9,6 +9,7 @@ import io
 import json
 import os
 import re
+from collections import Counter
 from datetime import datetime
 from pathlib import Path
 from urllib.error import HTTPError
@@ -100,11 +101,15 @@ def archive(submissions, output):
     inbox = output / "inbox"
     inbox.mkdir(parents=True, exist_ok=True)
     added = rejected = 0
+    rejection_reasons = Counter()
     for submission in submissions:
         try:
             fields = submission_fields(submission)
             when = received_at(submission)
-            device_type = int(fields["device_type"])
+            try:
+                device_type = int(fields["device_type"])
+            except (TypeError, ValueError) as error:
+                raise ValueError("device_type is not an integer") from error
             csv_text = fields["scores_csv"]
             if not isinstance(csv_text, str):
                 raise ValueError("scores_csv is not a text field")
@@ -127,7 +132,9 @@ def archive(submissions, output):
             added += 1
         except (KeyError, TypeError, ValueError) as error:
             rejected += 1
-            print("Rejected Formspree submission {}: {}".format(submission.get("id", "unknown"), error))
+            reason = str(error).split(":", 1)[0][:120]
+            rejection_reasons[reason] += 1
+            print("Rejected Formspree submission {}: {}".format(submission.get("id", "unknown"), reason))
 
     validated = []
     provenance = {}
@@ -155,7 +162,8 @@ def archive(submissions, output):
                              value.lstrip().startswith(("=", "+", "-", "@")) else value
                              for name, value in values.items()})
     status = {"received": len(submissions), "archived": len(validated),
-              "rejected": rejected, "latest_scores": len(latest)}
+              "rejected": rejected, "latest_scores": len(latest),
+              "rejection_reasons": dict(sorted(rejection_reasons.items()))}
     (output / "sync_status.json").write_text(json.dumps(status, indent=2) + "\n", encoding="utf-8")
     return added, rejected, len(latest)
 

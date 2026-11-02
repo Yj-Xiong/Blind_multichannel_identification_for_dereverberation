@@ -68,7 +68,8 @@ class FormspreeSyncTests(unittest.TestCase):
             self.assertEqual(rows["methodA"]["received_at"], "2026-11-02T11:00:00.000000Z")
             status = json.loads((output / "sync_status.json").read_text())
             self.assertEqual(status, {"received": 2, "archived": 2,
-                                      "rejected": 0, "latest_scores": 2})
+                                      "rejected": 0, "latest_scores": 2,
+                                      "rejection_reasons": {}})
             self.assertEqual(archive([first, second], output), (0, 0, 2))
 
     def test_new_task_needs_no_manifest(self):
@@ -83,7 +84,11 @@ class FormspreeSyncTests(unittest.TestCase):
         invalid = submission("2026-11-02T10:00:00.000000",
                              EXAMPLE.replace("task20261102", "anotherTask", 1))
         with tempfile.TemporaryDirectory() as folder:
-            self.assertEqual(archive([invalid], Path(folder)), (0, 1, 0))
+            output = Path(folder)
+            self.assertEqual(archive([invalid], output), (0, 1, 0))
+            status = json.loads((output / "sync_status.json").read_text())
+            self.assertEqual(status["rejection_reasons"],
+                             {"CSV row 1 identity differs from the form fields": 1})
 
 
 if __name__ == "__main__":
