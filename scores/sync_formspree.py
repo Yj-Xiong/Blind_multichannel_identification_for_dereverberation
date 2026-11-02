@@ -55,7 +55,8 @@ def fetch_submissions(url, key):
     if start.scheme != "https" or not start.netloc:
         raise ValueError("Formspree export URL must be HTTPS")
     authorization = "Basic " + base64.b64encode((":" + key).encode("utf-8")).decode("ascii")
-    with urlopen(Request(url, headers={"Authorization": authorization}), timeout=60) as response:
+    headers = {"Authorization": authorization, "User-Agent": "OpenBenchSubjectiveScores/1.0"}
+    with urlopen(Request(url, headers=headers), timeout=60) as response:
         parse_page(response.read())
     submissions = []
     limit = 100
@@ -63,10 +64,7 @@ def fetch_submissions(url, key):
         query = dict(parse_qsl(start.query, keep_blank_values=True))
         query.update({"limit": str(limit), "offset": str(page_number * limit), "order": "asc"})
         page_url = urlunparse(start._replace(query=urlencode(query)))
-        request = Request(page_url, headers={
-            "Accept": "application/json, text/csv",
-            "Authorization": authorization,
-        })
+        request = Request(page_url, headers=dict(headers, Accept="application/json, text/csv"))
         with urlopen(request, timeout=60) as response:
             page, _ = parse_page(response.read())
         submissions.extend(page)

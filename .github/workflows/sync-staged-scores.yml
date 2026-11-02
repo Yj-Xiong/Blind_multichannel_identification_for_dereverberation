@@ -36,7 +36,7 @@ jobs:
             exit 1
           fi
       - name: Import Formspree submissions
-        # Probe the documented bare API URL before paginated requests.
+        # Send an application User-Agent so Cloudflare does not block urllib.
         run: python -m scores.sync_formspree --api --output scores
       - name: Commit public score archive
         run: |

@@ -52,6 +52,7 @@ class FormspreeSyncTests(unittest.TestCase):
         self.assertNotIn("?", calls[0].full_url)
         self.assertIn("offset=0", calls[1].full_url)
         self.assertIn("offset=100", calls[2].full_url)
+        self.assertEqual(calls[0].get_header("User-agent"), "OpenBenchSubjectiveScores/1.0")
         self.assertEqual(calls[0].get_header("Authorization"),
                          "Basic OmFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFh")
 
