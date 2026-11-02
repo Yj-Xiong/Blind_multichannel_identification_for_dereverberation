@@ -5,5 +5,8 @@
   "latest_scores": 0,
   "rejection_reasons": {
     "Submission is missing a staging field": 6
+  },
+  "missing_fields": {
+    "scores_csv": 6
   }
 }
