@@ -123,9 +123,10 @@ APP = r"""
   function renderProgress() {
     const trial = trials.get(state.ids[state.index]); const scoreValues = orderedCandidates(trial).map((key) => (state.scores[trial.sample_id] || {})[key]).filter(valid);
     const completedCount = state.ids.filter((id) => complete(trials.get(id))).length;
+    const hasScores = state.ids.some((id) => Object.values(state.scores[id] || {}).some(valid));
     ui.progress.textContent = complete(trial) ? '本条已完成' : '请给 ' + keysFor(trial).length + ' 段声音评分';
     ui.next.disabled = !complete(trial); ui.submit.disabled = !state.ids.every((id) => complete(trials.get(id)));
-    ui.progressSubmit.hidden = completedCount === 0 || completedCount >= state.ids.length;
+    ui.progressSubmit.hidden = !hasScores || completedCount >= state.ids.length;
     ui.progressSubmit.disabled = Boolean(state.submitting);
     ui.candidates.querySelectorAll('.candidate').forEach((node) => {
       const v = (state.scores[trial.sample_id] || {})[node.dataset.key];
@@ -208,12 +209,20 @@ APP = r"""
   }
   async function postStaging(payload) {
     if (!stagingEndpoint) throw new Error('暂存接口尚未配置');
+    const form = new FormData();
+    form.append('task_id', data.study);
+    form.append('user_id', state.listener);
+    form.append('device_type', String(deviceType(state.device)));
+    form.append('upload', new Blob([csvForPayload(payload)], {type: 'text/csv;charset=utf-8'}),
+      'scores.csv');
     const response = await fetch(stagingEndpoint, {
-      method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'},
-      body: JSON.stringify({task_id: data.study, user_id: state.listener,
-        device_type: deviceType(state.device), scores_csv: csvForPayload(payload)})
+      method: 'POST', headers: {Accept: 'application/json'}, body: form
     });
-    if (!response.ok) throw new Error('暂存接口 HTTP ' + response.status);
+    if (!response.ok) {
+      const result = await response.json().catch(() => ({}));
+      const detail = (result.errors || []).map((item) => item.message).filter(Boolean).join('; ');
+      throw new Error('暂存接口 HTTP ' + response.status + (detail ? ': ' + detail : ''));
+    }
   }
   async function sendSubmission(type, payload) {
     await postSubmission({type: type, task_id: data.study, user_id: state.listener,
@@ -246,15 +255,16 @@ APP = r"""
     try {
       await postStaging(payload);
       ui.status.textContent = '当前进度已暂存，可以继续听测。';
-    } catch (error) { download(payload, '-checkpoint'); ui.status.textContent = '暂存接口不可用，已下载当前进度备份；整批完成后才发送邮件。'; }
+    } catch (error) { download(payload, '-checkpoint'); ui.status.textContent = '暂存失败（' + error.message + '），已下载当前进度备份；整批完成后可继续提交。'; }
     state.submitting = false; save(); renderProgress();
   }
   async function submit() {
     if (state.submitting) return;
     state.submitting = true; ui.next.disabled = true; ui.submit.disabled = true;
     const payload = buildPayload('batch');
+    let stagingError = null;
+    try { await postStaging(payload); } catch (error) { stagingError = error; }
     try {
-      if (stagingEndpoint) await postStaging(payload);
       await sendSubmission('dereverb-p808-short28-v1', payload);
       state.used.push(...state.ids); state.submitted = true;
     } catch (error) {
@@ -266,6 +276,10 @@ APP = r"""
     if (!pickBatch()) { state.completed = true; state.index = state.ids.length; }
     state.submitting = false;
     save(); render();
+    if (stagingError) {
+      download(payload, '-stage-backup');
+      ui.status.textContent = '整批已提交，但暂存失败（' + stagingError.message + '）；已下载备份。';
+    }
   }
   ui.start.addEventListener('click', () => {
     const id = ui.listener.value.trim(); if (!validUserId(id)) { ui.error.textContent = '请输入 1–20 位中英文或数字测试 ID。'; return; }
@@ -309,7 +323,7 @@ def main():
     source = json.loads(SOURCE.read_text())
     assert len(source["trials"]) == 28
     source["sample_count"] = len(source["trials"])
-    staging_endpoint = os.environ.get("P808_STAGING_ENDPOINT", "")
+    staging_endpoint = os.environ.get("P808_STAGING_ENDPOINT", "https://formspree.io/f/mjyypvzy")
     style = (ROOT / "p808-batch/styles.css").read_text()
     html = """<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">

@@ -11,9 +11,12 @@ probability; each later block is selected from the remaining blocks, so no
 sample repeats for the same listener.
 
 The page uses `p808/short28_manifest.json` and stores browser progress under
-`p808-short28-v1:<listener ID>`. A checkpoint contains the current CSV but does
-not use the email endpoint. A completed batch is sent to the notification
-endpoint.
+`p808-short28-v1:<listener ID>`. A checkpoint uploads a CSV attachment to the
+separate Formspree staging form `mjyypvzy`. A completed batch also uploads to
+the staging form, then sends results to the original notification form
+`mpqgvpvo`. The staging form's email notifications must be disabled in its
+dashboard; the page cannot control that setting. Staged files do not appear
+in this repository until an authenticated archive job imports them.
 
 ## Build
 
