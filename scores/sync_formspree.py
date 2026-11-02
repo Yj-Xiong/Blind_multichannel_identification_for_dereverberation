@@ -102,6 +102,7 @@ def archive(submissions, output):
     inbox.mkdir(parents=True, exist_ok=True)
     added = rejected = 0
     rejection_reasons = Counter()
+    missing_fields = Counter()
     for submission in submissions:
         try:
             fields = submission_fields(submission)
@@ -134,6 +135,16 @@ def archive(submissions, output):
             rejected += 1
             reason = str(error).split(":", 1)[0][:120]
             rejection_reasons[reason] += 1
+            if reason == "Submission is missing a staging field":
+                fields = submission.get("data", submission.get("fields", submission))
+                if isinstance(fields, list):
+                    names = {item.get("name") for item in fields if isinstance(item, dict)}
+                elif isinstance(fields, dict):
+                    names = set(fields)
+                else:
+                    names = set()
+                for name in {"task_id", "user_id", "device_type", "scores_csv"} - names:
+                    missing_fields[name] += 1
             print("Rejected Formspree submission {}: {}".format(submission.get("id", "unknown"), reason))
 
     validated = []
@@ -163,7 +174,8 @@ def archive(submissions, output):
                              for name, value in values.items()})
     status = {"received": len(submissions), "archived": len(validated),
               "rejected": rejected, "latest_scores": len(latest),
-              "rejection_reasons": dict(sorted(rejection_reasons.items()))}
+              "rejection_reasons": dict(sorted(rejection_reasons.items())),
+              "missing_fields": dict(sorted(missing_fields.items()))}
     (output / "sync_status.json").write_text(json.dumps(status, indent=2) + "\n", encoding="utf-8")
     return added, rejected, len(latest)
 

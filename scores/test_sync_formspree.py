@@ -69,7 +69,7 @@ class FormspreeSyncTests(unittest.TestCase):
             status = json.loads((output / "sync_status.json").read_text())
             self.assertEqual(status, {"received": 2, "archived": 2,
                                       "rejected": 0, "latest_scores": 2,
-                                      "rejection_reasons": {}})
+                                      "rejection_reasons": {}, "missing_fields": {}})
             self.assertEqual(archive([first, second], output), (0, 0, 2))
 
     def test_new_task_needs_no_manifest(self):
@@ -89,6 +89,16 @@ class FormspreeSyncTests(unittest.TestCase):
             status = json.loads((output / "sync_status.json").read_text())
             self.assertEqual(status["rejection_reasons"],
                              {"CSV row 1 identity differs from the form fields": 1})
+
+    def test_missing_staging_fields_are_counted_without_values(self):
+        with tempfile.TemporaryDirectory() as folder:
+            output = Path(folder)
+            self.assertEqual(archive([{"_date": "2026-11-02T10:00:00Z", "email": "example@test.invalid"}], output),
+                             (0, 1, 0))
+            status = json.loads((output / "sync_status.json").read_text())
+            self.assertEqual(status["missing_fields"],
+                             {"task_id": 1, "user_id": 1, "device_type": 1, "scores_csv": 1})
+            self.assertNotIn("example@test.invalid", (output / "sync_status.json").read_text())
 
 
 if __name__ == "__main__":
