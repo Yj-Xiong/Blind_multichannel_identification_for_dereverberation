@@ -1,3 +1,3 @@
-listener_id,session_id,task_id,round,submission_kind,submitted_at,dataset,sample_id,candidate_position,candidate_key,score,scale_max,audio_file,audio_url,audio_sha256,reference_file
-listenerA01,session-abc,task20261102,1,checkpoint,2026-11-02T10:00:00Z,ACE,ace_0001_snr10dB,1,cleanmel-offline-l-map,76,100,audio/example.mp3,https://example.invalid/audio/example.mp3,sha256-example,audio/reference.mp3
-listenerA01,session-abc,task20261102,1,checkpoint,2026-11-02T10:00:00Z,ACE,ace_0001_snr10dB,2,unprocessed,42,100,audio/example-unprocessed.mp3,https://example.invalid/audio/example-unprocessed.mp3,sha256-example-2,audio/reference.mp3
+task_id,user_id,session_id,submitted_at,sample_id,candidate_key,score,scale_max
+task20261102,测试者01,session001,2026-11-02T10:00:00Z,sample001,methodA,76,100
+task20261102,测试者01,session001,2026-11-02T10:00:00Z,sample001,methodB,42,100

@@ -9,7 +9,6 @@ committed and pushed immediately.
 import argparse
 import csv
 import hashlib
-import io
 import json
 import os
 import re
@@ -18,16 +17,12 @@ import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
+from scores.validate_scores import registered_manifest, validate_csv
+
 
 ROOT = Path(__file__).resolve().parent
 INBOX = ROOT / "inbox"
 ARCHIVE_LOCK = threading.Lock()
-HEADER = (
-    "listener_id", "session_id", "task_id", "round", "submission_kind",
-    "submitted_at", "dataset", "sample_id", "candidate_position",
-    "candidate_key", "score", "scale_max", "audio_file", "audio_url",
-    "audio_sha256", "reference_file",
-)
 
 
 def validate(request):
@@ -45,22 +40,8 @@ def validate(request):
         raise ValueError("device_type must be a positive integer")
     if not isinstance(scores_csv, str) or len(scores_csv.encode("utf-8")) > 10 * 1024 * 1024:
         raise ValueError("scores_csv must be UTF-8 text no larger than 10 MiB")
-    rows = list(csv.DictReader(io.StringIO(scores_csv)))
-    if not rows or len(rows) > 10000 or tuple(rows[0].keys()) != HEADER:
-        raise ValueError("scores_csv has an invalid header")
-    for row in rows:
-        if row["listener_id"] != user_id or row["task_id"] != task_id:
-            raise ValueError("CSV identity fields do not match the request")
-        if row["submission_kind"] not in {"checkpoint", "batch"}:
-            raise ValueError("submission_kind must be checkpoint or batch")
-        try:
-            score = float(row["score"])
-            maximum = float(row["scale_max"])
-        except ValueError as error:
-            raise ValueError("score and scale_max must be numbers") from error
-        if not 0 <= score <= maximum or maximum <= 0:
-            raise ValueError("score is outside the declared scale")
-    return rows
+    return validate_csv(task_id, user_id, device_type,
+                        scores_csv.encode("utf-8"), registered_manifest(task_id))
 
 
 def archive(request):
@@ -75,7 +56,7 @@ def archive(request):
         if not raw.exists():
             raw.write_text(json.dumps(request, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
             with csv_path.open("w", newline="", encoding="utf-8") as stream:
-                writer = csv.DictWriter(stream, fieldnames=HEADER)
+                writer = csv.DictWriter(stream, fieldnames=rows[0].keys())
                 writer.writeheader()
                 writer.writerows(rows)
         if os.environ.get("P808_AUTO_COMMIT") == "1":

@@ -18,3 +18,7 @@ to this directory automatically; an authenticated sync job is still required.
 
 See [`STAGING_API.md`](STAGING_API.md) and [`example_scores.csv`](example_scores.csv).
 The JSON example is for the optional self-hosted receiver.
+Run `validate_scores.py` against a task's registered manifest before importing
+uploaded rows. The core CSV schema is task-agnostic; extra task-specific
+columns are allowed. Repeated ratings of the same candidate are keyed by task,
+listener, sample, and candidate, then resolved by server receipt time.

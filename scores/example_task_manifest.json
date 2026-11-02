@@ -1,0 +1,13 @@
+{
+  "task_id": "task20261102",
+  "samples": [
+    {
+      "sample_id": "sample001",
+      "candidates": ["methodA", "methodB"]
+    },
+    {
+      "sample_id": "sample002",
+      "candidates": ["methodA", "methodB"]
+    }
+  ]
+}
