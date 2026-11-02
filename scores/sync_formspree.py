@@ -175,7 +175,18 @@ if __name__ == "__main__":
     try:
         main()
     except HTTPError as error:
-        print("::error title=Formspree submissions API::HTTP {}".format(error.code))
+        raw = error.read().decode("utf-8", "replace")
+        try:
+            body = json.loads(raw)
+            detail = str(body.get("error") or body.get("message") or body.get("errors") or "")
+        except (AttributeError, ValueError):
+            detail = raw
+        key = os.environ.get("FORMSPREE_STAGING_READ_ONLY_KEY", "")
+        if key:
+            detail = detail.replace(key, "[redacted]")
+        detail = re.sub(r"\b[0-9a-fA-F]{32}\b", "[redacted]", detail)
+        detail = detail.replace("\n", " ")[:180]
+        print("::error title=Formspree submissions API::HTTP {} {}".format(error.code, detail))
         raise
     except Exception as error:
         print("::error title=Formspree score sync::{}: {}".format(
