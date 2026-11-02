@@ -1,0 +1,51 @@
+{
+  "schema": "se.subjective.short40_selection.v1",
+  "study": "dereverb-p808-short40-v1",
+  "dataset_version": "v1.0.1",
+  "ace_snr_db": 10,
+  "air_snr_db": 20,
+  "ace_sample_ids": [
+    "ace_0001_snr10dB",
+    "ace_0002_snr10dB",
+    "ace_0003_snr10dB",
+    "ace_0004_snr10dB",
+    "ace_0005_snr10dB",
+    "ace_0006_snr10dB",
+    "ace_0007_snr10dB",
+    "ace_0008_snr10dB",
+    "ace_0009_snr10dB",
+    "ace_0010_snr10dB",
+    "ace_0011_snr10dB",
+    "ace_0012_snr10dB",
+    "ace_0013_snr10dB",
+    "ace_0014_snr10dB"
+  ],
+  "air_sample_ids": [
+    "air_0009_snr20dB",
+    "air_0014_snr20dB",
+    "air_0019_snr20dB",
+    "air_0029_snr20dB",
+    "air_0034_snr20dB",
+    "air_0042_snr20dB",
+    "air_0061_snr20dB",
+    "air_0070_snr20dB",
+    "air_0074_snr20dB",
+    "air_0075_snr20dB",
+    "air_0085_snr20dB",
+    "air_0089_snr20dB",
+    "air_0092_snr20dB",
+    "air_0098_snr20dB"
+  ],
+  "air_room_counts": {
+    "aula_carolina": 1,
+    "booth": 1,
+    "lecture": 2,
+    "meeting": 2,
+    "office": 1,
+    "stairway": 4,
+    "bathroom": 1,
+    "corridor": 1,
+    "kitchen": 1
+  },
+  "reference_sha256_unique": 28
+}
