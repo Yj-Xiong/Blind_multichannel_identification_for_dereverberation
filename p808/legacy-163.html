@@ -379,7 +379,15 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
     }
   }
   async function sendSubmission(type, payload) {
-    await postSubmission({type: type, payloadJson: JSON.stringify(payload)});
+    await postSubmission({
+      type: type,
+      user_id: payload.listenerId,
+      task_id: payload.study,
+      round: String(payload.round),
+      submission_kind: payload.submissionKind,
+      subject: payload.study + ' | user_id=' + payload.listenerId + ' | ' + payload.submissionKind + ' ' + payload.round,
+      payloadJson: JSON.stringify(payload)
+    });
   }
   function buildPayload(kind) {
     state.allScores = state.allScores || {};
