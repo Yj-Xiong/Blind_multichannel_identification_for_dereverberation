@@ -92,7 +92,8 @@ def run_loudnorm(input_path: Path, output_path: Path) -> dict:
     correction_scan = scan(output_path)
     residual_db = TARGET_I - float(correction_scan["input_i"])
     tp_room_db = TARGET_TP - float(correction_scan["input_tp"])
-    correction_db = min(residual_db, tp_room_db)
+    # Keep a 0.1 dB reporting margin below the declared -1 dBTP ceiling.
+    correction_db = min(residual_db, tp_room_db - 0.1)
     if abs(correction_db) > 0.05:
         corrected = output_path.with_name(output_path.stem + ".corrected." + uuid.uuid4().hex + ".wav")
         subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-nostdin", "-y",

@@ -2842,7 +2842,7 @@
           "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_6.wav",
           "source_sha256": "933963e07761b469ba4629259f344a16a7c4ddd346d1a4ba1e4320437e947e60",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_06/dytswig-mamba-ccfaatc.wav",
-          "lossless_sha256": "2e50d3b5fbe9d2977833d41449ef257b1dd4ba19dd3ebfaf6a23350174c534a5",
+          "lossless_sha256": "1514a39213fcb81556e29604a9c521af74999ee2ed7c93e87badc1e80d6e37cb",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -2872,10 +2872,10 @@
             "target_offset": "0.03"
           },
           "final_scan": {
-            "input_i": "-23.21",
-            "input_tp": "-1.00",
+            "input_i": "-23.31",
+            "input_tp": "-1.10",
             "input_lra": "1.50",
-            "input_thresh": "-33.41",
+            "input_thresh": "-33.51",
             "output_i": "-23.36",
             "output_tp": "-1.42",
             "output_lra": "1.10",
@@ -2883,10 +2883,10 @@
             "normalization_type": "dynamic",
             "target_offset": "0.36"
           },
-          "residual_correction_db": 0.0,
+          "residual_correction_db": -0.1,
           "true_peak_limited": true,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_06/dytswig-mamba-ccfaatc.mp3",
-          "listening_sha256": "1f94bc8b94e67eb86d3987b5637df854d78a4059af7dae64bd4b40b4a748db73"
+          "listening_sha256": "f5683d404395fede6596cce163a0d83296504f68cfc0a4c74a65059726d3ced5"
         },
         "unipase": {
           "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_6.wav",
@@ -3620,7 +3620,7 @@
           "source_wav": "4floor_2m_deg180_12speech/aligned_references/reference_for_2m_deg180_8.wav",
           "source_sha256": "cbdbfb9eabe812b50389261ceb517dd07a9e33f28553737df5850b1cb925a8b3",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_08/reference.wav",
-          "lossless_sha256": "3f40a60c70c9d33fec019e24bca36db1f893ccfb2f26c51915ec80dd9cead08f",
+          "lossless_sha256": "a33b8f81b13628d2c2a0db65b2844003b2372fba45778539f474d652dac2e79d",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -3650,10 +3650,10 @@
             "target_offset": "0.09"
           },
           "final_scan": {
-            "input_i": "-23.20",
-            "input_tp": "-0.99",
+            "input_i": "-23.31",
+            "input_tp": "-1.10",
             "input_lra": "2.50",
-            "input_thresh": "-33.74",
+            "input_thresh": "-33.85",
             "output_i": "-23.37",
             "output_tp": "-1.00",
             "output_lra": "2.00",
@@ -3661,16 +3661,16 @@
             "normalization_type": "dynamic",
             "target_offset": "0.37"
           },
-          "residual_correction_db": -0.010000000000000009,
+          "residual_correction_db": -0.11000000000000001,
           "true_peak_limited": true,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_08/reference.mp3",
-          "listening_sha256": "93270421c3b53e598dcfa7103f19420682e1f80bc6fd98cddfccbed314996d7f"
+          "listening_sha256": "35c09afd021f42a7968eff6110aa90a90e8e813ac1fc0b9fe7a193fdd4a5b797"
         },
         "unprocessed": {
           "source_wav": "subjective_se_pages/p808/real_noisy_5to20db_v1/2m_deg180_8.wav",
           "source_sha256": "f9474da904eaf079bcebda8ec70c8e38936bef936880f16c2f7d732027952c51",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_08/unprocessed.wav",
-          "lossless_sha256": "3d16419b5069c4e5c84137838fd99c1cfe8fe6717921beb01f7a81e039e7677e",
+          "lossless_sha256": "d3f5c1c4a6fcbadb7c2423805bf72cb3610b9cfc9b1d3ab724f56db18caba609",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -3700,27 +3700,27 @@
             "target_offset": "-0.01"
           },
           "final_scan": {
-            "input_i": "-22.98",
-            "input_tp": "-0.99",
+            "input_i": "-23.10",
+            "input_tp": "-1.10",
             "input_lra": "1.70",
-            "input_thresh": "-33.05",
-            "output_i": "-22.85",
+            "input_thresh": "-33.17",
+            "output_i": "-22.82",
             "output_tp": "-1.00",
             "output_lra": "1.60",
-            "output_thresh": "-32.95",
+            "output_thresh": "-32.92",
             "normalization_type": "dynamic",
-            "target_offset": "-0.15"
+            "target_offset": "-0.18"
           },
-          "residual_correction_db": -0.019999999999999574,
+          "residual_correction_db": -0.11000000000000001,
           "true_peak_limited": false,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_08/unprocessed.mp3",
-          "listening_sha256": "143d7b3900eb55bf4539a3b63c6ee4718a0c67de0b4617833f897c7f5cfe444a"
+          "listening_sha256": "5f4d2d05cb86aac9421c070b777808015160a1f949356f0a43481789d1b77b3a"
         },
         "cleanmel-offline-l-map": {
           "source_wav": "subjective_se_pages/p808/real_inference/cleanmel-offline-l-map/2m_deg180_8.wav",
           "source_sha256": "78ba42ca40cb5eddf78b43cf22af2fb5533092a5d09c3fe06c66698d0f11b8a3",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_08/cleanmel-offline-l-map.wav",
-          "lossless_sha256": "52a4fc6516a15d9b637a4f12b97cd8412d11781805e0d3bb39b8cb9359599d03",
+          "lossless_sha256": "2f1c1d177bf1dbce418d9c32cf517004862059ac6d2e6fdefb08d267327341f2",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -3750,10 +3750,10 @@
             "target_offset": "0.05"
           },
           "final_scan": {
-            "input_i": "-23.14",
-            "input_tp": "-1.00",
+            "input_i": "-23.24",
+            "input_tp": "-1.10",
             "input_lra": "1.90",
-            "input_thresh": "-33.73",
+            "input_thresh": "-33.83",
             "output_i": "-23.00",
             "output_tp": "-1.00",
             "output_lra": "1.70",
@@ -3761,16 +3761,16 @@
             "normalization_type": "dynamic",
             "target_offset": "0.00"
           },
-          "residual_correction_db": 0.0,
+          "residual_correction_db": -0.1,
           "true_peak_limited": true,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_08/cleanmel-offline-l-map.mp3",
-          "listening_sha256": "a6abb460b3e07929dd0dcc1acd8c61e9b22f552cb6251d94881f347507c97689"
+          "listening_sha256": "2beb40de83ff2fed833117df41775215b06d9fb30dbe44299bccf60f6fd6cb84"
         },
         "vinp-ospatialnet": {
           "source_wav": "subjective_se_pages/p808/real_inference/vinp-ospatialnet/2m_deg180_8.wav",
           "source_sha256": "c5dd22427d31ed2e2b002a0d7955244331473d2b61c16ec0ce1d3432323b8e10",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_08/vinp-ospatialnet.wav",
-          "lossless_sha256": "9abd16c5e2aef4de490619e6d31bb1fa49e9f003f7d418a07fddaa4ff4bd443d",
+          "lossless_sha256": "f96b3aa2926aa8cdb5b32f258777f292c8fcdd0f7ed4251bb068c170fe6c470a",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -3800,10 +3800,10 @@
             "target_offset": "0.09"
           },
           "final_scan": {
-            "input_i": "-23.23",
-            "input_tp": "-0.99",
-            "input_lra": "2.70",
-            "input_thresh": "-33.92",
+            "input_i": "-23.34",
+            "input_tp": "-1.10",
+            "input_lra": "2.80",
+            "input_thresh": "-34.03",
             "output_i": "-23.19",
             "output_tp": "-1.00",
             "output_lra": "2.30",
@@ -3811,16 +3811,16 @@
             "normalization_type": "dynamic",
             "target_offset": "0.19"
           },
-          "residual_correction_db": -0.010000000000000009,
+          "residual_correction_db": -0.11000000000000001,
           "true_peak_limited": true,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_08/vinp-ospatialnet.mp3",
-          "listening_sha256": "5331d2ac49b43398616dacc4d7f090738a5ab74dd4112b2fffca2c75f2258d49"
+          "listening_sha256": "7bbf2bc785382f24d59c3a8c02dd0ea34c1eb9737108842e6aab536a674c784b"
         },
         "vinp-tcnsas": {
           "source_wav": "subjective_se_pages/p808/real_inference/vinp-tcnsas/2m_deg180_8.wav",
           "source_sha256": "b1545a6d09e54085b5ac15a9511a24b115a6e510ceac62be48f4fdd0cda1fbd8",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_08/vinp-tcnsas.wav",
-          "lossless_sha256": "cedc99fb79dad63b25c860d952e576b2557019263af8c7a97a0e8152098c6e68",
+          "lossless_sha256": "47a139cf851e785f23e0549f3a21e8e38e8cbbb392556dcdd5f3a0d2c8a57669",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -3850,27 +3850,27 @@
             "target_offset": "0.08"
           },
           "final_scan": {
-            "input_i": "-23.22",
-            "input_tp": "-0.99",
+            "input_i": "-23.32",
+            "input_tp": "-1.10",
             "input_lra": "2.50",
-            "input_thresh": "-33.82",
-            "output_i": "-23.18",
+            "input_thresh": "-33.92",
+            "output_i": "-23.19",
             "output_tp": "-1.00",
-            "output_lra": "2.00",
-            "output_thresh": "-33.90",
+            "output_lra": "2.10",
+            "output_thresh": "-33.91",
             "normalization_type": "dynamic",
-            "target_offset": "0.18"
+            "target_offset": "0.19"
           },
-          "residual_correction_db": -0.010000000000000009,
+          "residual_correction_db": -0.11000000000000001,
           "true_peak_limited": true,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_08/vinp-tcnsas.mp3",
-          "listening_sha256": "e79c1dc74ded1c7f8796a66106dba8d2c460ae3abab5cbeb8dca5045ec02f0c8"
+          "listening_sha256": "0bbfe013885e9238bdd04fe2de507543e0762e38731c184ec8f346ddd9720921"
         },
         "dytswig-mamba-ccfaatc": {
           "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_8.wav",
           "source_sha256": "d49431f7e09179d3fc98a3de82658ffc6ec5d2e5dc4638f9dbd5ef82eb2de782",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_08/dytswig-mamba-ccfaatc.wav",
-          "lossless_sha256": "ada9018828340954aec7b8105f0c407d4b4a34d2db2dd320ba85ee7ba50dc4c3",
+          "lossless_sha256": "130b47c19d606698f52986e37d323f786d674846a07e7e4ed34cc76069ac0034",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -3900,21 +3900,21 @@
             "target_offset": "0.01"
           },
           "final_scan": {
-            "input_i": "-23.11",
-            "input_tp": "-0.98",
+            "input_i": "-23.24",
+            "input_tp": "-1.10",
             "input_lra": "1.70",
-            "input_thresh": "-33.61",
-            "output_i": "-23.05",
+            "input_thresh": "-33.74",
+            "output_i": "-23.03",
             "output_tp": "-1.00",
             "output_lra": "1.60",
-            "output_thresh": "-33.49",
+            "output_thresh": "-33.48",
             "normalization_type": "dynamic",
-            "target_offset": "0.05"
+            "target_offset": "0.03"
           },
-          "residual_correction_db": -0.020000000000000018,
+          "residual_correction_db": -0.12000000000000002,
           "true_peak_limited": true,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_08/dytswig-mamba-ccfaatc.mp3",
-          "listening_sha256": "6ce9358a071920e44127096678e38a85fbf753947f675695bfa60ee3d837943e"
+          "listening_sha256": "9b8e788c9607e1871f0abf0f76ca22c86d89e70743304977f4bb696ef0de38a7"
         },
         "unipase": {
           "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_8.wav",
@@ -3970,7 +3970,7 @@
           "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_8.wav",
           "source_sha256": "20cb60802f114339dfd6df829f1e2a8f9672bbd036a13abb601ffa848b6d919e",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_08/buddy-official.wav",
-          "lossless_sha256": "920ecf954918f9d414b6b4ce9f11c052202c314bccf7169e8e4c945f29f0dbfa",
+          "lossless_sha256": "334aa8339c4d5011bc46ef1f5cbdbeb52b5f46b57660a0f3e7fc2ec03e205f08",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -4000,10 +4000,10 @@
             "target_offset": "0.06"
           },
           "final_scan": {
-            "input_i": "-23.18",
-            "input_tp": "-1.00",
+            "input_i": "-23.28",
+            "input_tp": "-1.10",
             "input_lra": "2.30",
-            "input_thresh": "-33.25",
+            "input_thresh": "-33.35",
             "output_i": "-23.05",
             "output_tp": "-1.00",
             "output_lra": "2.30",
@@ -4011,16 +4011,16 @@
             "normalization_type": "dynamic",
             "target_offset": "0.05"
           },
-          "residual_correction_db": 0.0,
+          "residual_correction_db": -0.1,
           "true_peak_limited": true,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_08/buddy-official.mp3",
-          "listening_sha256": "48739dd89052f221043311314bfc8340244a3f54eefcc851aee2c64f186c47c7"
+          "listening_sha256": "935a351631a6d8ff0e07a190be8f0f105d640b8cbf13b4a48c11864694777446"
         },
         "mc-buddy": {
           "source_wav": "subjective_se_pages/p808/real_inference/mc-buddy/2m_deg180_8.wav",
           "source_sha256": "b1bde60e5ce778173e99fcc8c81fec0212dc0f996835cc7cc22d316a4c3a44b0",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_08/mc-buddy.wav",
-          "lossless_sha256": "8cde1f25908efa76888f9e87618c17fb87d22103abeec84ee7aeb5c82eda3f3e",
+          "lossless_sha256": "5baddb3f4781c021a386e6c575710700a2dbff3de99214bda9c2ce1e410c6cbd",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -4050,10 +4050,10 @@
             "target_offset": "0.01"
           },
           "final_scan": {
-            "input_i": "-23.03",
-            "input_tp": "-1.00",
+            "input_i": "-23.13",
+            "input_tp": "-1.10",
             "input_lra": "1.80",
-            "input_thresh": "-33.10",
+            "input_thresh": "-33.20",
             "output_i": "-23.09",
             "output_tp": "-1.00",
             "output_lra": "1.50",
@@ -4061,16 +4061,16 @@
             "normalization_type": "dynamic",
             "target_offset": "0.09"
           },
-          "residual_correction_db": 0.0,
+          "residual_correction_db": -0.1,
           "true_peak_limited": true,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_08/mc-buddy.mp3",
-          "listening_sha256": "3ecc8b67df913f3f91f73af9dbaca16d7329af282396eb02b7371f7c0e26fc83"
+          "listening_sha256": "75024db057151b79b7c1ea29d474b7d63405883873ddcd8b27c12b966d748911"
         },
         "usddps": {
           "source_wav": "subjective_se_pages/p808/real_inference/usddps/2m_deg180_8.wav",
           "source_sha256": "96b75d4989ee743eb568ea53e3a997ee629cb97d30fd592c8e184895b30926fb",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_08/usddps.wav",
-          "lossless_sha256": "34b3b5c2b9927868eccf74cefda074906cf19a4c7180c68cb9caa994abb26618",
+          "lossless_sha256": "bb9ebe791c5edeea41070cb4836667be2713534657ae71c7e6e683f1339ca593",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -4100,25 +4100,25 @@
             "target_offset": "0.01"
           },
           "final_scan": {
-            "input_i": "-23.04",
-            "input_tp": "-0.99",
+            "input_i": "-23.15",
+            "input_tp": "-1.10",
             "input_lra": "1.70",
-            "input_thresh": "-33.12",
-            "output_i": "-23.09",
+            "input_thresh": "-33.23",
+            "output_i": "-23.08",
             "output_tp": "-1.00",
             "output_lra": "1.50",
-            "output_thresh": "-33.20",
+            "output_thresh": "-33.19",
             "normalization_type": "dynamic",
-            "target_offset": "0.09"
+            "target_offset": "0.08"
           },
-          "residual_correction_db": -0.010000000000000009,
+          "residual_correction_db": -0.11000000000000001,
           "true_peak_limited": true,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_08/usddps.mp3",
-          "listening_sha256": "4e88f8d1a7f14a3302af0265189408ff143c3c36a47231bdd2982a56024e0236"
+          "listening_sha256": "ef89700d1a9e8fd91055e6c54ae5578beb77416ea14645cbd22c6f60835c3558"
         },
         "hidden_reference": {
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_08/hidden_reference.mp3",
-          "listening_sha256": "93270421c3b53e598dcfa7103f19420682e1f80bc6fd98cddfccbed314996d7f",
+          "listening_sha256": "35c09afd021f42a7968eff6110aa90a90e8e813ac1fc0b9fe7a193fdd4a5b797",
           "identical_to": "reference"
         }
       }
@@ -4384,7 +4384,7 @@
           "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_9.wav",
           "source_sha256": "381a4438a4ddfd6b25556d34bd946995c472acbc86396e6c8b53d52b318a8f97",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_09/dytswig-mamba-ccfaatc.wav",
-          "lossless_sha256": "523c895cfccea43041691c203b66dfdfdec58fd3498cb7feefbd3facdde8f7c6",
+          "lossless_sha256": "68b96fc334e82ca20d75a8407e8a2045bd960a5f0a9f9f12c1516cd394234197",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -4414,10 +4414,10 @@
             "target_offset": "0.00"
           },
           "final_scan": {
-            "input_i": "-23.34",
-            "input_tp": "-1.00",
+            "input_i": "-23.44",
+            "input_tp": "-1.10",
             "input_lra": "3.40",
-            "input_thresh": "-33.50",
+            "input_thresh": "-33.60",
             "output_i": "-24.26",
             "output_tp": "-2.72",
             "output_lra": "2.40",
@@ -4425,10 +4425,10 @@
             "normalization_type": "dynamic",
             "target_offset": "1.26"
           },
-          "residual_correction_db": 0.0,
+          "residual_correction_db": -0.1,
           "true_peak_limited": true,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_09/dytswig-mamba-ccfaatc.mp3",
-          "listening_sha256": "b87f914009d5dc53586e2f069d3296e4d55fc93e64bd718e29671aee8749eef7"
+          "listening_sha256": "1af334515e94c06040d5564da5df553a563652def5896a1240350737b2df8a58"
         },
         "unipase": {
           "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_9.wav",
@@ -4948,7 +4948,7 @@
           "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_10.wav",
           "source_sha256": "84ba9c9509b7603a4e1e94f29ce76e4c8d0521c2bccbc1daca2bebf8f02ee280",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_10/unipase.wav",
-          "lossless_sha256": "d557251252bbfa53882d4e45826b87bc8120ed0301ea9c6f966d1bfec759c8bf",
+          "lossless_sha256": "9db7c6891e888cbb67531b0dbc45957cce2b90f3b6d783d79b7af7ef1e6ccdb4",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -4978,10 +4978,10 @@
             "target_offset": "0.01"
           },
           "final_scan": {
-            "input_i": "-23.02",
-            "input_tp": "-1.00",
+            "input_i": "-23.12",
+            "input_tp": "-1.10",
             "input_lra": "1.20",
-            "input_thresh": "-33.02",
+            "input_thresh": "-33.12",
             "output_i": "-23.13",
             "output_tp": "-1.68",
             "output_lra": "1.00",
@@ -4989,10 +4989,10 @@
             "normalization_type": "dynamic",
             "target_offset": "0.13"
           },
-          "residual_correction_db": 0.0,
+          "residual_correction_db": -0.1,
           "true_peak_limited": true,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_10/unipase.mp3",
-          "listening_sha256": "3ae2390907df83efcfca2e0d66e986d10a9b6b656ee38ae2e3d1a5a32a7580f8"
+          "listening_sha256": "735d387dc2c1a239d37c3f911ed04969f841e06dfbac644f7aa883b0dc42795e"
         },
         "buddy-official": {
           "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_10.wav",
@@ -5453,7 +5453,7 @@
             "normalization_type": "dynamic",
             "target_offset": "-0.39"
           },
-          "residual_correction_db": 0.0,
+          "residual_correction_db": -0.04999999999999996,
           "true_peak_limited": false,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_11/dytswig-mamba-ccfaatc.mp3",
           "listening_sha256": "ee8a9e0572f5d29ded80dfab97ffa9b421e7d64db110b9f239dfd25cb80608a3"
@@ -5462,7 +5462,7 @@
           "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_11.wav",
           "source_sha256": "7c5a9fd4e2993341213f580b2d446f7725274edb3a394b3e5b8b9b5f57cf267f",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_11/unipase.wav",
-          "lossless_sha256": "13202ab672d6e9218e82bab82c4b1be1f666b801c35c18082d2a882c54379ee3",
+          "lossless_sha256": "c361769d57c9edd0ad83666e858a266a73b45c296189d7b7751e430e2a79bd05",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -5492,21 +5492,21 @@
             "target_offset": "0.02"
           },
           "final_scan": {
-            "input_i": "-23.00",
-            "input_tp": "-1.05",
-            "input_lra": "1.50",
-            "input_thresh": "-33.08",
+            "input_i": "-23.02",
+            "input_tp": "-1.10",
+            "input_lra": "1.60",
+            "input_thresh": "-33.13",
             "output_i": "-22.69",
             "output_tp": "-1.00",
             "output_lra": "0.90",
-            "output_thresh": "-32.79",
+            "output_thresh": "-32.80",
             "normalization_type": "dynamic",
             "target_offset": "-0.31"
           },
-          "residual_correction_db": -0.07000000000000028,
+          "residual_correction_db": -0.12000000000000002,
           "true_peak_limited": false,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_11/unipase.mp3",
-          "listening_sha256": "0518d8dfe103e5e57356fb3a06075f30e19ed8f93b3a30acc4619dd4e67da466"
+          "listening_sha256": "fe66c94e508128b6e0d27861dfe63c10766ba88b5ee95f76d81abc3f5505bc1a"
         },
         "buddy-official": {
           "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_11.wav",
@@ -5776,7 +5776,7 @@
           "source_wav": "subjective_se_pages/p808/real_inference/cleanmel-offline-l-map/2m_deg180_12.wav",
           "source_sha256": "e7190d308eeda35f69665f3cc53c5e9ab2b58bc70ba58221a98e1687fe634e80",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_12/cleanmel-offline-l-map.wav",
-          "lossless_sha256": "c26c0834433a4c4b15bf245d089f7d1c4d9f35f44157d7bb88f6cd4e37a984e3",
+          "lossless_sha256": "b6c0de8e32f7b12ac48bbd775152105d3166d4bac0854edf22427820e2632222",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -5806,10 +5806,10 @@
             "target_offset": "0.05"
           },
           "final_scan": {
-            "input_i": "-23.71",
-            "input_tp": "-1.00",
+            "input_i": "-23.81",
+            "input_tp": "-1.10",
             "input_lra": "3.30",
-            "input_thresh": "-34.33",
+            "input_thresh": "-34.43",
             "output_i": "-23.32",
             "output_tp": "-1.00",
             "output_lra": "2.70",
@@ -5817,10 +5817,10 @@
             "normalization_type": "dynamic",
             "target_offset": "0.32"
           },
-          "residual_correction_db": 0.0,
+          "residual_correction_db": -0.1,
           "true_peak_limited": true,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_12/cleanmel-offline-l-map.mp3",
-          "listening_sha256": "41d31ba4dcd60d44925c3519178e96842ede71188a4c940de8a1e3d1bb5c5872"
+          "listening_sha256": "a81a79b0a189ff49c45ce43ca2b7311050e81019bf0dddcf882b5b9e2c86893d"
         },
         "vinp-ospatialnet": {
           "source_wav": "subjective_se_pages/p808/real_inference/vinp-ospatialnet/2m_deg180_12.wav",
@@ -5976,7 +5976,7 @@
           "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_12.wav",
           "source_sha256": "d8757ac23501d2d7eea3bf2e8a01689de8acefbba83b1eebea1678d05c6833da",
           "lossless_wav": "subjective_se_pages/p808/real8s_lufs_lossless_v1/real_4floor_12/unipase.wav",
-          "lossless_sha256": "64bafce6f50f0e577c870e2eb90f9c25f1814721a3932284a251df99265e5e36",
+          "lossless_sha256": "9c6b290892b217c9f6d8b9f926c2e3bc3f3e7c361dd501c5fc5d56e5c787c6f4",
           "normalization": "ITU-R BS.1770 gated loudnorm two-pass",
           "target_i_lufs": -23.0,
           "target_tp_db": -1.0,
@@ -6006,10 +6006,10 @@
             "target_offset": "-0.03"
           },
           "final_scan": {
-            "input_i": "-23.68",
-            "input_tp": "-1.00",
+            "input_i": "-23.78",
+            "input_tp": "-1.10",
             "input_lra": "3.60",
-            "input_thresh": "-34.21",
+            "input_thresh": "-34.31",
             "output_i": "-23.45",
             "output_tp": "-1.15",
             "output_lra": "2.90",
@@ -6017,10 +6017,10 @@
             "normalization_type": "dynamic",
             "target_offset": "0.45"
           },
-          "residual_correction_db": 0.0,
+          "residual_correction_db": -0.1,
           "true_peak_limited": true,
           "listening_mp3": "audio/real8s-lufs23-tp1-v1/real_4floor_12/unipase.mp3",
-          "listening_sha256": "91626045936b4db4b59a242771fe4b2c1317392e87b592e460ca34203f6f3ac8"
+          "listening_sha256": "6e2689e3e6056576f2388e8c63a61ee5f5597828302fddf92f341b0922538f4f"
         },
         "buddy-official": {
           "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_12.wav",
