@@ -20,6 +20,13 @@ OUTPUT_PAGE = P808 / "real-recording.html"
 LEGACY_ENTRY = P808 / "real-listening.html"
 ARCHIVE_PAGE = P808 / "real-listening-10s-archive.html"
 TEMPLATE = P808 / "index.html"
+STUDY_ID = "dereverbReal12v2"
+ALLOCATION_VERSION = "real12-two-block-v2"
+AUDIO_VERSION = "real8s-rms27-peak1p5-v1"
+SAMPLING_VERSION = "listener-random-v2-real12-two-block-order"
+STORAGE_PREFIX = "p808-real12-v2-"
+SUBMISSION_TYPE = "dereverb-p808-real12-v2"
+REDIRECT_TARGET = "real-recording.html"
 
 
 def sha256(path: Path) -> str:
@@ -39,11 +46,11 @@ def replace_once(page: str, old: str, new: str) -> str:
 def build_manifest() -> dict:
     old = json.loads(BASE.read_text())
     crops = json.loads(CROPS.read_text())
-    if (old["study"] != "dereverbReal12v1" or crops["duration_seconds"] != 8 or
-            len(old["trials"]) != 12 or len(crops["samples"]) != 12):
+    if (crops["duration_seconds"] != 8 or len(old["trials"]) != 12 or
+            len(crops["samples"]) != 12):
         raise ValueError("Unexpected real-recording source manifests")
-    new = {**old, "study": "dereverbReal12v2",
-           "allocation_version": "real12-two-block-v2",
+    new = {**old, "study": STUDY_ID,
+           "allocation_version": ALLOCATION_VERSION,
            "audio_version": {"REAL": crops["audio_version"]},
            "duration_seconds": 8, "crop_manifest": "real8s_crop_windows.json",
            "trials": []}
@@ -76,7 +83,7 @@ def build_page(manifest: dict) -> None:
     page = replace_once(page, "<title>Dereverb 短批次听评</title>", "<title>实录去混响听评</title>")
     page = replace_once(page, "<span>Dereverb 短批次听评</span>", "<span>实录去混响听评</span>")
     page = replace_once(page, '<span class="version">v3</span>',
-                        '<span class="version">v2</span>')
+                        '<span class="version">' + STUDY_ID[-2:] + '</span>')
     page = replace_once(page, "<h1>每批 7 条，共 28 条</h1>", "<h1>每批 6 条，共 12 条</h1>")
     page = replace_once(page,
         "本页包含 ACE 和 AIR 的配对样本。每个测试 ID 独立随机生成四批顺序；同一测试 ID 可以回来继续下一批，已经完成的样本不会再次出现。请为每段声音给出一个符合听感的分数。",
@@ -92,14 +99,14 @@ def build_page(manifest: dict) -> None:
         "每个测试 ID 独立随机排列 12 条实录，每批 6 条；可随时提交当前进度，同一 ID 返回时继续未完成批次。已完成样本不会重复；进度保存在本机浏览器。建议使用耳机并保持相同音量。")
     page = replace_once(page, "const size = 7;", "const size = 6;")
     page = replace_once(page, "listener-random-v5-short28-random-block-order",
-                        "listener-random-v2-real12-two-block-order")
+                        SAMPLING_VERSION)
     if page.count("p808-short28-v1:") < 2:
         raise ValueError("Missing short-study browser storage key")
-    page = page.replace("p808-short28-v1:", "p808-real12-v2:")
+    page = page.replace("p808-short28-v1:", STORAGE_PREFIX)
     page = replace_once(page, "'p808-short28-' + state.listener",
-                        "'p808-real12-v2-' + state.listener")
+                        "'" + STORAGE_PREFIX + "' + state.listener")
     page = replace_once(page, "'dereverb-p808-short28-v1'",
-                        "'dereverb-p808-real12-v2'")
+                        "'" + SUBMISSION_TYPE + "'")
     old_sampler = re.compile(
         r"  function sampleOrder\(listener\) \{.*?\n  \}\n  function pickBatch\(\)", re.DOTALL)
     new_sampler = """  function sampleOrder(listener) {
@@ -133,11 +140,11 @@ def build_page(manifest: dict) -> None:
     temp.write_text(page)
     os.replace(temp, OUTPUT_PAGE)
     redirect = ('<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">'
-                '<meta http-equiv="refresh" content="0; url=real-recording.html">'
-                '<link rel="canonical" href="real-recording.html">'
+                '<meta http-equiv="refresh" content="0; url=' + REDIRECT_TARGET + '">'
+                '<link rel="canonical" href="' + REDIRECT_TARGET + '">'
                 '<title>实录听评已迁移</title></head><body>'
-                '<p>实录听评入口已迁移至 <a href="real-recording.html">real-recording.html</a>。</p>'
-                '<script>location.replace("real-recording.html");</script></body></html>')
+                '<p>实录听评入口已迁移至 <a href="' + REDIRECT_TARGET + '">' + REDIRECT_TARGET + '</a>。</p>'
+                '<script>location.replace("' + REDIRECT_TARGET + '");</script></body></html>')
     temp = LEGACY_ENTRY.with_name(LEGACY_ENTRY.name + "." + uuid.uuid4().hex + ".tmp")
     temp.write_text(redirect)
     os.replace(temp, LEGACY_ENTRY)
