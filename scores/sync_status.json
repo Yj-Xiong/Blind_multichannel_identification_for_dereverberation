@@ -1,8 +1,8 @@
 {
-  "received": 6,
-  "archived": 0,
+  "received": 7,
+  "archived": 1,
   "rejected": 6,
-  "latest_scores": 0,
+  "latest_scores": 70,
   "rejection_reasons": {
     "Submission is missing a staging field": 6
   },
