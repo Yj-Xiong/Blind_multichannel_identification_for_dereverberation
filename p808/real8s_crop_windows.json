@@ -1,0 +1,1284 @@
+{
+  "schema": "se.subjective.real8s_crop.v1",
+  "dataset_version": "v1.0.1",
+  "audio_version": "real8s-rms27-peak1p5-v1",
+  "sample_rate": 16000,
+  "frames_per_clip": 128000,
+  "duration_seconds": 8,
+  "window_rule": "10-ms search; >=85% of maximum 8-s reference energy; minimize mean 100-ms edge energy / interior energy",
+  "normalization": "per-crop -27 dBFS RMS target, -1.5 dBFS peak ceiling; 5-ms fades",
+  "samples": [
+    {
+      "sample_id": "real_4floor_01",
+      "start_sample": 26080,
+      "end_sample": 154080,
+      "start_seconds": 1.63,
+      "end_seconds": 9.63,
+      "retained_energy_fraction_of_best_8s": 0.8745511497674999,
+      "boundary_energy_ratio": 0.004814549858329825,
+      "tracks": {
+        "reference": {
+          "source_wav": "4floor_2m_deg180_12speech/aligned_references/reference_for_2m_deg180_1.wav",
+          "source_sha256": "e8f40012d6a6ae177b10491328a90de2a02e1230d2aa79b4edcc09853d47ddb5",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_01/reference.wav",
+          "lossless_sha256": "c8f490056c993dc1d88e6dfa22d10a1193cd7861a5a7f771f7fefd2726d40bb4",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_01/reference.mp3",
+          "listening_sha256": "db68de4d2e6294462da5eba77c285614ccb19e5bd39e33142075fdf4bd3f66fd",
+          "applied_gain_db": -9.028654642364028
+        },
+        "unprocessed": {
+          "source_wav": "subjective_se_pages/p808/real_noisy_5to20db_v1/2m_deg180_1.wav",
+          "source_sha256": "ffbedb7191420b816535f8b57638403720e7f8f6286900ef256674ffa42e96ed",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_01/unprocessed.wav",
+          "lossless_sha256": "eea44cb5de42670b7bc9c92d0b97da2297f2dd5b9f3a6c2401c372df72d8f6ae",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_01/unprocessed.mp3",
+          "listening_sha256": "86fca74a66430954bf67e333e2a530089eff0fb8b13575bc18295a2760c2bf98",
+          "applied_gain_db": 20.23956779652106
+        },
+        "cleanmel-offline-l-map": {
+          "source_wav": "subjective_se_pages/p808/real_inference/cleanmel-offline-l-map/2m_deg180_1.wav",
+          "source_sha256": "0813633a50b448906953e973ea230c09b93ce067a8a5f711cd5bb53f01db1a6f",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_01/cleanmel-offline-l-map.wav",
+          "lossless_sha256": "9a82dfecc7da77360bf7e4094c563cd3af4be121fa7310b8c29b67370c1bd8c0",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_01/cleanmel-offline-l-map.mp3",
+          "listening_sha256": "f0150a5766ed48858d117a34e8286ab5aaf45ec0cc4342f492e7d9c0196b992c",
+          "applied_gain_db": 28.161885023561837
+        },
+        "vinp-ospatialnet": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-ospatialnet/2m_deg180_1.wav",
+          "source_sha256": "1eb94ba9490054f8f72c5f45af079b72739d4c9d4884171133c6be325b9c8956",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_01/vinp-ospatialnet.wav",
+          "lossless_sha256": "3d065b5cc7cc714bb2857935a575a1d70e7cdac58c001055da2bf94692b4a22f",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_01/vinp-ospatialnet.mp3",
+          "listening_sha256": "65f0efd9aad22610e1e9844b8fd65bc7af7709e007c99424ff22fc01a92742e2",
+          "applied_gain_db": 25.456763469570202
+        },
+        "vinp-tcnsas": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-tcnsas/2m_deg180_1.wav",
+          "source_sha256": "ef686a72e44ee6c5cf030b7bff7f64f10504cbf2612581993f8e31c81e80c403",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_01/vinp-tcnsas.wav",
+          "lossless_sha256": "fea61e71e2713950136fb4f876333269c30bd551fe8f3f431d25af69563e9516",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_01/vinp-tcnsas.mp3",
+          "listening_sha256": "12b25743bfe835e10710ca926b005a4667f0535a9b9c4a9740f1c8ee1096557c",
+          "applied_gain_db": 25.45578074345283
+        },
+        "dytswig-mamba-ccfaatc": {
+          "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_1.wav",
+          "source_sha256": "603ad77ea8eabc290c5dd0db97f7fdd8c43fc350e11f154c026368396acb2698",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_01/dytswig-mamba-ccfaatc.wav",
+          "lossless_sha256": "a0629e52af40c4fa765501300f440fa6fb4887af1761706e58a7c7a83c02b87e",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_01/dytswig-mamba-ccfaatc.mp3",
+          "listening_sha256": "73b9434b096364ba72ba9e3c79bbb284cbe0ddc3b01d4bfdefe40f8bdcf35433",
+          "applied_gain_db": 4.5174957737316195
+        },
+        "unipase": {
+          "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_1.wav",
+          "source_sha256": "74d84a1bb59571766231b4f83a71c581de24a461ae45f0b494d2983fc52524e6",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_01/unipase.wav",
+          "lossless_sha256": "f517e4383467bebd33a54f40112e087ff874a17568623a748d945830e7ac14ff",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_01/unipase.mp3",
+          "listening_sha256": "3c15a4b6ea3bcecbfbccb4efbe5c2ce130822bd6259f2dc9584f43c7c66fdc86",
+          "applied_gain_db": 24.375858788823646
+        },
+        "buddy-official": {
+          "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_1.wav",
+          "source_sha256": "cac896b9cdfa88b205a726b23107b8b626c2a96d30d6846cf08fe3d9d3126ab2",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_01/buddy-official.wav",
+          "lossless_sha256": "40b6346627f29f379760851b6ff8f81f8f439f08f01a6e8cccf9fb52d7e91009",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_01/buddy-official.mp3",
+          "listening_sha256": "1b59075c20551323997d47f50feb675b2ed75df8d330eb1dea4fac458059b681",
+          "applied_gain_db": 19.819193510533953
+        },
+        "mc-buddy": {
+          "source_wav": "subjective_se_pages/p808/real_inference/mc-buddy/2m_deg180_1.wav",
+          "source_sha256": "f6f75a20f464b9284e13da4af0060dddabcab62657ef60b17396341375bb721c",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_01/mc-buddy.wav",
+          "lossless_sha256": "8a88864035a2773b4899087df48375aef1185900ad6fa4076ef833dd204ff5c6",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_01/mc-buddy.mp3",
+          "listening_sha256": "7c217e1ffb97b1baf748adc376115aa281b4368a68fbe9eb912440f8d093ae0a",
+          "applied_gain_db": 19.654095028486122
+        },
+        "usddps": {
+          "source_wav": "subjective_se_pages/p808/real_inference/usddps/2m_deg180_1.wav",
+          "source_sha256": "61ac538c12b1d2964e1a0d80e79f415d64ab96991f5331318d609de8f431c1f4",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_01/usddps.wav",
+          "lossless_sha256": "1832a9772151d9804fe88d0bfbdf496187d465d45714497c7a61d5772947f13e",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_01/usddps.mp3",
+          "listening_sha256": "788e35bcf1cacba77eb02cbd622aa48a6509fdb7dcf24023ed2233c62b497f00",
+          "applied_gain_db": 19.694620202350915
+        },
+        "hidden_reference": {
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_01/hidden_reference.mp3",
+          "listening_sha256": "db68de4d2e6294462da5eba77c285614ccb19e5bd39e33142075fdf4bd3f66fd",
+          "identical_to": "reference"
+        }
+      }
+    },
+    {
+      "sample_id": "real_4floor_02",
+      "start_sample": 7200,
+      "end_sample": 135200,
+      "start_seconds": 0.45,
+      "end_seconds": 8.45,
+      "retained_energy_fraction_of_best_8s": 0.8978755210778455,
+      "boundary_energy_ratio": 0.023882093012080833,
+      "tracks": {
+        "reference": {
+          "source_wav": "4floor_2m_deg180_12speech/aligned_references/reference_for_2m_deg180_2.wav",
+          "source_sha256": "ceb18ae858fd069a08c0c51a997bea0d3ca5c8cb46841ea16006e990c7880b05",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_02/reference.wav",
+          "lossless_sha256": "cea0d23d6d8a7db6cb50cec8523275ab00d7157004de68f73a209422bd9db35a",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_02/reference.mp3",
+          "listening_sha256": "626adf88dcd81fe73c6539e13542a78d08fff3b1b96ab07f3a13ee4dacc15aa3",
+          "applied_gain_db": -8.231415592412732
+        },
+        "unprocessed": {
+          "source_wav": "subjective_se_pages/p808/real_noisy_5to20db_v1/2m_deg180_2.wav",
+          "source_sha256": "76f13d90860e0d591c725574045e4415bbdb48a0e3a7bf82254d9680dd49286c",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_02/unprocessed.wav",
+          "lossless_sha256": "314b39095aa1e93c0efbf6e831c1dbbbe3f631bf92bc9fdec8c03afe1bf45215",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_02/unprocessed.mp3",
+          "listening_sha256": "783d57d29a49e2b658bfd72679675d3c300d443c8963afc45644c1a2f13a7ffe",
+          "applied_gain_db": 21.253873374520037
+        },
+        "cleanmel-offline-l-map": {
+          "source_wav": "subjective_se_pages/p808/real_inference/cleanmel-offline-l-map/2m_deg180_2.wav",
+          "source_sha256": "bbc63607a9f2eebc103dab59d863bf41ecc2346118954d4cd8f152b740f25e3f",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_02/cleanmel-offline-l-map.wav",
+          "lossless_sha256": "7d994bca7f283e73c1c356afc9a9b44241c47edac61f10c31617b51c6987aeee",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_02/cleanmel-offline-l-map.mp3",
+          "listening_sha256": "b5b22c6cca21e696d01cc8e9064d01a5d3cf758b83a42ec1db9c07887ecb9f21",
+          "applied_gain_db": 27.754277268530952
+        },
+        "vinp-ospatialnet": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-ospatialnet/2m_deg180_2.wav",
+          "source_sha256": "e05d74d9340a7f5f6ad1d9d6f95e0bcfb34df42384f9c305e89b5887d7248fd6",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_02/vinp-ospatialnet.wav",
+          "lossless_sha256": "e7743d30d40ef8684e37e4a15b22a168e95fc0de6efc697a92078546f2259f40",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_02/vinp-ospatialnet.mp3",
+          "listening_sha256": "78cd2ef3d486a90066d5fd0e61d0fe0796e55f28464871ba4fd1d1c93f6e3c27",
+          "applied_gain_db": 23.6025470146727
+        },
+        "vinp-tcnsas": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-tcnsas/2m_deg180_2.wav",
+          "source_sha256": "f9ba70c9fb886123b059e5428c0042db88ad269625dfd33b40d56a71ba59a640",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_02/vinp-tcnsas.wav",
+          "lossless_sha256": "4638980d2eba826591a13132d27c3309d62d1d1477699e025e95bb9dff65c213",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_02/vinp-tcnsas.mp3",
+          "listening_sha256": "6c952c1e9e9bb55d46726edb794bffd730fe3c81500d59403efa530708f5020e",
+          "applied_gain_db": 23.333637189690585
+        },
+        "dytswig-mamba-ccfaatc": {
+          "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_2.wav",
+          "source_sha256": "593fee355f73f369c171589ea2944bbad5aabf38df77b9a7ac8dca393f5de923",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_02/dytswig-mamba-ccfaatc.wav",
+          "lossless_sha256": "83688b29c0c85abaf8e14870334d15efd26a3994a90ba2a29aa4011eaa2b035e",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_02/dytswig-mamba-ccfaatc.mp3",
+          "listening_sha256": "a5ec2ad940fcc97e623e38de482b51bdcbec7e87e3ba3c7d6529717b93c5778a",
+          "applied_gain_db": 15.525148572954116
+        },
+        "unipase": {
+          "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_2.wav",
+          "source_sha256": "63eb6dd6c0253b2227f055964d4be59d73ec9dcba6feecae48008762be87cd90",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_02/unipase.wav",
+          "lossless_sha256": "f856f26c523d232e83cbc0652ce76d9f0da20eb48db83096c6afe628ec806d6a",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_02/unipase.mp3",
+          "listening_sha256": "e64abf63dd05c3e0f80a5c8b8cd863661906488b6e3b536cb299d79f747a9597",
+          "applied_gain_db": 21.88088930767348
+        },
+        "buddy-official": {
+          "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_2.wav",
+          "source_sha256": "bcefac687799b0765dc4d8cecc1ed80e3721ee7d1ce75065d923c97eddfb130d",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_02/buddy-official.wav",
+          "lossless_sha256": "3ce491cb9bc16b41eab818220bd56bf1b900d58112be9c512fe0b77fcdbce37c",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_02/buddy-official.mp3",
+          "listening_sha256": "29cf11de5ddfcd9097c3c7c7e0fb2768d77d5ed468eaeacdd0e00b2e076f9913",
+          "applied_gain_db": 21.48048684924985
+        },
+        "mc-buddy": {
+          "source_wav": "subjective_se_pages/p808/real_inference/mc-buddy/2m_deg180_2.wav",
+          "source_sha256": "e531949a1689dc3372c9279595d6065b872d8327f8de07992ba4b285937f7296",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_02/mc-buddy.wav",
+          "lossless_sha256": "1e5ccdfed1c236fd67caf5142c8dc1f6a3935290a27b02c0631b4c865aa10c23",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_02/mc-buddy.mp3",
+          "listening_sha256": "635b7af399cf3d334af9198e2af9b41215500919629af340584f154b9177e409",
+          "applied_gain_db": 21.356132763994175
+        },
+        "usddps": {
+          "source_wav": "subjective_se_pages/p808/real_inference/usddps/2m_deg180_2.wav",
+          "source_sha256": "59b6796b9fe167b776b23b1e2562f285121566a0864d0a0a039a65ed65e9fde2",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_02/usddps.wav",
+          "lossless_sha256": "562d0f44f4c16cdcca927ebdb0c69741d2fe8e8b70246af2992c0942856ee2b1",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_02/usddps.mp3",
+          "listening_sha256": "d0314362b73496dd7ea0ab06acc7f4cd22fed71b5d31765a646d343b250b92e3",
+          "applied_gain_db": 21.400593774922235
+        },
+        "hidden_reference": {
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_02/hidden_reference.mp3",
+          "listening_sha256": "626adf88dcd81fe73c6539e13542a78d08fff3b1b96ab07f3a13ee4dacc15aa3",
+          "identical_to": "reference"
+        }
+      }
+    },
+    {
+      "sample_id": "real_4floor_03",
+      "start_sample": 17120,
+      "end_sample": 145120,
+      "start_seconds": 1.07,
+      "end_seconds": 9.07,
+      "retained_energy_fraction_of_best_8s": 0.8655710720810832,
+      "boundary_energy_ratio": 0.04000577505278938,
+      "tracks": {
+        "reference": {
+          "source_wav": "4floor_2m_deg180_12speech/aligned_references/reference_for_2m_deg180_3.wav",
+          "source_sha256": "5d8431a5e89673938b6d09c8e65082213c4d2730a71c1c3733eb2958a8ddda55",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_03/reference.wav",
+          "lossless_sha256": "aae352f3f781a8f61bc741c2c84160baa872b9d073538635d53d40131b2bc9fc",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_03/reference.mp3",
+          "listening_sha256": "55098cb43932c6dbdb40470d78073e0996ca39ed71d2d39aefdaf057b568e352",
+          "applied_gain_db": -9.322340558172366
+        },
+        "unprocessed": {
+          "source_wav": "subjective_se_pages/p808/real_noisy_5to20db_v1/2m_deg180_3.wav",
+          "source_sha256": "ec05439853813a1125ae8a5fe7d2b25bb50286a3d074d3c6ea5f16acb9a7ac46",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_03/unprocessed.wav",
+          "lossless_sha256": "d5620f6e17f502bb853edc4549f37bcb7c99117605b2ef1c0b2ee1c9a9fdd623",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_03/unprocessed.mp3",
+          "listening_sha256": "43e4e75389601bca8f8b3cfb0d7c94b6aea770b20dbc143a11f45ca3cc4f5108",
+          "applied_gain_db": 19.930048773236994
+        },
+        "cleanmel-offline-l-map": {
+          "source_wav": "subjective_se_pages/p808/real_inference/cleanmel-offline-l-map/2m_deg180_3.wav",
+          "source_sha256": "88186f9aeaa7b49b1c102270de6890b97c0072b5640b049dfcb15b911ee3695e",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_03/cleanmel-offline-l-map.wav",
+          "lossless_sha256": "a45fa52bd3a38bbed910d9c28a05bfe982e28822b57c3b0f2355009c77c52db1",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_03/cleanmel-offline-l-map.mp3",
+          "listening_sha256": "a2349d59d7e12ad8c02ef32c23af51af4da93dd856c79be1fb5f1b5d094cadfd",
+          "applied_gain_db": 27.402810669362673
+        },
+        "vinp-ospatialnet": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-ospatialnet/2m_deg180_3.wav",
+          "source_sha256": "7e42179c1dbb4d85f5e0c203533ae0ce1b11a96399ca170ddc2b6bb56c9ddb1a",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_03/vinp-ospatialnet.wav",
+          "lossless_sha256": "3710d3e91ddf551fe3ab50a82cace8f9b4df345bef9e88f985ed1b25fc91d30a",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_03/vinp-ospatialnet.mp3",
+          "listening_sha256": "4375b10a1222438095bea35c539e1326e45c7c9bb745a797848aff0d9b64603d",
+          "applied_gain_db": 23.348382804024443
+        },
+        "vinp-tcnsas": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-tcnsas/2m_deg180_3.wav",
+          "source_sha256": "7ee0df230d3df83933025ecbcc95e2c5d787b444ee214e7af4113f901d07e99b",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_03/vinp-tcnsas.wav",
+          "lossless_sha256": "39fd4766f020c314c107fdb2a6cd9ea4a2ee0af70160c4a193cd329c64be09eb",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_03/vinp-tcnsas.mp3",
+          "listening_sha256": "4377e8ca106e09be2fc27b68adc750b683037ee0c05688313ac312304ab9c27b",
+          "applied_gain_db": 22.789894576121696
+        },
+        "dytswig-mamba-ccfaatc": {
+          "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_3.wav",
+          "source_sha256": "b67226f4bafe215678a2e79123cfb940b70ee1bfe3673f33a2aa531604012a44",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_03/dytswig-mamba-ccfaatc.wav",
+          "lossless_sha256": "93b9855877f6c1ef197c48c16cb17db361b1eeab40f746cff90245e6b9d0e499",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_03/dytswig-mamba-ccfaatc.mp3",
+          "listening_sha256": "c6229d14bbd71bd326c4e14b6d3638c56ae14c8ced1c57c72e02ae77856296f4",
+          "applied_gain_db": 3.5314790718207534
+        },
+        "unipase": {
+          "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_3.wav",
+          "source_sha256": "de1383dfe1ab545a2488aa3d41a068ff67636b4610bc94af19ccb353bd32c3f3",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_03/unipase.wav",
+          "lossless_sha256": "1ac945e9d9db475366d07e7a3335557a4de6035e41d8f4e63d76e25389ccb953",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_03/unipase.mp3",
+          "listening_sha256": "07776449c4017b1f5566a1525a8a647e7e29d3f2ed2beaffa23a4a153289437a",
+          "applied_gain_db": 21.188479043694528
+        },
+        "buddy-official": {
+          "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_3.wav",
+          "source_sha256": "4c0a2299b0d8c8acb2c95349576c512b604549843954bccaa60b95468ae860d2",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_03/buddy-official.wav",
+          "lossless_sha256": "f31e1978cfb28602b45e3ac21f3f166f47ba61c2f9ae5cabd292b2ad2d0ad285",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_03/buddy-official.mp3",
+          "listening_sha256": "0e6acb6a9079e35e301b75382d7879ae48371a7f6f5c9700bceb9c3600aa8331",
+          "applied_gain_db": 19.704296906654232
+        },
+        "mc-buddy": {
+          "source_wav": "subjective_se_pages/p808/real_inference/mc-buddy/2m_deg180_3.wav",
+          "source_sha256": "0c067c7a4e6079c5a6b9da4016d4237d3b20213de520bb44698bb8826dc2b1f0",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_03/mc-buddy.wav",
+          "lossless_sha256": "a7d61a31456c5646d81f0cd709bd877b0c6a19849a801b6d0841952b81c25a17",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_03/mc-buddy.mp3",
+          "listening_sha256": "c4dd964beea794929e039f03262e40564155466cf7d0773d056581b611649b17",
+          "applied_gain_db": 19.40086281053374
+        },
+        "usddps": {
+          "source_wav": "subjective_se_pages/p808/real_inference/usddps/2m_deg180_3.wav",
+          "source_sha256": "eaadaacde51eb173175fffddf1a7b3ba1db41d18cbac49b550cb69cd3c1df326",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_03/usddps.wav",
+          "lossless_sha256": "bc5e841d8d4405b2bb041723082ed9c41e3507deb8ca973451508e7b35c8f3a9",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_03/usddps.mp3",
+          "listening_sha256": "9ae1d9529d6c1f793984a9d3e14592c13035dc26701f0dbb6915c526b3005585",
+          "applied_gain_db": 19.317014208625977
+        },
+        "hidden_reference": {
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_03/hidden_reference.mp3",
+          "listening_sha256": "55098cb43932c6dbdb40470d78073e0996ca39ed71d2d39aefdaf057b568e352",
+          "identical_to": "reference"
+        }
+      }
+    },
+    {
+      "sample_id": "real_4floor_04",
+      "start_sample": 480,
+      "end_sample": 128480,
+      "start_seconds": 0.03,
+      "end_seconds": 8.03,
+      "retained_energy_fraction_of_best_8s": 0.9766621977452343,
+      "boundary_energy_ratio": 0.09972990390253711,
+      "tracks": {
+        "reference": {
+          "source_wav": "4floor_2m_deg180_12speech/aligned_references/reference_for_2m_deg180_4.wav",
+          "source_sha256": "7e7cdf7cf0a20f187adc6a29c5755bc6be49b58f30d58291d454e116b9cd72aa",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_04/reference.wav",
+          "lossless_sha256": "bac1ed03d1031e2910608b677f630b273e87c9a75a91590ed1cec2444903b0f4",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_04/reference.mp3",
+          "listening_sha256": "e5d59b42e0fb215b3d290bb80447f17a44ce1490062bcdcf86fd54970f722301",
+          "applied_gain_db": -8.36458332248924
+        },
+        "unprocessed": {
+          "source_wav": "subjective_se_pages/p808/real_noisy_5to20db_v1/2m_deg180_4.wav",
+          "source_sha256": "8f2161b08d275877b59c4bdf6dbbff45fe43ceca34cfd3427bc96595f1fb0a10",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_04/unprocessed.wav",
+          "lossless_sha256": "ed3032e75774241008db88e3d5af0cfb47ec46ed9e50ae423aeeb19c9a3bc443",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_04/unprocessed.mp3",
+          "listening_sha256": "37da723ab1b7f05618d3ca0b2c7879f6660a44706282292a4a95cd50831e8012",
+          "applied_gain_db": 22.969375514531976
+        },
+        "cleanmel-offline-l-map": {
+          "source_wav": "subjective_se_pages/p808/real_inference/cleanmel-offline-l-map/2m_deg180_4.wav",
+          "source_sha256": "efe53b73ce736057542bd975e3f5ae401e9404a32e5ed8ec6809057a2031aded",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_04/cleanmel-offline-l-map.wav",
+          "lossless_sha256": "d3b4e730c41e379435e87f7fb82f6d78c1275f0c7cdfc71c17c86533979cc35a",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_04/cleanmel-offline-l-map.mp3",
+          "listening_sha256": "f0e46c15f99461e2b0a42377db1c0d6d001361c15e2db91f2cba88d3de8c3e11",
+          "applied_gain_db": 29.637440200294414
+        },
+        "vinp-ospatialnet": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-ospatialnet/2m_deg180_4.wav",
+          "source_sha256": "54d98a2b24ce1f20a3b768b8db69ca7a6707d5e9cd55a1f951db32fb24cbfadb",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_04/vinp-ospatialnet.wav",
+          "lossless_sha256": "81505b3901a33cee3dbe8cce0fdf14b4d263cb3b9fd313c2a4e4a201e35c6905",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_04/vinp-ospatialnet.mp3",
+          "listening_sha256": "9ef41ab2f915ab601266389f26be9bedd4ddcc2a3984cf0ffde6ea840cbfaf38",
+          "applied_gain_db": 26.997409850413835
+        },
+        "vinp-tcnsas": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-tcnsas/2m_deg180_4.wav",
+          "source_sha256": "57a22be33987e44c866d4889fa2803887b0e9513ece8dd7820758444a21ef228",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_04/vinp-tcnsas.wav",
+          "lossless_sha256": "e4dbb52ec63d0b5c5fee9964c663faf865f664fb7ffba2c89133067f6b72b9a4",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_04/vinp-tcnsas.mp3",
+          "listening_sha256": "4f8f00db40e4f7f1b438e8188b9b2e5648677848691d04b2b07b39ad15bf4732",
+          "applied_gain_db": 27.243213263744188
+        },
+        "dytswig-mamba-ccfaatc": {
+          "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_4.wav",
+          "source_sha256": "a3ea469b519b1e6fb024c9a25aad9ad722c7a99c23bdbd4a7e77aef5061027dd",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_04/dytswig-mamba-ccfaatc.wav",
+          "lossless_sha256": "4c71c90a1fecdb14b303182be8c561b3ed18c6b21d96b261fd0f3a8137c14e13",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_04/dytswig-mamba-ccfaatc.mp3",
+          "listening_sha256": "3a477630f98e5bc417595ad0fbfdc135e170997e625d03f7a1937614dce138fb",
+          "applied_gain_db": 11.050124442677252
+        },
+        "unipase": {
+          "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_4.wav",
+          "source_sha256": "fca4923a09253c8503bdc323218760b04e4b8614226945ee03150760f47b5537",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_04/unipase.wav",
+          "lossless_sha256": "d893426cf2117f0e46e4739c989667301b9cf7e52fff281efd1595ad9cdfa09a",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_04/unipase.mp3",
+          "listening_sha256": "b96d91e56eebd2872bfa0e8d2833995fbb51a12d60ad6ce770910785fe54d900",
+          "applied_gain_db": 24.33350373400848
+        },
+        "buddy-official": {
+          "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_4.wav",
+          "source_sha256": "94f97de26f3705d164661ae1884d7a7287f884f082a735684ce24f441933802a",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_04/buddy-official.wav",
+          "lossless_sha256": "3a382cfcc6e8459bf5cdb4c43fd42fc72705d64d6904507d7fe07b50f5e01351",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_04/buddy-official.mp3",
+          "listening_sha256": "25de4cc945c9e861d0c8f4d5d9ba076ef3d645f17c47559633554cb8fd44c267",
+          "applied_gain_db": 23.07204364216861
+        },
+        "mc-buddy": {
+          "source_wav": "subjective_se_pages/p808/real_inference/mc-buddy/2m_deg180_4.wav",
+          "source_sha256": "2e7bf496cea21d7fecfc6f2262a4c5a118df12055b5db59b78b17896454f364e",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_04/mc-buddy.wav",
+          "lossless_sha256": "22950c10b7e84901b2c764baadc27986b2fc3cddac8b2fb48eb78fc92b362995",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_04/mc-buddy.mp3",
+          "listening_sha256": "a913a2eefef1c7c6ae963e718b7f32e218cf0ebe21d6a59f8503f311f174b6dd",
+          "applied_gain_db": 22.88379099336664
+        },
+        "usddps": {
+          "source_wav": "subjective_se_pages/p808/real_inference/usddps/2m_deg180_4.wav",
+          "source_sha256": "ef142cc7f590a956a5f090332783474910988f603169bd281dd20329c128377e",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_04/usddps.wav",
+          "lossless_sha256": "4a1083daecd00578d1efd11f7fa0f193a9f8b8cf3179e5126be10d367af76941",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_04/usddps.mp3",
+          "listening_sha256": "03e638df0f37217c12cc4160580a3d84592b87afcce11d2dd9858fcac4072943",
+          "applied_gain_db": 22.779994413089213
+        },
+        "hidden_reference": {
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_04/hidden_reference.mp3",
+          "listening_sha256": "e5d59b42e0fb215b3d290bb80447f17a44ce1490062bcdcf86fd54970f722301",
+          "identical_to": "reference"
+        }
+      }
+    },
+    {
+      "sample_id": "real_4floor_05",
+      "start_sample": 12640,
+      "end_sample": 140640,
+      "start_seconds": 0.79,
+      "end_seconds": 8.79,
+      "retained_energy_fraction_of_best_8s": 0.8946418366666037,
+      "boundary_energy_ratio": 0.05868417995659445,
+      "tracks": {
+        "reference": {
+          "source_wav": "4floor_2m_deg180_12speech/aligned_references/reference_for_2m_deg180_5.wav",
+          "source_sha256": "5ff069807e94eddd4225f9ba9f4b822e8623bbceda673ade6b8257eb804649f2",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_05/reference.wav",
+          "lossless_sha256": "a8b607451ff7e3c7ada7a372dc4c1c7f05cbaf7094a01bb83daaf8f0618fbb54",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_05/reference.mp3",
+          "listening_sha256": "92ca0b99e981076143856791f812ea562a3dbc19aaf17a3b2b163436c6af5140",
+          "applied_gain_db": -10.73644365247107
+        },
+        "unprocessed": {
+          "source_wav": "subjective_se_pages/p808/real_noisy_5to20db_v1/2m_deg180_5.wav",
+          "source_sha256": "6cf3ef8df4bc023ecaee901cb9b41688f5189efcd9dac51e2f6779209c8c6742",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_05/unprocessed.wav",
+          "lossless_sha256": "70db25c57b090547f78647908e6150d59903667966581acd41c6aeabf69e9616",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_05/unprocessed.mp3",
+          "listening_sha256": "80e6ba922f58dc35a8480b310b9775b882469190a7753b11d8b892961a42b790",
+          "applied_gain_db": 19.843817106256562
+        },
+        "cleanmel-offline-l-map": {
+          "source_wav": "subjective_se_pages/p808/real_inference/cleanmel-offline-l-map/2m_deg180_5.wav",
+          "source_sha256": "b55d8af04ba80f79688cf7a28dbb09d8de860d487c68c7f59f2018a587e759eb",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_05/cleanmel-offline-l-map.wav",
+          "lossless_sha256": "3f882e2e25588aa731ae1b9cff89e57fa9d6b2dfbc83ff11a4138c698d7ef088",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_05/cleanmel-offline-l-map.mp3",
+          "listening_sha256": "e5645f9a6d209f12d435171939382ade6e25e38fbf57f8b416864a0373f26a6a",
+          "applied_gain_db": 27.04886005907417
+        },
+        "vinp-ospatialnet": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-ospatialnet/2m_deg180_5.wav",
+          "source_sha256": "f79eaa669daf93342196b3726df6474cf7f282f66f04dbf5dcd4acc265808de0",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_05/vinp-ospatialnet.wav",
+          "lossless_sha256": "c4bcba0796a7cd5f350bee059471c9da2b495da910b2e2fae66d1323ebb14e95",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_05/vinp-ospatialnet.mp3",
+          "listening_sha256": "c9a55ac1be63f61dccb952742876e0f70a4b42f32ad59ec0910c80a4668ffde3",
+          "applied_gain_db": 22.547964906663076
+        },
+        "vinp-tcnsas": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-tcnsas/2m_deg180_5.wav",
+          "source_sha256": "6c84452898f229e0ec46bc2bfe0421cf44c449ef0492a2340df3e1a5e7d2eb95",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_05/vinp-tcnsas.wav",
+          "lossless_sha256": "0c806a9f7827f3239fb63a980179f0a87353eab14189b162400d33f5c21b344c",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_05/vinp-tcnsas.mp3",
+          "listening_sha256": "42a2a7a767a56307d97bc455befd751349205af08fa7d75d0de1e5adc354dc73",
+          "applied_gain_db": 22.404662116851295
+        },
+        "dytswig-mamba-ccfaatc": {
+          "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_5.wav",
+          "source_sha256": "47da3b2c66fa04ea8b92d790c2d34aae810d74f81276b48d431eaec428fd6a75",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_05/dytswig-mamba-ccfaatc.wav",
+          "lossless_sha256": "3c3c39e266101c9ae8fcc78fd0f6abc7dd5b309d77103eb2c695946643b5992e",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_05/dytswig-mamba-ccfaatc.mp3",
+          "listening_sha256": "d5256c3a5959ffe3933d52fcf0cfadf4eeaa24e6264d8aa423fe3d23ad6011c7",
+          "applied_gain_db": 5.043609214606013
+        },
+        "unipase": {
+          "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_5.wav",
+          "source_sha256": "53ec6dcf95b281ffae46ad63796dfbf71c0f2f5d7338b38796305d36ff52db9b",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_05/unipase.wav",
+          "lossless_sha256": "55269379a83735cf3d657477f4e1f1038d24b1b72d42e70cefb1b3c30cf369ec",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_05/unipase.mp3",
+          "listening_sha256": "f1d659d8c48627621f9549bf8a0b8e3e4dd48ad03fe97d08edcd0f09649575bd",
+          "applied_gain_db": 19.163982845872628
+        },
+        "buddy-official": {
+          "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_5.wav",
+          "source_sha256": "2cadb5cc70fd2f68d828c6cff59b13369d6f3efcc675a24fc6084d89fb4eb0f2",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_05/buddy-official.wav",
+          "lossless_sha256": "46362a3ae3cef436e8538f27b79b864983b71f5b0740362cce14337ec074f9e7",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_05/buddy-official.mp3",
+          "listening_sha256": "55ad30be49d2cd37eb47b36377f6b6be7f5e94d3f35de30a0f42f4eadec14ea5",
+          "applied_gain_db": 19.744508673824967
+        },
+        "mc-buddy": {
+          "source_wav": "subjective_se_pages/p808/real_inference/mc-buddy/2m_deg180_5.wav",
+          "source_sha256": "3d64d297cf28defe04e9ae0e6eeb6773f973cbf6476394ebfb1046b3046519d4",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_05/mc-buddy.wav",
+          "lossless_sha256": "5c1177223de08c53747731c5b89e49ea4b69180d2d432d8098e56f50638ea38c",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_05/mc-buddy.mp3",
+          "listening_sha256": "21771b5359edc824e04d0efcea101b2cf27b19e16ce0f36533a5ebf3860ef0d7",
+          "applied_gain_db": 19.945780439045386
+        },
+        "usddps": {
+          "source_wav": "subjective_se_pages/p808/real_inference/usddps/2m_deg180_5.wav",
+          "source_sha256": "0250c9ab2ceb55b0d96972822883cb55b7ee232c54c44eaf1c19c1b6b2461c5d",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_05/usddps.wav",
+          "lossless_sha256": "c48d62a4ded40136cb3dea2f10e56d43789063025c41e2dc704b6d331813c955",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_05/usddps.mp3",
+          "listening_sha256": "8512a8d0b99454ed76815e462d224e1c9e3243772bbb62a2e121ef709642219e",
+          "applied_gain_db": 20.26646937143206
+        },
+        "hidden_reference": {
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_05/hidden_reference.mp3",
+          "listening_sha256": "92ca0b99e981076143856791f812ea562a3dbc19aaf17a3b2b163436c6af5140",
+          "identical_to": "reference"
+        }
+      }
+    },
+    {
+      "sample_id": "real_4floor_06",
+      "start_sample": 12800,
+      "end_sample": 140800,
+      "start_seconds": 0.8,
+      "end_seconds": 8.8,
+      "retained_energy_fraction_of_best_8s": 0.8668295453428649,
+      "boundary_energy_ratio": 0.06891453220962152,
+      "tracks": {
+        "reference": {
+          "source_wav": "4floor_2m_deg180_12speech/aligned_references/reference_for_2m_deg180_6.wav",
+          "source_sha256": "62397d51f396482334717a78e5f6da0c3672515793cd088f265a50ad8f930dd3",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_06/reference.wav",
+          "lossless_sha256": "ffa92313a1c6b876e9e6f8ce370f6c1032f1017dc0e0c91541782a141582810a",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_06/reference.mp3",
+          "listening_sha256": "379593f658a5b4ee1ab127cf263eae352b7d02723cd290f20369f4c7907947ba",
+          "applied_gain_db": -7.701174300591701
+        },
+        "unprocessed": {
+          "source_wav": "subjective_se_pages/p808/real_noisy_5to20db_v1/2m_deg180_6.wav",
+          "source_sha256": "df4b394a0e246e35ab467e59cb7ef3af13eb3748b3586d75e259d245447af4c1",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_06/unprocessed.wav",
+          "lossless_sha256": "9edc881285218e6ef37d71e0671956ad220105a9014319d42245ff840c65cb98",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_06/unprocessed.mp3",
+          "listening_sha256": "62493048dff7daae582d2a1cb8c700b17bce10ae7b5b42f3705292417f242431",
+          "applied_gain_db": 23.480271532072713
+        },
+        "cleanmel-offline-l-map": {
+          "source_wav": "subjective_se_pages/p808/real_inference/cleanmel-offline-l-map/2m_deg180_6.wav",
+          "source_sha256": "dc1bf15ef54c6715bad03c506ed9aa9ca5bf641a4b7acccad4498a571a5f9faf",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_06/cleanmel-offline-l-map.wav",
+          "lossless_sha256": "c38beaf24707c905257e8e45f70ff3899e523619c0383d0dd80513213f1bc0e8",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_06/cleanmel-offline-l-map.mp3",
+          "listening_sha256": "54d8a93948e90fa629cad64863aa7652ae6b70217940995d0020c0c601dc727a",
+          "applied_gain_db": 29.862028745371404
+        },
+        "vinp-ospatialnet": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-ospatialnet/2m_deg180_6.wav",
+          "source_sha256": "4fd3344937a3385d0770ed3d1255f3c049c77edf35aca650c0f804f66fd6ab91",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_06/vinp-ospatialnet.wav",
+          "lossless_sha256": "2d8f875762aab5d19daaee57ced4e3e5016137461d9397a1f4a85c0ec7af0961",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_06/vinp-ospatialnet.mp3",
+          "listening_sha256": "d81e18552af4ec2a99ccf8c4f5efc8ce4ed7fd0c88049182ee5780dc75a9bc8a",
+          "applied_gain_db": 26.720986692745676
+        },
+        "vinp-tcnsas": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-tcnsas/2m_deg180_6.wav",
+          "source_sha256": "1b9f84cca654724437eab6983613f33942bac0d75c87089ce94197c990616e98",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_06/vinp-tcnsas.wav",
+          "lossless_sha256": "41a7e2602f10616323a8aa69c4e02ef91201b089fded452e54125775e479707e",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_06/vinp-tcnsas.mp3",
+          "listening_sha256": "2c3a9a383ddbe706dc8d3386489d5bde31b7e59609699ce34a88588d51acb169",
+          "applied_gain_db": 26.620007781135765
+        },
+        "dytswig-mamba-ccfaatc": {
+          "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_6.wav",
+          "source_sha256": "933963e07761b469ba4629259f344a16a7c4ddd346d1a4ba1e4320437e947e60",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_06/dytswig-mamba-ccfaatc.wav",
+          "lossless_sha256": "0ebfee68fd9210bdf4418f954d66cac5d3173cf39d6d8313a0ff703c17032ecf",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_06/dytswig-mamba-ccfaatc.mp3",
+          "listening_sha256": "21621813a8da2d8774e23140e6d21264bdcbb7241b7dedc234a4dd6b43b62c77",
+          "applied_gain_db": 25.22849480148755
+        },
+        "unipase": {
+          "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_6.wav",
+          "source_sha256": "bf34da7aa9b09e5b1d42f445787387c118277d406a6685f6d7c6de125f549098",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_06/unipase.wav",
+          "lossless_sha256": "034af94dd66aa3c0305c01834c6daf4c0cb95031dc4c329506e067562d05cf25",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_06/unipase.mp3",
+          "listening_sha256": "14ae0eecfe4ffb263e030e19c21a58c3a77b8f386fb7bd68ea6b9e7fada06ebb",
+          "applied_gain_db": 24.827089196818008
+        },
+        "buddy-official": {
+          "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_6.wav",
+          "source_sha256": "fbc3899d5b68b5716a93672961126a8a7e8682427a3ac7bc6167adf3755bec18",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_06/buddy-official.wav",
+          "lossless_sha256": "61c0e3d5ae177e968ac194a8672bd8c6c23cecb7adc4e8c459590a74792124c8",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_06/buddy-official.mp3",
+          "listening_sha256": "c02a6c7e369f18373fd32a9e8aaf3453eca7f1475b2150edd7f73db14f56561c",
+          "applied_gain_db": 23.409572709549444
+        },
+        "mc-buddy": {
+          "source_wav": "subjective_se_pages/p808/real_inference/mc-buddy/2m_deg180_6.wav",
+          "source_sha256": "0714e78a906f54a52b296b07e45df19a5d50e19097e2247e6eb7ee39c3e2ae97",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_06/mc-buddy.wav",
+          "lossless_sha256": "f04fdca2972a05776a2e275292da891f99b1f5a2b6bbd95a625280f77682f5d7",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_06/mc-buddy.mp3",
+          "listening_sha256": "91112550a4f421570fd5357e9a28a355e6935c696a75d5b5558dbd257f38bf37",
+          "applied_gain_db": 23.06726906282883
+        },
+        "usddps": {
+          "source_wav": "subjective_se_pages/p808/real_inference/usddps/2m_deg180_6.wav",
+          "source_sha256": "9afef5af1548947765636e07cf638406827d8ab3bc1d68ae7c553c73f4251aa9",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_06/usddps.wav",
+          "lossless_sha256": "fe2d46bc0c4800e1cbaf6006eaac36200d5dfd0a131b10057b707248667ebd73",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_06/usddps.mp3",
+          "listening_sha256": "41ae6a5e8fd28b2c7d7d5f3b9393da02b49a1b65f4cac8f2b074de258f3ffd5d",
+          "applied_gain_db": 22.849263360121405
+        },
+        "hidden_reference": {
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_06/hidden_reference.mp3",
+          "listening_sha256": "379593f658a5b4ee1ab127cf263eae352b7d02723cd290f20369f4c7907947ba",
+          "identical_to": "reference"
+        }
+      }
+    },
+    {
+      "sample_id": "real_4floor_07",
+      "start_sample": 30080,
+      "end_sample": 158080,
+      "start_seconds": 1.88,
+      "end_seconds": 9.88,
+      "retained_energy_fraction_of_best_8s": 0.9890358615561601,
+      "boundary_energy_ratio": 0.012432517855608899,
+      "tracks": {
+        "reference": {
+          "source_wav": "4floor_2m_deg180_12speech/aligned_references/reference_for_2m_deg180_7.wav",
+          "source_sha256": "708b1c6495804cdac4b9a51f840cf49559e982d3899812e292f10b8ae514285d",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_07/reference.wav",
+          "lossless_sha256": "a6f25ce8727ab5a27d98bab7957137b5d5cd197e2d9ffb0c291e1a240c8aeda9",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_07/reference.mp3",
+          "listening_sha256": "85732c518f0a528a19b4241936fb555af491976d9e207ba882f19efd0cfa2932",
+          "applied_gain_db": -8.747532988145858
+        },
+        "unprocessed": {
+          "source_wav": "subjective_se_pages/p808/real_noisy_5to20db_v1/2m_deg180_7.wav",
+          "source_sha256": "6660bbe3774e87bfea583b6bd8863a4e7fbc00324ceadac9ba6c901e246df1ab",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_07/unprocessed.wav",
+          "lossless_sha256": "84e37ead3a4343d075ea343763aa494f93b91bc2e02926075f38db42a7210928",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_07/unprocessed.mp3",
+          "listening_sha256": "be452facc7d0669bc8bc6410571c78f66c5c11eb43a029664d9543d42d2adee5",
+          "applied_gain_db": 22.80393544555171
+        },
+        "cleanmel-offline-l-map": {
+          "source_wav": "subjective_se_pages/p808/real_inference/cleanmel-offline-l-map/2m_deg180_7.wav",
+          "source_sha256": "2fa962c8719e2de6c81ae2bae23ed0b8cb1b82c5bbcdd8f3e5a322070a731006",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_07/cleanmel-offline-l-map.wav",
+          "lossless_sha256": "776fc12595e08945f52912d9c310310a3c27f4df47ea246d44caa2557e8f4484",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_07/cleanmel-offline-l-map.mp3",
+          "listening_sha256": "6f8ea8819ec7d25a711f6376930731b4d553347eab4005034794bc76c8e383a2",
+          "applied_gain_db": 29.68656166017791
+        },
+        "vinp-ospatialnet": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-ospatialnet/2m_deg180_7.wav",
+          "source_sha256": "52d2d8ef6d8a308f4d2d303955a73e709da96a04b4ad283e8bff706b6cbd7eda",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_07/vinp-ospatialnet.wav",
+          "lossless_sha256": "a3b7f04cbec0d7001137a96569571d113cee394ed06e1072d72b653e39bc7d61",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_07/vinp-ospatialnet.mp3",
+          "listening_sha256": "01bf170507460281fbc579ee8c6d16d48ed45aac057ffdff082184231737e576",
+          "applied_gain_db": 27.07621322461368
+        },
+        "vinp-tcnsas": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-tcnsas/2m_deg180_7.wav",
+          "source_sha256": "547c1b79650c4bebbc3927cf348c5afe11f37464c2bc82a8b2cf891b341747bb",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_07/vinp-tcnsas.wav",
+          "lossless_sha256": "762fde19336fe17d6fb6b3f695217cb688742fceba19982c4969bc524a2fd258",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_07/vinp-tcnsas.mp3",
+          "listening_sha256": "e361dfe3428d9def55a0a9dbaf2edfbea1273d3bb5ebc03bc66bb4d7d34339ea",
+          "applied_gain_db": 27.010469963766475
+        },
+        "dytswig-mamba-ccfaatc": {
+          "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_7.wav",
+          "source_sha256": "b7121363f2a09536c755c661dd8e814af2044031cc1ac1b4d06b93b95a3f653b",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_07/dytswig-mamba-ccfaatc.wav",
+          "lossless_sha256": "056e54f69dd3591e2fa9d9222b9ad74e03505547e4e6769584fc9a8c7426ee11",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_07/dytswig-mamba-ccfaatc.mp3",
+          "listening_sha256": "dd497cc7a2cd8ff52d4fecdd41589ccd33dba298ece2317547f8cfb02c2ae8f9",
+          "applied_gain_db": 7.474142728180554
+        },
+        "unipase": {
+          "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_7.wav",
+          "source_sha256": "e7357fdcded53b720d5c971130b96e00f49fcefc354c301f01ddbe3490c9d54c",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_07/unipase.wav",
+          "lossless_sha256": "d440fa371248d7839bdeef11ab441a8f649a3ad1fb3091cac2a51c073c955590",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_07/unipase.mp3",
+          "listening_sha256": "dac39592cd62e0daf59e6e69af5de40ccf58ea6efb6ffcea3b737917f6d61456",
+          "applied_gain_db": 27.029284540102786
+        },
+        "buddy-official": {
+          "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_7.wav",
+          "source_sha256": "66c12b1e0444f908d9b3dd3db1de0d06bd36402a43631e2d9ed244d26fe52cc8",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_07/buddy-official.wav",
+          "lossless_sha256": "514f0f14f648dd6fd4cf3acaf9eac6fa8182c235fadfc05963d749ead11f71c7",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_07/buddy-official.mp3",
+          "listening_sha256": "16a33811bb350f83cfa9bf1094723bf5a4fdcfe163eb25920b4d3880b1ef6e20",
+          "applied_gain_db": 22.794751086765928
+        },
+        "mc-buddy": {
+          "source_wav": "subjective_se_pages/p808/real_inference/mc-buddy/2m_deg180_7.wav",
+          "source_sha256": "63d62b228bf531ff6cfc219a1ad9bdd692745133cabef3c5d00ab5654e481599",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_07/mc-buddy.wav",
+          "lossless_sha256": "81754833ab22807b64863ff3fe37687a373a01e3267ed72e60a569e898741554",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_07/mc-buddy.mp3",
+          "listening_sha256": "7bc83fe426d8436290d60215840c069c21ab74db30c9fe2bcd4d4cdfd59b518b",
+          "applied_gain_db": 22.416688983528736
+        },
+        "usddps": {
+          "source_wav": "subjective_se_pages/p808/real_inference/usddps/2m_deg180_7.wav",
+          "source_sha256": "cb40ceb0fabdb727ef3a1c5dfbe19f36ded98e816f6365ebe29768f875672c20",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_07/usddps.wav",
+          "lossless_sha256": "70f0065ce34e6ddf61a0cdc1901da372892d81217a9f23e5c6f206a94936c88e",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_07/usddps.mp3",
+          "listening_sha256": "44724ccae58fc18865e971a073b59abdad0ffde3062a10a29a9ec7b89a24dd02",
+          "applied_gain_db": 22.348592766325925
+        },
+        "hidden_reference": {
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_07/hidden_reference.mp3",
+          "listening_sha256": "85732c518f0a528a19b4241936fb555af491976d9e207ba882f19efd0cfa2932",
+          "identical_to": "reference"
+        }
+      }
+    },
+    {
+      "sample_id": "real_4floor_08",
+      "start_sample": 32000,
+      "end_sample": 160000,
+      "start_seconds": 2.0,
+      "end_seconds": 10.0,
+      "retained_energy_fraction_of_best_8s": 0.9630704171603031,
+      "boundary_energy_ratio": 0.011301107016473898,
+      "tracks": {
+        "reference": {
+          "source_wav": "4floor_2m_deg180_12speech/aligned_references/reference_for_2m_deg180_8.wav",
+          "source_sha256": "cbdbfb9eabe812b50389261ceb517dd07a9e33f28553737df5850b1cb925a8b3",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_08/reference.wav",
+          "lossless_sha256": "956cbdab8ac30810eb9e9e4b4dfe4b06833dced9e39f462674839e290f300b7b",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_08/reference.mp3",
+          "listening_sha256": "6d5f65c1dce89184e3d0e6cdaaf381a56e905cbeb1251695dc767eba70c78f41",
+          "applied_gain_db": -3.0817281151950766
+        },
+        "unprocessed": {
+          "source_wav": "subjective_se_pages/p808/real_noisy_5to20db_v1/2m_deg180_8.wav",
+          "source_sha256": "f9474da904eaf079bcebda8ec70c8e38936bef936880f16c2f7d732027952c51",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_08/unprocessed.wav",
+          "lossless_sha256": "5c6fb466abb1cabe61e773942acada3adf94021f64015afaa7a7053a277c21ec",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_08/unprocessed.mp3",
+          "listening_sha256": "ee3789d4f1685039c05b5b22a36dd3dc36dc3837e811a0726ed76715bef408e9",
+          "applied_gain_db": 26.409818914556226
+        },
+        "cleanmel-offline-l-map": {
+          "source_wav": "subjective_se_pages/p808/real_inference/cleanmel-offline-l-map/2m_deg180_8.wav",
+          "source_sha256": "78ba42ca40cb5eddf78b43cf22af2fb5533092a5d09c3fe06c66698d0f11b8a3",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_08/cleanmel-offline-l-map.wav",
+          "lossless_sha256": "e7c1464a96c39e04c7ab1eb8ba9246d71e4f86b7061dcdec3ccf93d7f894ec23",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_08/cleanmel-offline-l-map.mp3",
+          "listening_sha256": "349c48e9b6a83a1430a355cb96cbfdc7771ecef675fd6615ea852388d79aa7cd",
+          "applied_gain_db": 34.56937478247327
+        },
+        "vinp-ospatialnet": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-ospatialnet/2m_deg180_8.wav",
+          "source_sha256": "c5dd22427d31ed2e2b002a0d7955244331473d2b61c16ec0ce1d3432323b8e10",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_08/vinp-ospatialnet.wav",
+          "lossless_sha256": "460b038551cdd0d7a7ae3849d4a11eba1a61f622966886cd44fb19b846b30bbf",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_08/vinp-ospatialnet.mp3",
+          "listening_sha256": "0443dee48d69b97ab4db3d7cab20c47f49dc3486d9ca3bc5070ae893124f9449",
+          "applied_gain_db": 30.159613827986625
+        },
+        "vinp-tcnsas": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-tcnsas/2m_deg180_8.wav",
+          "source_sha256": "b1545a6d09e54085b5ac15a9511a24b115a6e510ceac62be48f4fdd0cda1fbd8",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_08/vinp-tcnsas.wav",
+          "lossless_sha256": "cbd39292c896b6aad1cd4ad271ba233684c1c25ee6047291ef73a984d217bca8",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_08/vinp-tcnsas.mp3",
+          "listening_sha256": "383a355d6d5877b53f987ca810749a323eb2abef8ac40a1d8faabcdfc53377c6",
+          "applied_gain_db": 30.124876177868565
+        },
+        "dytswig-mamba-ccfaatc": {
+          "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_8.wav",
+          "source_sha256": "d49431f7e09179d3fc98a3de82658ffc6ec5d2e5dc4638f9dbd5ef82eb2de782",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_08/dytswig-mamba-ccfaatc.wav",
+          "lossless_sha256": "34661c46cd3623468f2c316a42eb7721a0f1daa90886f46c61e4c73527cd1c9d",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_08/dytswig-mamba-ccfaatc.mp3",
+          "listening_sha256": "41ea0a1ef602cfab3f132e3f4839c8c232e1e5f162dd45e67b75caa6155fd2f0",
+          "applied_gain_db": 12.281643549556332
+        },
+        "unipase": {
+          "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_8.wav",
+          "source_sha256": "492bcde5d73480b719e5ec7e32e448c841219170c4f5ef621b9428f86a71a7af",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_08/unipase.wav",
+          "lossless_sha256": "a7de8da4b6d3bf65d394670484e8ce0d22e10cbdb9e9e64529cb89a18644751d",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_08/unipase.mp3",
+          "listening_sha256": "c77f46d21c608031328ef7d648cb76d475d2e8723f203bead81449738de4e49d",
+          "applied_gain_db": 25.680816905517126
+        },
+        "buddy-official": {
+          "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_8.wav",
+          "source_sha256": "20cb60802f114339dfd6df829f1e2a8f9672bbd036a13abb601ffa848b6d919e",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_08/buddy-official.wav",
+          "lossless_sha256": "fe282b43a4f5c8e60e2f1f8fc752790dc3250e30acdd15942044a2dabb23b846",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_08/buddy-official.mp3",
+          "listening_sha256": "03e0a734a5ece5fe31776a3ae803310644ffa7df14ee8c8ebca7eb9ce9c2208e",
+          "applied_gain_db": 26.396349317105823
+        },
+        "mc-buddy": {
+          "source_wav": "subjective_se_pages/p808/real_inference/mc-buddy/2m_deg180_8.wav",
+          "source_sha256": "b1bde60e5ce778173e99fcc8c81fec0212dc0f996835cc7cc22d316a4c3a44b0",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_08/mc-buddy.wav",
+          "lossless_sha256": "96d401a3744df91de15dbd7e21f482c9aef141299c9232e564f65f436f1301c5",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_08/mc-buddy.mp3",
+          "listening_sha256": "47333906a97e67197d30c42e3b736fd4dd5b066d719f1c5f575ae03c69adca28",
+          "applied_gain_db": 26.025273466623467
+        },
+        "usddps": {
+          "source_wav": "subjective_se_pages/p808/real_inference/usddps/2m_deg180_8.wav",
+          "source_sha256": "96b75d4989ee743eb568ea53e3a997ee629cb97d30fd592c8e184895b30926fb",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_08/usddps.wav",
+          "lossless_sha256": "14a9f3062158cce9c766e7a36f3f4f2c001247b86ebc850476500ace6371132f",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_08/usddps.mp3",
+          "listening_sha256": "673019fbb5ee014afca6e26782f81ca2f9475d4dce37abe15e861d211d5b3a89",
+          "applied_gain_db": 25.942613387549983
+        },
+        "hidden_reference": {
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_08/hidden_reference.mp3",
+          "listening_sha256": "6d5f65c1dce89184e3d0e6cdaaf381a56e905cbeb1251695dc767eba70c78f41",
+          "identical_to": "reference"
+        }
+      }
+    },
+    {
+      "sample_id": "real_4floor_09",
+      "start_sample": 6080,
+      "end_sample": 134080,
+      "start_seconds": 0.38,
+      "end_seconds": 8.38,
+      "retained_energy_fraction_of_best_8s": 0.9495646760555511,
+      "boundary_energy_ratio": 0.12512474886092811,
+      "tracks": {
+        "reference": {
+          "source_wav": "4floor_2m_deg180_12speech/aligned_references/reference_for_2m_deg180_9.wav",
+          "source_sha256": "78284449b8f6f19660c872e7180c518afbee4a00918e03e6c119ca6d405c4312",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_09/reference.wav",
+          "lossless_sha256": "2f748d619da1bd3505927d33eb38d2f9cf457bbb2fd686fb5d8b6d67e834168a",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_09/reference.mp3",
+          "listening_sha256": "4ddc8d2dee0ca65cd0e337cea5b2c28415fa338ef031142d7e1a41f14fd35cc0",
+          "applied_gain_db": -9.080796444180773
+        },
+        "unprocessed": {
+          "source_wav": "subjective_se_pages/p808/real_noisy_5to20db_v1/2m_deg180_9.wav",
+          "source_sha256": "e023153dc2e784fe7a8fae8643b71aa817a3cc6960fb3e6e95e1dd9d0de189c1",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_09/unprocessed.wav",
+          "lossless_sha256": "457fa506dcf06c2f73057b380d7cb8d9436758b2fb3759c92d58bcc920d6afec",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_09/unprocessed.mp3",
+          "listening_sha256": "069030e54fd9083e7127784cb8e9c79d2989b6d37212b74694cbb56710258fcd",
+          "applied_gain_db": 21.646737202793602
+        },
+        "cleanmel-offline-l-map": {
+          "source_wav": "subjective_se_pages/p808/real_inference/cleanmel-offline-l-map/2m_deg180_9.wav",
+          "source_sha256": "75356580b9be364b773d48bd2a39c214b75442ccda6fdad23fe49b567e58a563",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_09/cleanmel-offline-l-map.wav",
+          "lossless_sha256": "2318802d58a3204e3425a5d5d0399526373a2a7ba02e04089927c0acdf443b5f",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_09/cleanmel-offline-l-map.mp3",
+          "listening_sha256": "27abb3fda27447eebe354503b50c95c2902864011b416c333407fb190b1552e4",
+          "applied_gain_db": 28.516115836291146
+        },
+        "vinp-ospatialnet": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-ospatialnet/2m_deg180_9.wav",
+          "source_sha256": "55e2f652c68e69becee8caf72b34b5f449c622cb70ae2eeb6e5e4f023bc711b1",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_09/vinp-ospatialnet.wav",
+          "lossless_sha256": "09f66866dfd24cd087fb2b62186e3c6c5aaa6aa10e7333320a475c9fedd6bfc0",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_09/vinp-ospatialnet.mp3",
+          "listening_sha256": "262daee4e1c01ec4d524f9addbd84555c7a315d0b20ab51db6f42e4015d258ca",
+          "applied_gain_db": 24.46035200702891
+        },
+        "vinp-tcnsas": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-tcnsas/2m_deg180_9.wav",
+          "source_sha256": "f9d092ac7e559512b4ac0118f41b4e5aebc59f849dbfb1bbcaecdc536f129049",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_09/vinp-tcnsas.wav",
+          "lossless_sha256": "5064602d61bca72dde332007fba24d7750fa177ae8e933b4b57c3df76b640e2a",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_09/vinp-tcnsas.mp3",
+          "listening_sha256": "857c4a0b2bff27a0fc0acba4004a3c428212b094f9ebb588751f8d4f4d68574a",
+          "applied_gain_db": 24.502298084610693
+        },
+        "dytswig-mamba-ccfaatc": {
+          "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_9.wav",
+          "source_sha256": "381a4438a4ddfd6b25556d34bd946995c472acbc86396e6c8b53d52b318a8f97",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_09/dytswig-mamba-ccfaatc.wav",
+          "lossless_sha256": "de1e3a7a860c0c5a8bc49f560351c4b21c6cf0caf2474b1084ca5876fe7f06dc",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_09/dytswig-mamba-ccfaatc.mp3",
+          "listening_sha256": "50d90033471f131c5720dc5e5bf114d3fa8f872b68b96783c2abcb55ac78a1c4",
+          "applied_gain_db": 15.984814539480425
+        },
+        "unipase": {
+          "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_9.wav",
+          "source_sha256": "3271c0e7c764dfe6483362091dd468b8f2066f335c95c4f8fb42782b04bd5f20",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_09/unipase.wav",
+          "lossless_sha256": "cb577d9e337c41e5db26f551cd8873e1ee8417a79d94a32d3ae330a5f8f32b15",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_09/unipase.mp3",
+          "listening_sha256": "2bc5cb39f89c55d06857b48476c64ccf4f52b071b4bb306bcb9270dd90470528",
+          "applied_gain_db": 23.752409798443047
+        },
+        "buddy-official": {
+          "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_9.wav",
+          "source_sha256": "880619e272542a7b6826aed127d4e83c2103e9174f9a151440834ce1148e4023",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_09/buddy-official.wav",
+          "lossless_sha256": "102fcd53074cd26da0deb82c7197e9cf7796f3ba9a92c37eb87d26152d8783da",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_09/buddy-official.mp3",
+          "listening_sha256": "05b875543e035e43a6445b967614669cc4cdbd52ce3e15c8c39e3443c05bf32f",
+          "applied_gain_db": 21.699090318448803
+        },
+        "mc-buddy": {
+          "source_wav": "subjective_se_pages/p808/real_inference/mc-buddy/2m_deg180_9.wav",
+          "source_sha256": "003f8fb0c96d70ce382e6b80967be1c7a14c97da23f7840aabb05c4982da779e",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_09/mc-buddy.wav",
+          "lossless_sha256": "c534d3089c0b0bbc572492a7ecb7cae33e5cd09ca2e1be8af43ffa187aa53153",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_09/mc-buddy.mp3",
+          "listening_sha256": "529e5a8c41a814425d5c53067d7b82eccbe561d0b086efacdb75961b0249e62c",
+          "applied_gain_db": 21.373948468894586
+        },
+        "usddps": {
+          "source_wav": "subjective_se_pages/p808/real_inference/usddps/2m_deg180_9.wav",
+          "source_sha256": "5823fc8767e7bbd918ad8a19ab038401f9ac223263ae2f837af0fbd4b8d0da55",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_09/usddps.wav",
+          "lossless_sha256": "93dec8985d98948625fc8c1d5a1a1ca3dca53eb555376c1f0b7613014decb477",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_09/usddps.mp3",
+          "listening_sha256": "b30c88a1624a3ef300bf1fbdb9b339cf2f7015d8edf9aed02da43426c6de5156",
+          "applied_gain_db": 21.348320280716322
+        },
+        "hidden_reference": {
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_09/hidden_reference.mp3",
+          "listening_sha256": "4ddc8d2dee0ca65cd0e337cea5b2c28415fa338ef031142d7e1a41f14fd35cc0",
+          "identical_to": "reference"
+        }
+      }
+    },
+    {
+      "sample_id": "real_4floor_10",
+      "start_sample": 4640,
+      "end_sample": 132640,
+      "start_seconds": 0.29,
+      "end_seconds": 8.29,
+      "retained_energy_fraction_of_best_8s": 0.8690993951162829,
+      "boundary_energy_ratio": 0.2999655085357467,
+      "tracks": {
+        "reference": {
+          "source_wav": "4floor_2m_deg180_12speech/aligned_references/reference_for_2m_deg180_10.wav",
+          "source_sha256": "8b6ea18819c2eded22a658c670c88d5434010de7742c6de970ac0cc411743205",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_10/reference.wav",
+          "lossless_sha256": "8e17d2241b0b6644ee52944ee9cabed64cfb4234eefe4ecc8d3fa7b3df97541c",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_10/reference.mp3",
+          "listening_sha256": "6701bc82b6fc0c9053b86117d36274d128b3cfb2ede4619d374c8a80a6aae442",
+          "applied_gain_db": -7.452216111210008
+        },
+        "unprocessed": {
+          "source_wav": "subjective_se_pages/p808/real_noisy_5to20db_v1/2m_deg180_10.wav",
+          "source_sha256": "dbe20f492108b29d5bf4d4e0c80a16877ba162a1cdc826978e5b826070b67627",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_10/unprocessed.wav",
+          "lossless_sha256": "997425a59f41969f9e7af57c7d6f2c7e4039c291f8ca94bcb0eaa87291df32d4",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_10/unprocessed.mp3",
+          "listening_sha256": "482e547f37fd7df74afcd7830dfefc0ac13df5b31ee9d50a74b64f83edc95fd5",
+          "applied_gain_db": 23.34100968749267
+        },
+        "cleanmel-offline-l-map": {
+          "source_wav": "subjective_se_pages/p808/real_inference/cleanmel-offline-l-map/2m_deg180_10.wav",
+          "source_sha256": "12103eaeea4b4b22dea33babae67b935b4d9d86f27a6aca47c3b8467191d0c9f",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_10/cleanmel-offline-l-map.wav",
+          "lossless_sha256": "3b3e3470f653b9344302952462c8623b9de333a5b8b4a0dffa12388ab97b54e7",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_10/cleanmel-offline-l-map.mp3",
+          "listening_sha256": "3b47f75a4782c3e68b121a981489aa3c794b88c8c5828e7a0abfb46821d341b7",
+          "applied_gain_db": 30.69031584851425
+        },
+        "vinp-ospatialnet": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-ospatialnet/2m_deg180_10.wav",
+          "source_sha256": "ae0a8a204fa31ec254c2a943b5d1aaf6a91aa945141c1563666f63380b67a9e2",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_10/vinp-ospatialnet.wav",
+          "lossless_sha256": "f32fe05e7253c44d24e635cc14f112b3b8c03a6971bf1e7c6cdadee0a179b24e",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_10/vinp-ospatialnet.mp3",
+          "listening_sha256": "66258aca9d1c7ead4f484ef7cf1c470c0745b319d31f4e3736a5a615fefb1506",
+          "applied_gain_db": 27.11475736216521
+        },
+        "vinp-tcnsas": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-tcnsas/2m_deg180_10.wav",
+          "source_sha256": "ec8e2f88c8d78e935dc3c63448bd2390f9f1cef6b1e2da3c726825367f49e1ea",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_10/vinp-tcnsas.wav",
+          "lossless_sha256": "2b09cce6565b2d181b93f7081e7e767d329889a8cc83176bc4ce6852d479da45",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_10/vinp-tcnsas.mp3",
+          "listening_sha256": "1c659310b4e0f7018a68a5078143a2003bda24eba710ff86d132c872735f8df5",
+          "applied_gain_db": 27.03714653647007
+        },
+        "dytswig-mamba-ccfaatc": {
+          "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_10.wav",
+          "source_sha256": "9491cc6698de8d1dece3f6707d8f36ed68565305a4081b19faad6ea57569ee43",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_10/dytswig-mamba-ccfaatc.wav",
+          "lossless_sha256": "e7f146af69be606d83860d67092fc79816fdedd61ceafd6b462fafd0f3530699",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_10/dytswig-mamba-ccfaatc.mp3",
+          "listening_sha256": "cf4877300ddfe0575d34d7211914371b0444e6368efa4c897448cca739fe0929",
+          "applied_gain_db": 6.637530167712882
+        },
+        "unipase": {
+          "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_10.wav",
+          "source_sha256": "84ba9c9509b7603a4e1e94f29ce76e4c8d0521c2bccbc1daca2bebf8f02ee280",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_10/unipase.wav",
+          "lossless_sha256": "401fc598622c6dbd3b48f6cec80973280852a7d88ca20f38c0805a77689374b6",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_10/unipase.mp3",
+          "listening_sha256": "03a16fa3457dd1c2ce4ee8fe20078589764aa991f17e957faea61df2d1c09657",
+          "applied_gain_db": 25.418803928263387
+        },
+        "buddy-official": {
+          "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_10.wav",
+          "source_sha256": "5d7e3814aa2bd2a4d8f41f7d9b59743125b3546638a20adf3b8f861acbe001ff",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_10/buddy-official.wav",
+          "lossless_sha256": "9cf283694a290ffc7cbd7143e7187eee2fd8a486305d3bafbad9f544e7e5d81a",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_10/buddy-official.mp3",
+          "listening_sha256": "2a54c3e44e66b8eb81b6f9c4f00821de570e6c43e5e8ee23f46206f0e29ada60",
+          "applied_gain_db": 23.33990403673568
+        },
+        "mc-buddy": {
+          "source_wav": "subjective_se_pages/p808/real_inference/mc-buddy/2m_deg180_10.wav",
+          "source_sha256": "46501008e9f0fa37b95edf76b3d81688770a06b518dd6f8961b4b198e615a095",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_10/mc-buddy.wav",
+          "lossless_sha256": "bd76ac82a82c68662f6f28f09c3c2e91d87071a56b3da08c64c31e0cbcf427c0",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_10/mc-buddy.mp3",
+          "listening_sha256": "f7352926469989ba8c09b9e2807780b1d1f99f01fb7df449ae82ab5016df089e",
+          "applied_gain_db": 22.310174848021298
+        },
+        "usddps": {
+          "source_wav": "subjective_se_pages/p808/real_inference/usddps/2m_deg180_10.wav",
+          "source_sha256": "dd87b0a12605752f3b21879b14d4de9a8cf451be362473a488c619302e3c93b3",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_10/usddps.wav",
+          "lossless_sha256": "d28be17341d403bc5f05f59954e02048ff3e0b9145bc4977c8c2f2734c57b975",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_10/usddps.mp3",
+          "listening_sha256": "f31fecdd6a3f0fcdefa18dacaf1b653747e375ee2616d72fd110e0c6edcee939",
+          "applied_gain_db": 22.22904362785774
+        },
+        "hidden_reference": {
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_10/hidden_reference.mp3",
+          "listening_sha256": "6701bc82b6fc0c9053b86117d36274d128b3cfb2ede4619d374c8a80a6aae442",
+          "identical_to": "reference"
+        }
+      }
+    },
+    {
+      "sample_id": "real_4floor_11",
+      "start_sample": 17440,
+      "end_sample": 145440,
+      "start_seconds": 1.09,
+      "end_seconds": 9.09,
+      "retained_energy_fraction_of_best_8s": 0.9601979660770915,
+      "boundary_energy_ratio": 0.036169364515051476,
+      "tracks": {
+        "reference": {
+          "source_wav": "4floor_2m_deg180_12speech/aligned_references/reference_for_2m_deg180_11.wav",
+          "source_sha256": "73b261f98962394304ae42f746c02657b9b69752442b445a6bfd43c88adc094d",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_11/reference.wav",
+          "lossless_sha256": "8e17b30a8173b1ca42b10c2cca905619312c04294b07b0a06c29fe74a70f29a8",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_11/reference.mp3",
+          "listening_sha256": "c5d64f5a550bd286d781f9f67a4f1ac904d7954e2ab0f4109941fcbf3ebf3770",
+          "applied_gain_db": -4.893022176438382
+        },
+        "unprocessed": {
+          "source_wav": "subjective_se_pages/p808/real_noisy_5to20db_v1/2m_deg180_11.wav",
+          "source_sha256": "68666eff2e1614bcdc4426d48a920f63fc993c94f7ef5fad4444270b30c4f7c4",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_11/unprocessed.wav",
+          "lossless_sha256": "2f0a453f57c9b940de0a7fb1bb39eca175cd9c91376bec5ea891f1ed52c48c2f",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_11/unprocessed.mp3",
+          "listening_sha256": "54933733acdc48e82a22b22c21b8e2874b76c4fc524de9871d506a3fbc04d632",
+          "applied_gain_db": 25.31531878103832
+        },
+        "cleanmel-offline-l-map": {
+          "source_wav": "subjective_se_pages/p808/real_inference/cleanmel-offline-l-map/2m_deg180_11.wav",
+          "source_sha256": "c78eb5866728449f017b6727568118a7ea2a5e5049508bfc419dfce498148bc7",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_11/cleanmel-offline-l-map.wav",
+          "lossless_sha256": "2efb5e401fcf33412af76fbe057378b73ac48ef73e0cda07e5320adcfcbaeae5",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_11/cleanmel-offline-l-map.mp3",
+          "listening_sha256": "1e529fb8add35972455c8eae3de6ce04db358bbdb685b3a0ec4a2a41dadfc486",
+          "applied_gain_db": 32.86428279564421
+        },
+        "vinp-ospatialnet": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-ospatialnet/2m_deg180_11.wav",
+          "source_sha256": "cd56ee980b7e7d73f028b7469ac351be1d7db7cad183fff51fa77270d43ab1e3",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_11/vinp-ospatialnet.wav",
+          "lossless_sha256": "cfaebed1902cc90aa81d4ce9820ea201ae268faf360a3bb6f46df29d88059d99",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_11/vinp-ospatialnet.mp3",
+          "listening_sha256": "5febf97c7faf415441f4d4dee5ff381dbc52a2b4b838b1a99c1ec73be8da1ec0",
+          "applied_gain_db": 30.244847198473753
+        },
+        "vinp-tcnsas": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-tcnsas/2m_deg180_11.wav",
+          "source_sha256": "b8b1c7bb33c922186bad9def20883dbb55702655015c71f79dac2d81f1bd08cb",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_11/vinp-tcnsas.wav",
+          "lossless_sha256": "6bb6b29b410a7cc019658a1f7d54220f7013755396c3e0470a990a680509150a",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_11/vinp-tcnsas.mp3",
+          "listening_sha256": "8defaa8974f0f719e0453c506c01b59674de28875513a10a8ac6c7703f21df6d",
+          "applied_gain_db": 30.304691931845266
+        },
+        "dytswig-mamba-ccfaatc": {
+          "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_11.wav",
+          "source_sha256": "39ea73a30ccf96d640f8bcae14d6e91a84faa6be52151ea33a43eaef8a2f0d80",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_11/dytswig-mamba-ccfaatc.wav",
+          "lossless_sha256": "ab02a987301fc8ce0e7b045c15bd614ba401bdb678d34721efbeb3425ca61440",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_11/dytswig-mamba-ccfaatc.mp3",
+          "listening_sha256": "15412144276c95f56e654511682e91ba13bf6b5333d5ad1ec488f5fff1e67d27",
+          "applied_gain_db": 11.144922379452298
+        },
+        "unipase": {
+          "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_11.wav",
+          "source_sha256": "7c5a9fd4e2993341213f580b2d446f7725274edb3a394b3e5b8b9b5f57cf267f",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_11/unipase.wav",
+          "lossless_sha256": "89a2fc72ffcff6bda1d89dd0a651f62fb2692b0beed0c700dc98e13d1521ee61",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_11/unipase.mp3",
+          "listening_sha256": "7b879e83fb846d6777995d25c474b0bff38b4b48be5623f254776bb78b5dc957",
+          "applied_gain_db": 30.62858161497124
+        },
+        "buddy-official": {
+          "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_11.wav",
+          "source_sha256": "2539d0d2adaa94e6e14791e2e40d7fe045ed9b5577686f9c7bff84b10f19aa42",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_11/buddy-official.wav",
+          "lossless_sha256": "466c325c6d348ff00ad017e4cd20f395345fd187840039941ae806dd7c810531",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_11/buddy-official.mp3",
+          "listening_sha256": "7c4ec323ae77e0410afaac5d919880d444b89fd9e35beb6e3099a14ef335cd1d",
+          "applied_gain_db": 25.084606910177357
+        },
+        "mc-buddy": {
+          "source_wav": "subjective_se_pages/p808/real_inference/mc-buddy/2m_deg180_11.wav",
+          "source_sha256": "50ef21b47a8123f7409dc90b21c6e0566f63790641bb2af8e7ea037512e6cc6b",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_11/mc-buddy.wav",
+          "lossless_sha256": "c52ec9bd7dba287b45b44331149fa4a0c141ec0d94fcdfbcc1724293e1e10ee6",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_11/mc-buddy.mp3",
+          "listening_sha256": "fb1b36d07730a0b38db406faccde7295aefd26b173d4ed307906b88c463237c0",
+          "applied_gain_db": 24.92448524051835
+        },
+        "usddps": {
+          "source_wav": "subjective_se_pages/p808/real_inference/usddps/2m_deg180_11.wav",
+          "source_sha256": "e964222f54c38afb459da0d16bc67147e468c42d94e3f994922f5e3bf882ace1",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_11/usddps.wav",
+          "lossless_sha256": "b7655cf6e7ec83ae40de6b0df4b00633c57f2a4cfba9afd11c71cb512d9def6c",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_11/usddps.mp3",
+          "listening_sha256": "4d5bc20b41adf8070a2533d2966a1238e645ca2df45853b318b8df41ac54ef98",
+          "applied_gain_db": 24.870475903608636
+        },
+        "hidden_reference": {
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_11/hidden_reference.mp3",
+          "listening_sha256": "c5d64f5a550bd286d781f9f67a4f1ac904d7954e2ab0f4109941fcbf3ebf3770",
+          "identical_to": "reference"
+        }
+      }
+    },
+    {
+      "sample_id": "real_4floor_12",
+      "start_sample": 27520,
+      "end_sample": 155520,
+      "start_seconds": 1.72,
+      "end_seconds": 9.72,
+      "retained_energy_fraction_of_best_8s": 0.9160091313467161,
+      "boundary_energy_ratio": 0.07320829635914587,
+      "tracks": {
+        "reference": {
+          "source_wav": "4floor_2m_deg180_12speech/aligned_references/reference_for_2m_deg180_12.wav",
+          "source_sha256": "0adc5906fcc240408ab4e9eb5ea4a9b219bcb03470b9754fbb289a7492fd3cea",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_12/reference.wav",
+          "lossless_sha256": "0bbadd6ec362c5e0e975b8a86cac18ebd8903780957f43d69bddc6d66d45e1e2",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_12/reference.mp3",
+          "listening_sha256": "a5d6dd627f1fcceff6919fcb9e733656c3616f5eee3f0e01cd2eab602ef1b66d",
+          "applied_gain_db": -5.206513541019939
+        },
+        "unprocessed": {
+          "source_wav": "subjective_se_pages/p808/real_noisy_5to20db_v1/2m_deg180_12.wav",
+          "source_sha256": "5e38e7f4173e088c25986ac8bcb9a23e86dbb52d1abf2cc19164c266eb1aad6f",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_12/unprocessed.wav",
+          "lossless_sha256": "bc84e56c82907659ca227978eaeeb0e6f14f7bc514c7be7f89c4cd011b395885",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_12/unprocessed.mp3",
+          "listening_sha256": "f052c8df83ccde0b3d876958bfd0293f03852113fdb2ae9232ee510bda382766",
+          "applied_gain_db": 23.14080875757068
+        },
+        "cleanmel-offline-l-map": {
+          "source_wav": "subjective_se_pages/p808/real_inference/cleanmel-offline-l-map/2m_deg180_12.wav",
+          "source_sha256": "e7190d308eeda35f69665f3cc53c5e9ab2b58bc70ba58221a98e1687fe634e80",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_12/cleanmel-offline-l-map.wav",
+          "lossless_sha256": "ef2c0e2565bec8e307a87b97df4602a7dfa2608a713a054bf35b4af3a23eee65",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_12/cleanmel-offline-l-map.mp3",
+          "listening_sha256": "e237baafdcf1351a2cd925105b2a4c5248b2e031e5eda4b39a941c658873cc72",
+          "applied_gain_db": 29.778480884170545
+        },
+        "vinp-ospatialnet": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-ospatialnet/2m_deg180_12.wav",
+          "source_sha256": "79e20f3702d92a02c062d17a69dba21f6ce31db0467c06506c375548131dbbf6",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_12/vinp-ospatialnet.wav",
+          "lossless_sha256": "05039dbbe0afa8237ba001cc8260fdfaf88580beca9dd9556d8c13b7abed0f74",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_12/vinp-ospatialnet.mp3",
+          "listening_sha256": "31e3b92d1ce6fc264f4ae56700fca190872204e89b32d149ffe3a1324329f816",
+          "applied_gain_db": 24.811688655934656
+        },
+        "vinp-tcnsas": {
+          "source_wav": "subjective_se_pages/p808/real_inference/vinp-tcnsas/2m_deg180_12.wav",
+          "source_sha256": "fde332a5b84564a41333c3061ec84902314731374caef5cc3dcbe497d182db1e",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_12/vinp-tcnsas.wav",
+          "lossless_sha256": "04b6688cd0ff5a08094af2c4b463e9a1349f706d84c27e088e19a71502a5d000",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_12/vinp-tcnsas.mp3",
+          "listening_sha256": "d0e0ed95cfd1d18a55cb80a57ebe23360d543b430baab13ddf584432c47f2c08",
+          "applied_gain_db": 24.18787216974006
+        },
+        "dytswig-mamba-ccfaatc": {
+          "source_wav": "subjective_se_pages/p808/real_inference/dytswig-mamba-ccfaatc/2m_deg180_12.wav",
+          "source_sha256": "3efc88b25ee9fe237e9eda9d3ce5eb340af08eaccf18286a5e6e78c92bbb6a6d",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_12/dytswig-mamba-ccfaatc.wav",
+          "lossless_sha256": "7db058abb7140cec667957f63db7649c29686ce39615f809370544dce97f84de",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_12/dytswig-mamba-ccfaatc.mp3",
+          "listening_sha256": "4cbbba4ecea6c7c0f727443a39fee53e3b43c1536a66d75b3e078363b3925322",
+          "applied_gain_db": 7.796252423635341
+        },
+        "unipase": {
+          "source_wav": "subjective_se_pages/p808/real_inference/unipase/2m_deg180_12.wav",
+          "source_sha256": "d8757ac23501d2d7eea3bf2e8a01689de8acefbba83b1eebea1678d05c6833da",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_12/unipase.wav",
+          "lossless_sha256": "8cfdaa100ff161ddc63a56ad2b0105445ec0c9f59d75d203024995931201d298",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_12/unipase.mp3",
+          "listening_sha256": "ec88682e62eec31a012dfb29ce069ef4d85df5adc4eba310114a59885c488a30",
+          "applied_gain_db": 25.665128636261564
+        },
+        "buddy-official": {
+          "source_wav": "subjective_se_pages/p808/real_inference/buddy-official/2m_deg180_12.wav",
+          "source_sha256": "a9fed4795222c7ed027d2d717be0e01468f4bf21d75b2c27b629d17caa014a01",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_12/buddy-official.wav",
+          "lossless_sha256": "eb3c86f28c8298ad66f41381f7340bb48295385cec61e525eb09b4288f07c21d",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_12/buddy-official.mp3",
+          "listening_sha256": "54fe1a7167a48b921595fe9e50684857e3b2245c6bae6e7f359eb78c353afd26",
+          "applied_gain_db": 23.07108528486036
+        },
+        "mc-buddy": {
+          "source_wav": "subjective_se_pages/p808/real_inference/mc-buddy/2m_deg180_12.wav",
+          "source_sha256": "6ebfd8780fb1455ebf3b4983f98ea4c8969ff8af3573549408733a651eabe7a2",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_12/mc-buddy.wav",
+          "lossless_sha256": "291af7a2bd2564350b9153ba1a651797fc93ca0358ea6612aab00ddee75be353",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_12/mc-buddy.mp3",
+          "listening_sha256": "5bb15ea4b0871109d64877c655673082487549f7fde3c485dcf9ef74c59f0345",
+          "applied_gain_db": 23.48516420737348
+        },
+        "usddps": {
+          "source_wav": "subjective_se_pages/p808/real_inference/usddps/2m_deg180_12.wav",
+          "source_sha256": "138de07e27141e151f9095ccec5576a10b9663897c513771437f16243df64dc0",
+          "lossless_wav": "subjective_se_pages/p808/real8s_lossless_v1/real_4floor_12/usddps.wav",
+          "lossless_sha256": "3c2fc5cf9ccb102e81b71a17db5740c0c89c93d01897debf6f3f0190305e3e7f",
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_12/usddps.mp3",
+          "listening_sha256": "dc88c0fa0cbb6e9eecb0f68a013ea03b24def14415bbbd6d9aca23d776de0685",
+          "applied_gain_db": 23.512321684114262
+        },
+        "hidden_reference": {
+          "listening_mp3": "audio/real8s-rms27-peak1p5-v1/real_4floor_12/hidden_reference.mp3",
+          "listening_sha256": "a5d6dd627f1fcceff6919fcb9e733656c3616f5eee3f0e01cd2eab602ef1b66d",
+          "identical_to": "reference"
+        }
+      }
+    }
+  ]
+}

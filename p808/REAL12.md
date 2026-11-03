@@ -1,9 +1,11 @@
 # 实录去混响听评
 
-入口为 `p808/real-listening.html`，任务 ID 为 `dereverbReal12v1`。使用 12 段四通道房间录音的第 1 通道及其 8 个模型增强输出；每条提供未处理输入、公开参考和与公开参考字节相同的隐藏参考，共 10 路参与评分。公开参考只供聆听，隐藏参考参与 0–100 分评分。两批各 6 条；同一测试 ID 可恢复进度，两批不重复，浏览器存储键与 ACE/AIR 听评独立。
+当前入口是 `p808/real-recording.html`，任务 ID 为 `dereverbReal12v2`。12 条真实房间录音各裁为 8 秒，两批各 6 条。每条有公开参考播放器，以及参与评分的隐藏参考、未处理输入和 8 个模型输出。公开参考和隐藏参考来自同一段 WAV，最终 MP3 逐字节相同。所有声音在同一样本内使用完全相同的裁剪起止点。
 
-参考语音来自 `4floor_2m_deg180_12speech/playback_1sweep_1wgn_12speech(1).wav` 的 12 个干净播放片段。既有对齐记录将 12 段录音一一对应到同编号片段；16 kHz 下各片段均为 160000 个采样点，最大相对时差 2.0 ms。相同录音的匹配相关强度为次佳片段的 7.3～17.0 倍。参考的听评 MP3 采用与模型音频相同的 16 kHz 单声道、目标 −27 dBFS RMS、峰值上限 −1.5 dBFS 编码规则；解码后参考与其对齐 WAV 的相关系数为 0.9968～0.9997。12 段公开参考与隐藏参考逐文件 SHA-256 相同。
+裁剪窗口由干净播放参考的能量和边界停顿确定，不参考任何模型输出或客观得分。8 秒无损 WAV 与页面 MP3 使用同一裁剪和每路独立的 −27 dBFS RMS 目标、−1.5 dBFS 峰值上限。12 条原录音、对齐参考及模型输出仍保留 10 秒原版。ACE/AIR 的 28 条当前本来就是每条 3 秒，未修改。
 
-本页模型音频沿用 `real-noisy-5to20db-rms27-v1`，公开及隐藏参考放在 `real-aligned-playback-ref-rms27-v1`。正式侵入式客观指标应使用对齐的无损参考 WAV，并先检查各增强 WAV 的时延、截断和采样率；网页 MP3 只用于听评。录音与参考是同一句话的不同声学路径，干净播放源可作为干声目标，不代表房间内的真实声场波形。
+页面及暂存提交使用独立的 v2 任务 ID、音频版本和浏览器进度键。历史 10 秒评分保持在 v1，不与新评分合并。旧入口 `real-listening.html` 跳转到当前入口；旧页面另存为 `real-listening-10s-archive.html`。同一测试 ID 在新版本可从第 1 批开始，之后继续未完成批次。
 
-页面复用现有 Formspree 暂存与整批提交机制，但使用独立任务 ID。完整清单及音频哈希见 `real12_manifest.json`。构建脚本为 `build_real12_listening_page.py`；本次 CPU 构建作业：`job-179370365996694218759-yujie-xiong-sx`，`pdcpu`，2 CPU、8G，项目 `subjective_real12`，作业名 `subjective-real12-reference-and-page`，日志 `real12_listening_build.1.log`，输出为 `p808/real12_manifest.json`、`p808/real-listening.html` 和 `p808/audio/real-aligned-playback-ref-rms27-v1/`，状态 `Completed`。
+`real12_8s_manifest.json` 列出当前页面的 12 条样本、全部 132 个 MP3 路径与哈希；`real8s_crop_windows.json` 记录逐条窗口与无损 WAV 的哈希；`real8s_validation.json` 记录音频及客观分数配对校验。12 条实录的 8 秒客观结果位于 `../../subjective_se_pages/p808/real_objective_8s_v1/`，包含 20 项指标的逐样本 CSV 和均值 CSV。
+
+构建与校验脚本分别为 `build_real8s_assets.py`、`build_real8s_listening_page.py` 和 `verify_real8s.py`。集群作业编号、分区、日志和输出路径见 `real8s_jobs.log`。原始 10 秒任务的清单仍保留为 `real12_manifest.json`。

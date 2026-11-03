@@ -1,0 +1,15 @@
+{
+  "schema": "se.subjective.real8s_validation.v1",
+  "study": "dereverbReal12v2",
+  "samples": 12,
+  "scored_candidates_per_sample": 10,
+  "public_references_per_sample": 1,
+  "mp3_files": 132,
+  "decoded_mp3_files": 120,
+  "decoded_frames_per_file": 128000,
+  "minimum_mp3_lossless_correlation": 0.9968933967543917,
+  "objective_rows": 120,
+  "objective_metrics": 20,
+  "objective_zip_crc": "passed",
+  "status": "passed"
+}
