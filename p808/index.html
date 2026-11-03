@@ -198,7 +198,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
 <div class="short-form"><label>测试 ID<input id="listener" placeholder="name 或 name_YYYYMMDD"></label><label>听评经验<select id="experience"><option value="general">普通听众</option><option value="experienced">有语音处理经验</option><option value="expert">领域专家</option></select></label><label>收听设备<select id="device"><option value="headphones">耳机</option><option value="speakers">扬声器</option><option value="other">其他</option></select></label><button id="start">开始听测</button></div><p>每个测试 ID 独立随机排列 28 条样本，每批 7 条；可随时保存当前进度，同一 ID 返回时继续未完成批次。已完成样本不会重复；进度保存在本机浏览器。建议用耳机并保持相同音量。</p><p id="error" class="short-error"></p></section>
 <section id="study" class="short-study" hidden><div class="short-head"><div><p id="batch" class="eyebrow"></p><h2 id="sample"></h2></div><strong id="progress"></strong></div>
 <section class="evaluation-guidance" aria-label="评分提示"><strong>评分提示</strong>
-<p><b>先听说话声：</b>字音是否清楚、完整、连贯，有没有变闷、失真或断续。<b>再听环境声：</b>说话后是否拖着回声，背景噪声是否明显。两方面一起考虑，给每段声音一个 0–100 分的总体分；说话越清楚完整、回声和噪声越少，分数越高。</p>
+<p><b>本次评去混响后的整体听感。</b>先对照上方参考语音，听说话的字音是否清楚、完整、连贯，有没有发闷、变尖、失真或断续。再听词尾与停顿处：是否仍有拖长的回声；背景嘶声或噪声是否明显。回声变小却把说话声破坏了，也应降低分数。综合这些表现给每段声音一个 0–100 分；说话越清楚完整、回声和噪声越少，分数越高。</p>
 <p><b>分数参考：</b>80–100 分，清楚完整，回声和噪声很小；60–79 分，有轻微问题但容易听清；40–59 分，问题明显，部分字音受影响；20–39 分，回声、噪声或失真较重；0–19 分，听清说话很费力。</p>
 <p id="trial-guidance"></p><p>下方每段声音都要评分；可以给不同声音相同分数。</p></section>
 <div class="short-reference"><div><strong>参考语音</strong><span>可反复播放，不计入评分</span></div><audio id="reference" controls preload="none"></audio></div><div id="candidates" class="short-cards"></div>
