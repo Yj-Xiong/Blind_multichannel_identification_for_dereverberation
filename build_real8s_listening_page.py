@@ -100,6 +100,28 @@ def build_page(manifest: dict) -> None:
                         "'p808-real12-v2-' + state.listener")
     page = replace_once(page, "'dereverb-p808-short28-v1'",
                         "'dereverb-p808-real12-v2'")
+    old_sampler = re.compile(
+        r"  function sampleOrder\(listener\) \{.*?\n  \}\n  function pickBatch\(\)", re.DOTALL)
+    new_sampler = """  function sampleOrder(listener) {
+    const blocks = data.allocation_blocks;
+    if (blocks.length !== 2 || blocks.some((block) => block.length !== 6)) {
+      throw new Error('实录听测必须由两个各含 6 条的批次组成');
+    }
+    // The two fixed six-sample blocks have equal probability. Keep the
+    // existing seed so earlier v2 sessions retain the same order.
+    const first = hash('p808-block:' + listener + ':' + data.allocation_version) < 0x80000000 ? 0 : 1;
+    const blockOrder = [first, 1 - first];
+    const order = [];
+    for (const [offset, blockIndex] of blockOrder.entries()) {
+      order.push(...shuffle(blocks[blockIndex],
+        hash('p808-within-block:' + listener + ':' + offset)));
+    }
+    return {order, firstBlock: blockOrder[0]};
+  }
+  function pickBatch()"""
+    page, count = old_sampler.subn(new_sampler, page)
+    if count != 1:
+        raise ValueError("Could not install equal-without-replacement batch sampler")
     embedded = re.compile(r"<script>window\.P808_DATA=.*?</script><script>", re.DOTALL)
     replacement = ("<script>window.P808_DATA=" +
                    json.dumps(manifest, ensure_ascii=False, separators=(",", ":")) +

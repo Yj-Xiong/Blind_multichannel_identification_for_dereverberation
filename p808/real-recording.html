@@ -260,19 +260,19 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}body{overflow-x:hidden}
   }
   function sampleOrder(listener) {
     const blocks = data.allocation_blocks;
-    const weights = blocks.map((block) => block.reduce((sum, id) => sum + trials.get(id).allocation_weight, 0) / block.length);
-    const total = weights.reduce((sum, value) => sum + value, 0);
-    let value = ((hash('p808-block:' + listener + ':' + data.allocation_version) + 0.5) / 4294967296) * total;
-    let first = weights.findIndex((weight) => (value -= weight) < 0);
-    if (first < 0) first = blocks.length - 1;
-    const remaining = shuffle(blocks.map((_, index) => index).filter((index) => index !== first),
-      hash('p808-remaining-blocks:' + listener + ':' + data.allocation_version));
-    const order = [];
-    for (const [offset, blockIndex] of [first, ...remaining].entries()) {
-      const block = blocks[blockIndex];
-      order.push(...shuffle(block, hash('p808-within-block:' + listener + ':' + offset)));
+    if (blocks.length !== 2 || blocks.some((block) => block.length !== 6)) {
+      throw new Error('实录听测必须由两个各含 6 条的批次组成');
     }
-    return {order, firstBlock: first};
+    // The two fixed six-sample blocks have equal probability. Keep the
+    // existing seed so earlier v2 sessions retain the same order.
+    const first = hash('p808-block:' + listener + ':' + data.allocation_version) < 0x80000000 ? 0 : 1;
+    const blockOrder = [first, 1 - first];
+    const order = [];
+    for (const [offset, blockIndex] of blockOrder.entries()) {
+      order.push(...shuffle(blocks[blockIndex],
+        hash('p808-within-block:' + listener + ':' + offset)));
+    }
+    return {order, firstBlock: blockOrder[0]};
   }
   function pickBatch() {
     const ids = state.order.filter((id) => !state.used.includes(id));
