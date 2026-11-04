@@ -96,7 +96,7 @@ def build_page(manifest: dict) -> None:
                         "<strong>2</strong><span>完成全部批次</span>")
     page = replace_once(page,
         "每个测试 ID 独立随机排列 28 条样本，每批 7 条；可随时保存当前进度，同一 ID 返回时继续未完成批次。已完成样本不会重复；进度保存在本机浏览器。建议用耳机并保持相同音量。",
-        "每个测试 ID 独立随机排列 12 条实录，每批 6 条；可随时提交当前进度，同一 ID 返回时继续未完成批次。已完成样本不会重复；进度保存在本机浏览器。建议使用耳机并保持相同音量。")
+        "每个测试 ID 独立随机排列 12 条实录，每批 6 条；可随时提交当前进度，同一 ID 返回时继续未完成批次。已完成样本不会重复；进度保存在本机浏览器。建议使用耳机并保持相同音量。<a href=\"real12_analysis/\">查看主客观分析</a>。")
     page = replace_once(page, "const size = 7;", "const size = 6;")
     page = replace_once(page, "listener-random-v5-short28-random-block-order",
                         SAMPLING_VERSION)
