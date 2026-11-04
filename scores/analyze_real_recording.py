@@ -11,12 +11,9 @@ from __future__ import annotations
 import csv
 import json
 import math
-import re
-import shutil
 from collections import defaultdict
+from datetime import datetime
 from pathlib import Path
-
-
 
 ROOT = Path(__file__).resolve().parent.parent
 SCORES = ROOT / "scores"
@@ -24,7 +21,7 @@ P808 = ROOT / "p808"
 OUT = P808 / "real12_analysis"
 LOCAL_OBJECTIVE = ROOT / "p808" / "real12_analysis" / "objective_source.csv"
 PUBLIC_OBJECTIVE = OUT / "objective_per_sample.csv"
-TASK_IDS = {"dereverbReal12v3", "dereverb-p808-real12-v3", "dereverbReal12v2", "dereverb-p808-real12-v2"}
+TASK_ID = "dereverbReal12v3"
 SAMPLES = [f"real_4floor_{i:02d}" for i in range(1, 13)]
 MODELS = {"cleanmel-offline-l-map", "vinp-ospatialnet", "vinp-tcnsas",
           "dytswig-mamba-ccfaatc", "unipase", "buddy-official",
@@ -63,23 +60,33 @@ def copy_objective() -> list[dict]:
 
 
 def read_subjective() -> list[dict]:
-    path = SCORES / "latest.csv"
-    if not path.is_file():
-        return []
-    rows = []
-    with path.open(encoding="utf-8-sig", newline="") as stream:
-        for row in csv.DictReader(stream):
-            if row.get("task_id") not in TASK_IDS or row.get("sample_id") not in SAMPLES:
-                continue
-            try:
-                score = float(row["score"])
-                if not math.isfinite(score):
+    latest = {}
+    manifest = json.loads((P808 / "real12_lufs_manifest.json").read_text())
+    candidates = {trial["sample_id"]: set(trial["tracks"]) - {"reference"}
+                  for trial in manifest["trials"]}
+    for path in (SCORES / "latest.csv", SCORES / "real_result_latest.csv"):
+        if not path.is_file():
+            continue
+        with path.open(encoding="utf-8-sig", newline="") as stream:
+            for row in csv.DictReader(stream):
+                if (row.get("task_id") != TASK_ID or
+                        row.get("candidate_key") not in candidates.get(row.get("sample_id"), set())):
                     continue
-            except (TypeError, ValueError):
-                continue
-            row["score"] = score
-            rows.append(row)
-    return rows
+                try:
+                    score = float(row["score"])
+                    scale = float(row["scale_max"])
+                    received = datetime.fromisoformat(row["received_at"].replace("Z", "+00:00"))
+                    if not (math.isfinite(score) and math.isfinite(scale) and
+                            0 <= score <= scale and scale > 0 and received.tzinfo):
+                        continue
+                except (KeyError, TypeError, ValueError):
+                    continue
+                row["score"] = 100 * score / scale
+                key = row["user_id"], row["sample_id"], row["candidate_key"]
+                rank = received, row.get("submission_id", "")
+                if key not in latest or rank > latest[key][0]:
+                    latest[key] = rank, row
+    return [item[1] for item in latest.values()]
 
 
 def corr(xs, ys):
@@ -145,7 +152,7 @@ def main():
     mean_rows = []
     for key, values in sorted(subjective_by_key.items()):
         mean_rows.append({"sample_id": key[0], "candidate_key": key[1],
-                          "listener_count": len(values), "subjective_mean": float(np.mean(values))})
+                          "listener_count": len(values), "subjective_mean": sum(values) / len(values)})
     write_csv(OUT / "subjective_condition_means.csv",
               ("sample_id", "candidate_key", "listener_count", "subjective_mean"), mean_rows)
 

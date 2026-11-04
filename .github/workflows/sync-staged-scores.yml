@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       FORMSPREE_STAGING_READ_ONLY_KEY: ${{ secrets.FORMS1MJY || secrets.FORMSPREE_STAGING_READ_ONLY_KEY }}
+      FORMSPREE_RESULTS_READ_ONLY_KEY: ${{ secrets.FORMSPREE_RESULTS_READ_ONLY_KEY || secrets.FORMS1MPQ || secrets.FORMS1MJY }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -38,14 +39,21 @@ jobs:
       - name: Import Formspree submissions
         # Store only rejection and missing-field counts, never submitted values, in status.
         run: python -m scores.sync_formspree --api --output scores
+      - name: Import completed real-recording batches
+        run: |
+          if [[ -n "$FORMSPREE_RESULTS_READ_ONLY_KEY" ]]; then
+            python -m scores.sync_real_result_form --api --output scores
+          else
+            echo 'Result-form import pending: configure FORMSPREE_RESULTS_READ_ONLY_KEY.'
+          fi
       - name: Build real-recording analysis
         run: python scores/analyze_real_recording.py
       - name: Commit public score archive
         run: |
-          if [[ -n $(git status --porcelain -- scores/inbox scores/latest.csv scores/sync_status.json p808/real12_analysis) ]]; then
+          if [[ -n $(git status --porcelain -- scores/inbox scores/latest.csv scores/sync_status.json scores/real_result_latest.csv scores/real_result_sync_status.json p808/real12_analysis) ]]; then
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add -- scores/inbox scores/latest.csv scores/sync_status.json p808/real12_analysis
+            git add -- scores/inbox scores/latest.csv scores/sync_status.json scores/real_result_latest.csv scores/real_result_sync_status.json p808/real12_analysis
             git commit -m 'Sync staged listening scores'
             git pull --rebase origin gh-pages
             git push origin HEAD:gh-pages
