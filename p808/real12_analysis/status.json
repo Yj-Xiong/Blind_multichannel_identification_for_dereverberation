@@ -1,0 +1,9 @@
+{
+  "schema": "se.subjective.real12_analysis.v1",
+  "study": "dereverbReal12v3",
+  "samples": 12,
+  "objective_rows": 120,
+  "subjective_rows": 0,
+  "listeners": 0,
+  "status": "waiting_for_subjective_scores"
+}
