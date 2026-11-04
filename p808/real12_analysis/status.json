@@ -3,7 +3,7 @@
   "study": "dereverbReal12v3",
   "samples": 12,
   "objective_rows": 120,
-  "subjective_rows": 0,
-  "listeners": 0,
-  "status": "waiting_for_subjective_scores"
+  "subjective_rows": 3,
+  "listeners": 1,
+  "status": "ready"
 }
